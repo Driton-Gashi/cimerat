@@ -1,0 +1,18 @@
+{
+   "devDependencies": {
+      "@eslint/js": "^9.39.1",
+      "@typescript-eslint/eslint-plugin": "^8.48.1",
+      "@typescript-eslint/parser": "^8.48.1",
+      "eslint": "^9.39.1",
+      "eslint-config-prettier": "^10.1.8",
+      "eslint-plugin-react": "^7.37.5",
+      "eslint-plugin-react-hooks": "^7.0.1",
+      "globals": "^16.5.0",
+      "prettier": "^3.7.4"
+   },
+   "scripts": {
+      "lint": "eslint client/src server/src --ext .ts,.tsx",
+      "lint:fix": "npm run lint -- --fix",
+      "format": "prettier \"**/*.{ts,tsx,js,jsx,css,scss,md,json}\" --write"
+   }
+}
