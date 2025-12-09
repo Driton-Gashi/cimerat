@@ -1,11 +1,11 @@
 import db from '../db';
 export type Cimeri = {
    id?: number;
-   name?: string;
-   lastname?: string;
+   emri?: string;
+   mbiemri?: string;
    email?: string;
    password?: string;
-   phone?: string;
+   telefoni?: string;
 };
 
 const executeQuery = async (query: string, params: any[] = []): Promise<any> => {
@@ -18,8 +18,9 @@ const executeQuery = async (query: string, params: any[] = []): Promise<any> => 
    }
 };
 
-export const findUserByEmail = async (email: string): Promise<Cimeri | null> => {
-   const query = 'SELECT * FROM users WHERE email = ?';
+export const getCimerByEmail = async (email: string) => {
+   const query = 'SELECT * FROM cimerat WHERE email = ?';
    const rows = await executeQuery(query, [email]);
+   console.log(rows);
    return rows[0] || null;
 };

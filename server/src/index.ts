@@ -1,14 +1,17 @@
-import express, { type Request, type Response } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
+import cimerRoute from './routes/cimerRoutes';
 
 dotenv.config();
 
 const app = express();
 
-app.listen(process.env.PORT || 5000, () => {
-   console.log('Server runing in port: ' + process.env.PORT || 5000);
-});
+app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-   res.send('Server is running just fine!');
+app.use('/api/', cimerRoute);
+
+const PORT = Number(process.env.PORT) || 4000;
+
+app.listen(PORT, () => {
+   console.log('Server runing in port: ' + PORT);
 });
