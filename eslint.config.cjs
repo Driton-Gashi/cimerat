@@ -7,7 +7,6 @@ const reactRefresh = require('eslint-plugin-react-refresh');
 const tseslint = require('@typescript-eslint/eslint-plugin');
 const tsParser = require('@typescript-eslint/parser');
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
 module.exports = [
    // 🧹 Ignore build folders
    {

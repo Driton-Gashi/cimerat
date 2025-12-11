@@ -102,9 +102,11 @@ npm run dev
 
 Create a `.env` file in the **server** root:
 
-    PORT=5001
-    DATABASE_URL=your_database_url_here
-    JWT_SECRET=your_secret
+    PORT=4000
+    DATABASE_HOST=your_database_host_here
+    DATABASE_USER=your_database_user_here
+    DATABASE_PASSWORD=your_database_password_here
+    DATABASE_NAME=your_database_name_here
 
 ---
 
