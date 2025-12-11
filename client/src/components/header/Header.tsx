@@ -1,7 +1,8 @@
 import './header.css';
-type HeaderProps = {
+
+interface HeaderProps {
    children: React.ReactNode;
-};
+}
 
 const Header = ({ children }: HeaderProps) => {
    return <header>{children}</header>;

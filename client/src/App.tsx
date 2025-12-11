@@ -1,8 +1,8 @@
-import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import Home from './pages/Home/Home.tsx';
 import Pagesat from './pages/Pagesat/Pagesat.tsx';
 import MyIcon from './components/icons/MyIcon.tsx';
-import Header from './components/header/header.tsx';
+import Header from './components/header/Header.tsx';
 
 function App() {
    return (
