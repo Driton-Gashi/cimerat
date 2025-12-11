@@ -24,3 +24,10 @@ export const getCimerByEmail = async (email: string) => {
    console.log(rows);
    return rows[0] || null;
 };
+
+export const getAllCimers = async () => {
+   const query = 'SELECT * FROM cimerat';
+   const rows = await executeQuery(query, []);
+   console.log(rows);
+   return rows[0] || null;
+};

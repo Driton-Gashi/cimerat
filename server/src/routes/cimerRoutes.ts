@@ -1,8 +1,9 @@
 import express from 'express';
-import { getCimer } from '../controllers/cimerController';
+import { getCimer, getAllCimerat } from '../controllers/cimerController';
 
 const router = express.Router();
 
 router.get('/cimerat', getCimer);
+router.get('/cimeratAll', getAllCimerat);
 
 export default router;
