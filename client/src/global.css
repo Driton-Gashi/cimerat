@@ -3,3 +3,19 @@
    padding: 0;
    box-sizing: border-box;
 }
+
+@font-face {
+  font-family: nunito;
+  src: url(./assets/fonts/NunitoSans.ttf);
+}
+
+:root {
+   --blue: #4880ff;
+   --white: #FFFFFF;
+   --gray: #F5F6FA;
+}
+
+body{
+   font-family: nunito;
+   background-color: var(--gray);
+}
