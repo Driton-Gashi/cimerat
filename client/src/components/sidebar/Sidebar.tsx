@@ -4,38 +4,66 @@ import './sidebar.css'
 
 const Sidebar = () => {
    return (
-    <div className='sidebar-wrapper'>
-      <nav className="sidebar">
-         <div className="nav-link">
-            <MyIcon iconName="dashboard" />
-            <NavLink to="/" end>
-               Dashboard
-            </NavLink>
-         </div>
-         <div className="nav-link">
-            <MyIcon iconName="payments" />
-            <NavLink to="/payments">Payments</NavLink>
-         </div>
-         <div className="nav-link">
-            <MyIcon iconName="complaints" />
-            <NavLink to="/complaints">Complaints</NavLink>
-         </div>
-         <div className="nav-link">
-            <MyIcon iconName="loans" />
-            <NavLink to="/loans">Loans</NavLink>
-         </div>
-      </nav>
-      <div className="sidebar-account">
-        <div className="nav-link">
-            <MyIcon iconName="settings" />
-            <NavLink to="/loans">Settings</NavLink>
-         </div>
-         <div className="nav-link">
-            <MyIcon iconName="logout" />
-            <NavLink to="/loans">Logout</NavLink>
-         </div>
-      </div>
-    </div>
+    <div className="sidebar-wrapper">
+  <nav className="sidebar">
+    <NavLink to="/" end>
+      {({ isActive }) => (
+        <div className={`nav-link ${isActive ? 'active' : ''}`}>
+          <MyIcon iconName="dashboard" />
+          <span>Dashboard</span>
+        </div>
+      )}
+    </NavLink>
+
+    <NavLink to="/payments">
+      {({ isActive }) => (
+        <div className={`nav-link ${isActive ? 'active' : ''}`}>
+          <MyIcon iconName="payments" />
+          <span>Payments</span>
+        </div>
+      )}
+    </NavLink>
+
+    <NavLink to="/complaints">
+      {({ isActive }) => (
+        <div className={`nav-link ${isActive ? 'active' : ''}`}>
+          <MyIcon iconName="complaints" />
+          <span>Complaints</span>
+        </div>
+      )}
+    </NavLink>
+
+    <NavLink to="/loans">
+      {({ isActive }) => (
+        <div className={`nav-link ${isActive ? 'active' : ''}`}>
+          <MyIcon iconName="loans" />
+          <span>Loans</span>
+        </div>
+      )}
+    </NavLink>
+  </nav>
+
+  <div className="sidebar-account">
+    <NavLink to="/settings">
+      {({ isActive }) => (
+        <div className={`nav-link ${isActive ? 'active' : ''}`}>
+          <MyIcon iconName="settings" />
+          <span>Settings</span>
+        </div>
+      )}
+    </NavLink>
+
+    <NavLink to="/logout">
+      {({ isActive }) => (
+        <div className={`nav-link ${isActive ? 'active' : ''}`}>
+          <MyIcon iconName="logout" />
+          <span>Logout</span>
+        </div>
+      )}
+    </NavLink>
+  </div>
+</div>
+
    );
 };
 
