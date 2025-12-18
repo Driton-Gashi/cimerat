@@ -1,11 +1,15 @@
+import MyIcon from '../icons/MyIcon';
 import './header.css';
 
-interface HeaderProps {
-   children: React.ReactNode;
-}
+const Header = () => {
+   return (
+      <header className="header-wrapper">
+         <div className="burger-search">
+            <MyIcon iconName="burger" />
 
-const Header = ({ children }: HeaderProps) => {
-   return <header>{children}</header>;
+         </div>
+      </header>
+   );
 };
 
 export default Header;
