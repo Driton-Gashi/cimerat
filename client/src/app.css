@@ -1,4 +1,14 @@
-.app-layout{
-    display: flex;
-    
+.app-layout {
+   display: flex;
+   min-height: 100vh;
+}
+
+.main-content-inner {
+   padding: 30px;
+   background-color: var(--gray);
+}
+
+.main-content {
+   width: 100%;
+   min-height: 100vh;
 }

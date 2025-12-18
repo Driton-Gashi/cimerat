@@ -19,13 +19,3 @@ body {
    font-family: nunito;
    background-color: var(--gray);
 }
-
-.app-layout {
-   display: flex;
-   min-height: 100vh;
-}
-
-.main-content {
-   width: 100%;
-   min-height: 100vh;
-}

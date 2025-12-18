@@ -1,0 +1,21 @@
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  emri VARCHAR(100) NOT NULL,
+  mbiemri VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  telefoni VARCHAR(20)
+);
+
+CREATE TABLE payments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  category VARCHAR(100) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  transaction_date DATE NOT NULL,
+  payer_id INT NOT NULL,
+
+  CONSTRAINT fk_payments_user
+    FOREIGN KEY (payer_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
+);
