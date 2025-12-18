@@ -1,8 +1,40 @@
-.header-wrapper{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 70px;
-    background-color: white;
-    width: 100vw;
+header {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   padding: 1.5rem 2rem;
+   background-color: var(--white);
+}
+header .headerLeft,
+header .headerRight,
+.language-switcher {
+   display: flex;
+}
+header .headerLeft,
+header .headerRight {
+   gap: 1.5rem;
+   align-items: center;
+}
+.language-switcher {
+   align-items: center;
+   gap: 1rem;
+}
+
+.profile-wrapper {
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+}
+
+header .headerLeft input {
+   width: 388px;
+   height: 38px;
+   border-radius: 20px;
+   padding: 0.6rem;
+   outline: 0;
+   border: 1px solid #d5d5d5;
+   color: #202224;
+}
+header .headerLeft input::placeholder {
+   color: #202224;
 }

@@ -5,17 +5,27 @@
 }
 
 @font-face {
-  font-family: nunito;
-  src: url(./assets/fonts/NunitoSans.ttf);
+   font-family: nunito;
+   src: url(./assets/fonts/NunitoSans.ttf);
 }
 
 :root {
    --blue: #4880ff;
-   --white: #FFFFFF;
-   --gray: #F5F6FA;
+   --white: #ffffff;
+   --gray: #f5f6fa;
 }
 
-body{
+body {
    font-family: nunito;
    background-color: var(--gray);
+}
+
+.app-layout {
+   display: flex;
+   min-height: 100vh;
+}
+
+.main-content {
+   width: 100%;
+   min-height: 100vh;
 }
