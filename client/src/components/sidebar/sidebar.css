@@ -46,11 +46,12 @@
    text-decoration: none;
    color: inherit;
    font-weight: 600;
+   font-size: 0.8rem;
 }
 
-a.active {
+.sidebar a.active {
    color: white;
 }
-.nav-link.active span svg {
+.sidebar .nav-link.active span svg {
    fill: white;
 }

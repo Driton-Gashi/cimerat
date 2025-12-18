@@ -7,7 +7,7 @@ const Sidebar = (): JSX.Element => {
    return (
       <div className="sidebar-wrapper">
          <nav className="sidebar">
-            <NavLink to="/" end>
+            <NavLink to="/">
                {({ isActive }) => (
                   <div className={`nav-link ${isActive ? 'active' : ''}`}>
                      <MyIcon iconName="dashboard" />
