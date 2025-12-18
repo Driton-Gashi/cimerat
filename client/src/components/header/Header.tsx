@@ -1,6 +1,5 @@
 import MyIcon from '../icons/MyIcon';
 import './header.css';
-import MyIcon from '../icons/MyIcon';
 
 const Header = () => {
    return (
