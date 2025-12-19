@@ -6,6 +6,7 @@ import './sidebar.css';
 const Sidebar = (): JSX.Element => {
    return (
       <div className="sidebar-wrapper">
+         <h1 className='logo'>Cimerat</h1>
          <nav className="sidebar">
             <NavLink to="/">
                {({ isActive }) => (
