@@ -9,7 +9,6 @@
 .sidebar {
    display: flex;
    flex-direction: column;
-   gap: 30px;
    padding: 42px 32px;
 }
 
@@ -22,7 +21,6 @@
    margin-top: auto; /* 🔑 pushes to bottom */
    display: flex;
    flex-direction: column;
-   gap: 30px;
    padding: 42px 32px;
    border-top: 1px solid #e0e0e0;
 }
