@@ -55,14 +55,14 @@
    background-color: rgba(var(--red), 0.2);
 }
 
-.filter-add-payments{
+.filter-add-payments {
    display: flex;
    align-items: center;
    justify-content: flex-start;
    gap: 32px;
 }
 
-.create-payment-btn{
+.create-payment-btn {
    background-color: #4379ee;
    padding: 18px 24px;
    border: none;
