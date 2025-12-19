@@ -1,5 +1,7 @@
 # Our Ignore
 .env
+.env.development
+.env.production
 
 # Defualt Ignores
 logs
