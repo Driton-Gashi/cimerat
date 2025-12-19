@@ -21,13 +21,11 @@ const executeQuery = async (query: string, params: any[] = []): Promise<any> => 
 export const getCimerByEmail = async (email: string) => {
    const query = 'SELECT * FROM cimerat WHERE email = ?';
    const rows = await executeQuery(query, [email]);
-   console.log(rows);
    return rows[0] || null;
 };
 
 export const getAllCimers = async () => {
    const query = 'SELECT * FROM cimerat';
    const rows = await executeQuery(query, []);
-   console.log(rows);
    return rows[0] || null;
 };

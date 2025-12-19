@@ -13,9 +13,21 @@
    --blue: #4880ff;
    --white: #ffffff;
    --gray: #f5f6fa;
+   --light-gray: #fcfdfd;
+   --black: #202224;
 }
 
 body {
    font-family: nunito;
    background-color: var(--gray);
+}
+
+table,
+thead,
+tbody,
+tfoot,
+tr,
+th,
+td {
+   border: 0;
 }
