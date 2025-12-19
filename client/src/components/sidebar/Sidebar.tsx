@@ -1,12 +1,11 @@
-import type { JSX } from 'react';
 import { NavLink } from 'react-router-dom';
 import MyIcon from '../icons/MyIcon';
 import './sidebar.css';
 
-const Sidebar = (): JSX.Element => {
+const Sidebar = () => {
    return (
       <div className="sidebar-wrapper">
-         <h1 className='logo'>Cimerat</h1>
+         <h1 className="logo">Cimerat</h1>
          <nav className="sidebar">
             <NavLink to="/">
                {({ isActive }) => (
