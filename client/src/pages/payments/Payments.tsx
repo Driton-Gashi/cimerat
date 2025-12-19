@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import './payments.css';
 import { Link } from 'react-router-dom';
+import MyIcon from '../../components/icons/MyIcon';
+
+import './payments.css';
 
 type Payment = {
    id: number;
@@ -58,7 +60,31 @@ const Payments = () => {
    if (loading)
       return (
          <div className="payments">
-            <p>Loading Payments</p>
+            <h1>Payments</h1>
+            <div className="tableWrapper">
+               <table border={0}>
+                  <thead>
+                     <tr className="firstRow">
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Payment Name</th>
+                        <th>Date</th>
+                        <th>Payer</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <th colSpan={10}>
+                           <div className="loadingPaymentsMessage">
+                              Payments are loading <MyIcon iconName="loadingSvg" />
+                           </div>
+                        </th>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
          </div>
       );
 

@@ -18,19 +18,19 @@ const executeQuery = async (query: string, params: any[] = []): Promise<any> => 
    }
 };
 
-export const getCimerByEmail = async (email: string) => {
+export const getCimerByEmailModel = async (email: string) => {
    const query = 'SELECT * FROM cimerat WHERE email = ?';
    const rows = await executeQuery(query, [email]);
    return rows[0] || null;
 };
 
-export const getCimerById = async (id: number) => {
+export const getCimerByIdModel = async (id: number) => {
    const query = 'SELECT * FROM cimerat WHERE id = ?';
    const rows = await executeQuery(query, [id]);
    return rows[0] || null;
 };
 
-export const getAllCimers = async () => {
+export const getAllCimersModel = async () => {
    const query = 'SELECT * FROM cimerat';
    const rows = await executeQuery(query, []);
    return rows || null;

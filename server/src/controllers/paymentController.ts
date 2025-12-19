@@ -1,34 +1,44 @@
 import type { Request, Response } from 'express';
-import { getAllPayments, getPaymentById } from '../models/paymentModel';
+import { getAllPaymentsModel, getPaymentByIdModel } from '../models/paymentModel';
 
-export const getPayments = async (req: Request, res: Response) => {
+export const getAllPaymentsController = async (_req: Request, res: Response) => {
    try {
-      const payments = await getAllPayments();
-      if (!payments) {
-         return res.status(201).json({
-            message: 'No Payments were found on the Database',
+      const payments = await getAllPaymentsModel();
+
+      if (payments.length === 0) {
+         return res.status(404).json({
+            message: 'No payments found.',
          });
       }
-      res.status(200).json(payments);
-   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error.' });
-   }
-};
 
-export const getSpecificPayment = async (req: Request, res: Response) => {
-   const id = parseInt(req.query.id as string);
-
-   const payments = await getPaymentById(id);
-   try {
-      if (!payments) {
-         return res.status(400).json({
-            message: 'There no Payments with this id',
-         });
-      }
       return res.status(200).json(payments);
    } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error.' });
+      return res.status(500).json({ message: 'Server error.', devLog: error });
+   }
+};
+
+export const getPaymentsByIdController = async (req: Request, res: Response) => {
+   try {
+      const id = Number(req.params.id);
+
+      if (Number.isNaN(id)) {
+         return res.status(400).json({
+            message: 'Invalid payment ID.',
+         });
+      }
+
+      const payment = await getPaymentByIdModel(id);
+
+      if (!payment.length) {
+         return res.status(404).json({
+            message: 'No payment found with this ID.',
+         });
+      }
+
+      return res.status(200).json(payment);
+   } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Server error.', devLog: error });
    }
 };
