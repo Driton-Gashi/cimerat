@@ -6,10 +6,18 @@
    background-color: white;
 }
 
+.logo{
+   font-size: 1.25rem;
+   font-weight: 800;
+   color: #4880FF;
+   align-self: center;
+   padding-block: 24px;
+}
+
 .sidebar {
    display: flex;
    flex-direction: column;
-   padding: 42px 32px;
+   padding: 42px 24px;
 }
 
 .sidebar > .nav-link:last-child {
@@ -18,10 +26,10 @@
 }
 
 .sidebar-account {
-   margin-top: auto; /* 🔑 pushes to bottom */
+   margin-top: auto;
    display: flex;
    flex-direction: column;
-   padding: 42px 32px;
+   padding: 42px 24px;
    border-top: 1px solid #e0e0e0;
 }
 
