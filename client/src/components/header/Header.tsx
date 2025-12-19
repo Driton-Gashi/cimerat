@@ -6,12 +6,12 @@ const Header = () => {
       <header>
          <div className="headerLeft">
             <MyIcon iconName="burger" />
-            <input type="text" placeholder="search" name="" id="" />
+            <input type="text" placeholder="search" />
          </div>
          <div className="headerRight">
             <MyIcon iconName="bell" />
             <div className="language-switcher">
-               <img height={20} src="./flags/en.png" />
+               <img height={20} src="/flags/en.png" />
                <select>
                   <option value="en">English</option>
                   <option value="en">Albanian</option>
@@ -19,7 +19,7 @@ const Header = () => {
                </select>
             </div>
             <div className="profile-wrapper">
-               <img src="./profile.png" alt="" />
+               <img src="/profile.png" alt="" />
                <div>
                   <h3 className="username">Driton</h3>
                   <p className="user-role">admin</p>
