@@ -11,25 +11,47 @@ type Payment = {
    status: 'paid' | 'unpaid';
 };
 
+type Cimer = {
+   id: number;
+   name: string;
+   lastname: string;
+   email: string;
+   password: string;
+   phone: string;
+};
+
 const Payments = () => {
    const [payments, setPayments] = useState<Payment[]>([]);
    const [loading, setLoading] = useState(true);
+   const [cimerat, setCimerat] = useState<Cimer[]>([]);
+
+   const getCimerByID = (id: number): string => {
+      const cimeri = cimerat.filter((cimer) => cimer.id === id);
+      return cimeri[0].name;
+   };
 
    useEffect(() => {
-      const fetchPayments = async () => {
+      const fetchData = async () => {
          try {
             const response = await fetch('http://localhost:4000/api/payments/all');
+            const response2 = await fetch('http://localhost:4000/api/cimerat/all');
+
             if (!response.ok) throw new Error('Response is not Ok');
+            if (!response2.ok) throw new Error('Response is not Ok');
+
             const data: Payment[] = await response.json();
+            const data2: Cimer[] = await response2.json();
+
             setPayments(data);
-            console.log(data);
+            setCimerat(data2);
          } catch (error) {
             console.error('Driton we got an error: ', error);
          } finally {
             setLoading(false);
          }
       };
-      fetchPayments();
+
+      fetchData();
    }, []);
 
    if (loading)
@@ -58,11 +80,33 @@ const Payments = () => {
                </thead>
 
                <tbody>
-                  {payments.map((payment) => (
-                     <tr key={payment.id}>
-                        <td>{payment.name}</td>
+                  {!payments.length ? (
+                     <tr>
+                        <th className="errorMessage" colSpan={10}>
+                           Something went wrong no payments were found!
+                        </th>
                      </tr>
-                  ))}
+                  ) : (
+                     payments.map((payment) => (
+                        <tr key={payment.id}>
+                           <td>{payment.id}</td>
+                           <td>{payment.category}</td>
+                           <td>{payment.name}</td>
+                           <td>
+                              {new Date(payment.transaction_date).toLocaleDateString('en-GB', {
+                                 day: '2-digit',
+                                 month: 'short',
+                                 year: 'numeric',
+                              })}
+                           </td>
+                           <td>{getCimerByID(payment.payer_id)}</td>
+                           <td>{payment.amount}</td>
+                           <td>
+                              <div className={`status ${payment.status}`}>{payment.status}</div>
+                           </td>
+                        </tr>
+                     ))
+                  )}
                </tbody>
             </table>
          </div>
