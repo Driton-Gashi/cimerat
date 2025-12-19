@@ -4,7 +4,7 @@
    margin-bottom: 23px;
 }
 .payments .tableWrapper {
-   margin-top: 1.5rem;
+   margin-top: 24px;
    border: 1px solid rgba(185, 185, 185, 0.3);
    border-radius: 14px;
    overflow: hidden;
@@ -19,25 +19,38 @@
 .payments .firstRow {
    background-color: var(--light-gray);
 }
+.payments .firstRow th {
+   padding: 11px 24px;
+}
 .payments tr {
    background-color: var(--white);
    border-bottom: 1px solid rgba(185, 185, 185, 0.3);
 }
 .payments th {
-   padding: 1rem 2rem;
    color: var(--black);
    font-weight: bold;
 }
 .payments td {
-   padding: 1rem 2rem;
+   padding: 16px 32px;
    color: var(--black);
 }
 .payments .status {
-   padding: 0.375rem 1rem;
-   width: max-content;
+   padding: 6px 16px;
+   width: 100%;
    border-radius: 5px;
+   text-align: center;
 }
-.payments .status.pa-paguar {
-   background-color: rgba(98, 38, 239, 0.2);
-   color: #6226ef;
+.payments .status.unpaid {
+   background-color: rgba(255, 167, 86, 0.2);
+   color: #ffa756;
+}
+.payments .status.paid {
+   background-color: rgba(0, 182, 155, 0.2);
+   color: #00b69b;
+}
+
+.payments .errorMessage {
+   padding: 1rem;
+   color: rgb(var(--red));
+   background-color: rgba(var(--red), 0.2);
 }

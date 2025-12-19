@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { getCimerByEmail, getAllCimers } from '../models/cimerModel';
+import { getCimerByEmail, getAllCimers, getCimerById } from '../models/cimerModel';
 
-export const getCimer = async (req: Request, res: Response) => {
+export const getCimerUsingEmail = async (req: Request, res: Response) => {
    const email = req.query.email as string;
    try {
       if (!email) {
@@ -33,6 +33,22 @@ export const getAllCimerat = async (req: Request, res: Response) => {
          });
       }
       return res.status(200).json(cimerat);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error.' });
+   }
+};
+
+export const getCimerFromID = async (req: Request, res: Response) => {
+   const id = parseInt(req.params.id as string);
+   const cimer = await getCimerById(id);
+   try {
+      if (!cimer) {
+         return res.status(400).json({
+            message: 'Theres no cimer with this ID currently!',
+         });
+      }
+      return res.status(200).json(cimer);
    } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server error.' });

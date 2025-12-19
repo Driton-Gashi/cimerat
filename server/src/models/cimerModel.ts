@@ -24,8 +24,14 @@ export const getCimerByEmail = async (email: string) => {
    return rows[0] || null;
 };
 
+export const getCimerById = async (id: number) => {
+   const query = 'SELECT * FROM cimerat WHERE id = ?';
+   const rows = await executeQuery(query, [id]);
+   return rows[0] || null;
+};
+
 export const getAllCimers = async () => {
    const query = 'SELECT * FROM cimerat';
    const rows = await executeQuery(query, []);
-   return rows[0] || null;
+   return rows || null;
 };
