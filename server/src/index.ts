@@ -35,7 +35,7 @@ app.get('/docs', (req, res) => {
       cimers: {
          getAll: `${baseUrl}/cimers`,
          getById: `${baseUrl}/cimers/:id`,
-         getByEmail: `${baseUrl}/cimers/by-email?email=test@gmail.com`,
+         getByEmail: `${baseUrl}/cimers/by-email?email=dritongashi1995@gmail.com`,
       },
       payments: {
          getAll: `${baseUrl}/payments`,

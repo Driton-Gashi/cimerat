@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MyIcon from '../../components/icons/MyIcon';
+import { get } from '../../libs/api';
 
 import './payments.css';
 
@@ -36,17 +37,11 @@ const Payments = () => {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await fetch('http://localhost:4000/api/payments/all');
-            const response2 = await fetch('http://localhost:4000/api/cimerat/all');
+            const payments: Payment[] = await get('/payments');
+            const cimers: Cimer[] = await get('/cimers');
 
-            if (!response.ok) throw new Error('Response is not Ok');
-            if (!response2.ok) throw new Error('Response is not Ok');
-
-            const data: Payment[] = await response.json();
-            const data2: Cimer[] = await response2.json();
-
-            setPayments(data);
-            setCimerat(data2);
+            setPayments(payments);
+            setCimerat(cimers);
          } catch (error) {
             console.error('Driton we got an error: ', error);
          } finally {
