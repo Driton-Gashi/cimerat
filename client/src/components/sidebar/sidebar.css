@@ -17,7 +17,7 @@
 .sidebar {
    display: flex;
    flex-direction: column;
-   padding: 42px 24px;
+   padding: 6px 24px;
 }
 
 .sidebar > .nav-link:last-child {

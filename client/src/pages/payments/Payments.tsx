@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './payments.css';
+import { Link } from 'react-router-dom';
 
 type Payment = {
    id: number;
@@ -64,7 +65,12 @@ const Payments = () => {
    return (
       <div className="payments">
          <h1>Payments</h1>
-         <img src="/filter.png" width="818" alt="" />
+         <div className="filter-add-payments">
+            <img src="/filter.png" width="818" alt="" />
+            <Link to="/payments/create">
+               <button className="create-payment-btn">+</button>
+            </Link>
+         </div>
          <div className="tableWrapper">
             <table border={0}>
                <thead>
