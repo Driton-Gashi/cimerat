@@ -1,10 +1,16 @@
 import express from 'express';
-import { getCimerUsingEmail, getAllCimerat, getCimerFromID } from '../controllers/cimerController';
+import {
+   getAllCimersController,
+   getCimerByEmailController,
+   getCimerByIdController,
+} from '../controllers/cimerController';
 
 const router = express.Router();
 
-router.get('/cimer', getCimerUsingEmail);
-router.get('/cimer/:id', getCimerFromID);
-router.get('/cimerat/all', getAllCimerat);
+router.get('/', getAllCimersController);
+
+router.get('/by-email', getCimerByEmailController);
+
+router.get('/:id', getCimerByIdController);
 
 export default router;

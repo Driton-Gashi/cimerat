@@ -1,56 +1,70 @@
 import type { Request, Response } from 'express';
-import { getCimerByEmail, getAllCimers, getCimerById } from '../models/cimerModel';
+import { getCimerByEmailModel, getAllCimersModel, getCimerByIdModel } from '../models/cimerModel';
 
-export const getCimerUsingEmail = async (req: Request, res: Response) => {
-   const email = req.query.email as string;
+export const getCimerByEmailController = async (req: Request, res: Response) => {
    try {
+      const email = req.query.email as string;
+
       if (!email) {
          return res.status(400).json({
-            message:
-               'Email is missing as a parameter try /api/cimer?email=dritongashi1995@gmail.com',
+            message: 'Email query parameter is required.',
+            example: '/cimers/by-email?email=test@gmail.com',
          });
       }
-      const cimeri = await getCimerByEmail(email);
-      if (cimeri) {
-         return res.status(200).json(cimeri);
-      }
 
-      res.status(400).json({
-         message: 'Theres no Cimera with this email',
-      });
-   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error.' });
-   }
-};
+      const cimer = await getCimerByEmailModel(email);
 
-export const getAllCimerat = async (req: Request, res: Response) => {
-   const cimerat = await getAllCimers();
-   try {
-      if (!cimerat) {
-         return res.status(400).json({
-            message: 'Theres no cimera on the database right now',
-         });
-      }
-      return res.status(200).json(cimerat);
-   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error.' });
-   }
-};
-
-export const getCimerFromID = async (req: Request, res: Response) => {
-   const id = parseInt(req.params.id as string);
-   const cimer = await getCimerById(id);
-   try {
       if (!cimer) {
-         return res.status(400).json({
-            message: 'Theres no cimer with this ID currently!',
+         return res.status(404).json({
+            message: 'No cimer found with this email.',
          });
       }
+
       return res.status(200).json(cimer);
    } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error.' });
+      return res.status(500).json({ message: 'Server error.' });
+   }
+};
+
+export const getAllCimersController = async (_req: Request, res: Response) => {
+   try {
+      const cimers = await getAllCimersModel();
+
+      if (!cimers || cimers.length === 0) {
+         return res.status(404).json({
+            message: 'No cimers found.',
+         });
+      }
+
+      return res.status(200).json(cimers);
+   } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Server error.', devLog: error });
+   }
+};
+
+export const getCimerByIdController = async (req: Request, res: Response) => {
+   try {
+      const id = Number(req.params.id);
+
+      if (Number.isNaN(id)) {
+         return res.status(400).json({
+            message: 'Invalid cimer ID.',
+         });
+      }
+
+      const cimer = await getCimerByIdModel(id);
+
+      if (!cimer) {
+         return res.status(404).json({
+            message: 'No cimer found with this ID.',
+         });
+      }
+
+      return res.status(200).json(cimer);
+   } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Server error.', devLog: error });
    }
 };

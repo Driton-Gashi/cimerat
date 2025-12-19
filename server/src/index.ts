@@ -13,36 +13,43 @@ const allowedOrigins = ['http://localhost:5173', 'https://cimerat.dritongashi.co
 app.use(
    cors({
       origin: allowedOrigins,
+      credentials: true,
    }),
 );
 
 app.use(express.json());
 
 app.get('/', (req, res) => {
+   const baseUrl = `${req.protocol}://${req.get('host')}`;
+
    res.status(200).json({
-      message: 'Welcome to our Cimerat API, got to /api to test our api',
+      message: 'Welcome to the Cimerat API',
+      docs: `${baseUrl}/docs`,
    });
 });
 
-app.get('/api', (req, res) => {
+app.get('/docs', (req, res) => {
+   const baseUrl = `${req.protocol}://${req.get('host')}`;
+
    res.status(200).json({
-      cimer: {
-         getOne: 'GET /api/cimer?email=random@gmail.com',
-         getAll: 'GET /api/cimerat/all',
+      cimers: {
+         getAll: `${baseUrl}/cimers`,
+         getById: `${baseUrl}/cimers/:id`,
+         getByEmail: `${baseUrl}/cimers/by-email?email=test@gmail.com`,
       },
       payments: {
-         getAll: 'GET /api/payments',
-         getById: 'GET /api/payments?id=1',
-         create: 'POST /api/payments/all',
+         getAll: `${baseUrl}/payments`,
+         getById: `${baseUrl}/payments/:id`,
+         create: `${baseUrl}/payments`,
       },
    });
 });
 
-app.use('/api/', cimerRoute);
-app.use('/api/', paymentRoute);
+app.use('/cimers', cimerRoute);
+app.use('/payments', paymentRoute);
 
 const PORT = Number(process.env.PORT) || 4000;
 
 app.listen(PORT, () => {
-   console.log('Server runing in port: ' + PORT);
+   console.log(`🚀 Server running on port ${PORT}`);
 });
