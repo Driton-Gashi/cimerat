@@ -15,7 +15,9 @@
    --gray: #f5f6fa;
    --light-gray: #fcfdfd;
    --black: #202224;
+   --gray-text: #606060;
    --red: 239, 56, 38;
+   --green: #00b69b;
 }
 
 body {
@@ -31,4 +33,8 @@ tr,
 th,
 td {
    border: 0;
+}
+
+.green-text {
+   color: var(--green);
 }

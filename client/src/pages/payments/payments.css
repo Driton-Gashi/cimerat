@@ -47,8 +47,8 @@
 }
 .payments .status.paid {
    background-color: rgba(0, 182, 155, 0.2);
-   color: #00b69b;
-   border: 1px solid #00b69b;
+   color: var(--green);
+   border: 1px solid var(--green);
 }
 
 .payments .errorMessage {
