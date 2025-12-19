@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 import Home from './pages/home/Home.tsx';
 import Payments from './pages/payments/Payments.tsx';
 import Header from './components/header/Header.tsx';
