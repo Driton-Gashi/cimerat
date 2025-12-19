@@ -2,46 +2,20 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MyIcon from '../../components/icons/MyIcon';
 import { get } from '../../libs/api';
+import type { Payment } from '../../libs/types';
 
 import './payments.css';
-
-type Payment = {
-   id: number;
-   category: string;
-   name: string;
-   transaction_date: string;
-   payer_id: number;
-   amount: number;
-   status: 'paid' | 'unpaid';
-};
-
-type Cimer = {
-   id: number;
-   name: string;
-   lastname: string;
-   email: string;
-   password: string;
-   phone: string;
-};
 
 const Payments = () => {
    const [payments, setPayments] = useState<Payment[]>([]);
    const [loading, setLoading] = useState(true);
-   const [cimerat, setCimerat] = useState<Cimer[]>([]);
-
-   const getCimerByID = (id: number): string => {
-      const cimeri = cimerat.filter((cimer) => cimer.id === id);
-      return cimeri[0].name;
-   };
 
    useEffect(() => {
       const fetchData = async () => {
          try {
             const payments: Payment[] = await get('/payments');
-            const cimers: Cimer[] = await get('/cimers');
 
             setPayments(payments);
-            setCimerat(cimers);
          } catch (error) {
             console.error('Driton we got an error: ', error);
          } finally {
@@ -126,7 +100,7 @@ const Payments = () => {
                                  year: 'numeric',
                               })}
                            </td>
-                           <td>{getCimerByID(payment.payer_id)}</td>
+                           <td>{payment.payer_name}</td>
                            <td>{payment.amount}</td>
                            <td>
                               <div className={`status ${payment.status}`}>{payment.status}</div>

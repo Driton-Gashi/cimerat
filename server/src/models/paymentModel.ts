@@ -6,6 +6,7 @@ export type Payment = {
    name: string;
    transaction_date: Date;
    payer_id: number;
+   payer_name?: string;
 };
 
 const executeQuery = async <T = any>(query: string, params: any[] = []): Promise<T[]> => {
@@ -25,6 +26,20 @@ export const getPaymentByIdModel = async (id: number): Promise<Payment[]> => {
 };
 
 export const getAllPaymentsModel = async (): Promise<Payment[]> => {
-   const query = 'SELECT * FROM payments';
-   return executeQuery<Payment>(query);
+   const query = `
+            SELECT p.id,
+                  p.category,
+                  p.NAME,
+                  p.transaction_date,
+                  p.amount,
+                  p.status,
+                  c.id                            AS payer_id,
+                  c.NAME                          AS payer_name
+            FROM   payments p
+                  JOIN cimerat c
+                     ON p.payer_id = c.id 
+`;
+   const rows = await executeQuery<Payment>(query);
+   console.log(rows);
+   return rows;
 };

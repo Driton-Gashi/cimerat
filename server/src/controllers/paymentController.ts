@@ -4,7 +4,6 @@ import { getAllPaymentsModel, getPaymentByIdModel } from '../models/paymentModel
 export const getAllPaymentsController = async (_req: Request, res: Response) => {
    try {
       const payments = await getAllPaymentsModel();
-
       if (payments.length === 0) {
          return res.status(404).json({
             message: 'No payments found.',
