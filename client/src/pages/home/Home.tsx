@@ -80,8 +80,9 @@ const Home = () => {
                </div>
             </OverviewCard>
          </div>
-         <div className="dashboard-analytics">
+         <div>
             <OverviewCard>
+               <h2>Spending details</h2>
                <ApexChart />
             </OverviewCard>
          </div>

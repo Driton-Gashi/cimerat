@@ -15,7 +15,7 @@ function App() {
                <Header />
                <section className="main-content-inner">
                   <Routes>
-                     <Route index element={<Home />} />
+                     <Route path="/" index element={<Home />} />
                      <Route path="/payments" element={<Payments />} />
                      <Route path="/payments/create" element={<CreatePayment />} />
                   </Routes>

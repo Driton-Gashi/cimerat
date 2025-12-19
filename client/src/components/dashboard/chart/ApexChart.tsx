@@ -6,11 +6,11 @@ const ApexChart = () => {
    const [state, setState] = useState<{ series: ApexAxisChartSeries; options: ApexOptions }>({
       series: [
          {
-            name: 'series1',
+            name: 'Spendings',
             data: [31, 40, 28, 51, 42, 109, 100],
          },
          {
-            name: 'series2',
+            name: 'Income',
             data: [11, 32, 45, 32, 34, 52, 41],
          },
       ],
