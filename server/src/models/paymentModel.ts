@@ -44,7 +44,7 @@ export const getAllPaymentsModel = async (): Promise<Payment[]> => {
    return rows;
 };
 
-export const createPaymenModel = async (
+export const createPaymentModel = async (
    category: string,
    name: string,
    date: Date,
