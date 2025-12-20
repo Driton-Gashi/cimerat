@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import MyIcon from '../../components/icons/MyIcon';
 import { get } from '../../libs/api';
-import type { Payment, datePickerStateType } from '../../libs/types';
+import type { Payment } from '../../libs/types';
 
-import FilterItem from '../../components/dashboard/filter/FilterItem';
 import './payments.css';
+import FilterControls from '../../components/dashboard/filter/FilterControls';
 
 const Payments = () => {
    const [payments, setPayments] = useState<Payment[]>([]);
    const [loading, setLoading] = useState<boolean>(true);
-   const [datePickerState, setDatePickerState] = useState<datePickerStateType>({
-      date: new Date(),
-      isDatePickerOpen: false,
-   });
 
    useEffect(() => {
       const fetchData = async () => {
@@ -65,43 +60,7 @@ const Payments = () => {
    return (
       <div className="payments">
          <h1>Payments</h1>
-         <div className="payments-filter-wrapper">
-            <div className="payments-filter-controls">
-               <FilterItem iconNameProp="filter" />
-               <FilterItem>Filter By</FilterItem>
-               <FilterItem
-                  clickEvent={() => {
-                     setDatePickerState((prev) => {
-                        return {
-                           ...prev,
-                           isDatePickerOpen: !prev.isDatePickerOpen,
-                        };
-                     });
-                  }}
-                  type="Date"
-                  iconNameProp="chevronDown"
-                  isDatePickerOpen={datePickerState.isDatePickerOpen}
-                  date={datePickerState.date}
-                  setDate={setDatePickerState}
-               >
-                  Date
-               </FilterItem>
-
-               <div className="payments-filter-controls-item">
-                  Order Type <MyIcon iconName="chevronDown" />
-               </div>
-               <div className="payments-filter-controls-item">
-                  Order Status <MyIcon iconName="chevronDown" />
-               </div>
-               <div className="payments-filter-controls-item red-text">
-                  <MyIcon iconName="reset" />
-                  Reset Filter
-               </div>
-            </div>
-            <Link to="/payments/create">
-               <button className="create-payment-btn">+</button>
-            </Link>
-         </div>
+         <FilterControls />
          <div className="tableWrapper">
             <table border={0}>
                <thead>
