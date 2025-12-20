@@ -29,12 +29,12 @@ export const getAllPaymentsModel = async (): Promise<Payment[]> => {
    const query = `
             SELECT p.id,
                   p.category,
-                  p.NAME,
+                  p.name,
                   p.transaction_date,
                   p.amount,
                   p.status,
                   c.id                            AS payer_id,
-                  c.NAME                          AS payer_name
+                  c.name                          AS payer_name
             FROM   payments p
                   JOIN cimerat c
                      ON p.payer_id = c.id 

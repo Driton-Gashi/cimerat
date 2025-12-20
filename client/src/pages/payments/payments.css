@@ -53,8 +53,8 @@
 
 .payments .errorMessage {
    padding: 1rem;
-   color: rgb(var(--red));
-   background-color: rgba(var(--red), 0.2);
+   color: var(--red);
+   background-color: rgba(239, 56, 38, 0.2);
 }
 .payments .loadingPaymentsMessage {
    display: flex;
@@ -64,16 +64,15 @@
    gap: 1rem;
 }
 
-.filter-add-payments {
+.payments-filter-wrapper {
    display: flex;
-   align-items: center;
-   justify-content: flex-start;
-   gap: 32px;
+   gap: 24px;
 }
 
 .create-payment-btn {
    background-color: #4379ee;
    padding: 18px 24px;
+   height: 100%;
    border: none;
    border-radius: 8px;
    color: white;
@@ -164,4 +163,28 @@
 
 .payment-form-submit-btn:hover {
    background-color: #4a7cf0;
+}
+
+.payments .payments-filter-controls {
+   border: 1px solid var(--border-color);
+   border-radius: 14px;
+   display: flex;
+}
+.payments .payments-filter-controls-item:last-child {
+   border-right: 0;
+}
+.payments .payments-filter-controls-item {
+   border-right: 1px solid var(--border-color);
+   padding: 24px;
+   display: flex;
+   gap: 24px;
+   align-items: center;
+   position: relative;
+   cursor: pointer;
+}
+.payments .payments-filter-controls-item-sub {
+   position: absolute;
+   top: 0;
+   left: 50%;
+   transform: translate(-50%, 77px);
 }

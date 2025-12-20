@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 
-type IconName =
+export type IconName =
    | 'dashboard'
    | 'complaints'
    | 'payments'
@@ -11,7 +11,10 @@ type IconName =
    | 'bell'
    | 'downArrow'
    | 'loadingSvg'
-   | 'dashboardArrow';
+   | 'dashboardArrow'
+   | 'filter'
+   | 'reset'
+   | 'chevronDown';
 
 type IconType = {
    iconName: IconName;
@@ -52,6 +55,19 @@ const MyIcon = ({ iconName }: IconType): JSX.Element => {
       loadingSvg: `<svg width="30" height="30" fill="hsl(228, 97%, 42%)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="4" cy="12" r="3" opacity="1"><animate id="spinner_qYjJ" begin="0;spinner_t4KZ.end-0.25s" attributeName="opacity" dur="0.75s" values="1;.2" fill="freeze"/></circle><circle cx="12" cy="12" r="3" opacity=".4"><animate begin="spinner_qYjJ.begin+0.15s" attributeName="opacity" dur="0.75s" values="1;.2" fill="freeze"/></circle><circle cx="20" cy="12" r="3" opacity=".3"><animate id="spinner_t4KZ" begin="spinner_qYjJ.begin+0.3s" attributeName="opacity" dur="0.75s" values="1;.2" fill="freeze"/></circle></svg>`,
       dashboardArrow: `<svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14 0L16.29 2.29L11.41 7.17L7.41 3.17L0 10.59L1.41 12L7.41 6L11.41 10L17.71 3.71L20 6V0H14Z" fill="#00B69B"/>
+</svg>
+`,
+      filter: `<svg width="21" height="24" viewBox="0 0 21 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 9.75C15.8848 9.75 20.25 7.73528 20.25 5.25C20.25 2.76472 15.8848 0.75 10.5 0.75C5.11522 0.75 0.75 2.76472 0.75 5.25C0.75 7.73528 5.11522 9.75 10.5 9.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M0.75 5.25C0.75253 9.76548 3.85614 13.688 8.25 14.729V21C8.25 22.2426 9.25736 23.25 10.5 23.25C11.7426 23.25 12.75 22.2426 12.75 21V14.729C17.1439 13.688 20.2475 9.76548 20.25 5.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+      reset: `<svg width="12" height="15" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 3V0L2.25 3.75L6 7.5V4.5C8.4825 4.5 10.5 6.5175 10.5 9C10.5 11.4825 8.4825 13.5 6 13.5C3.5175 13.5 1.5 11.4825 1.5 9H0C0 12.315 2.685 15 6 15C9.315 15 12 12.315 12 9C12 5.685 9.315 3 6 3Z" fill="#EA0234"/>
+</svg>
+`,
+      chevronDown: `<svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.415 0L6 4.585L10.585 0L12 1.415L6 7.415L0 1.415L1.415 0Z" fill="black"/>
 </svg>
 `,
    };
