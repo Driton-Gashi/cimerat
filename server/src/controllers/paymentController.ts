@@ -48,7 +48,7 @@ export const getPaymentsByIdController = async (req: Request, res: Response) => 
 
 export const createNewPaymentController = async (req: Request, res: Response) => {
    const { category, name, date, payer_id, amount } = req.body;
-
+   console.log('driton', req.body);
    try {
       await createPaymentModel(category, name, new Date(date), payer_id, amount);
       res.status(200).json({
