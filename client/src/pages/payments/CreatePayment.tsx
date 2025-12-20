@@ -7,7 +7,7 @@ import './payments.css';
 const CreatePayment = () => {
    const [formData, setFormData] = useState<PaymentFormData>({
       category: 'Bills',
-      payment_name: '',
+      name: '',
       date: '',
       payer_id: 1,
       amount: '',
@@ -25,36 +25,18 @@ const CreatePayment = () => {
 
    const handleSubmit = async () => {
       try {
-         if (!formData.payment_name || !formData.date || !formData.amount) {
+         if (!formData.name || !formData.date || !formData.amount) {
             alert('Please fill all required fields');
             return;
          }
 
-         const response = await fetch('http://localhost:4000/payments', {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-               category: formData.category,
-               name: formData.payment_name,
-               date: formData.date,
-               payer_id: formData.payer_id,
-               amount: Number(formData.amount),
-            }),
-         });
+         const res = await post('/payments', formData);
 
-         if (!response.ok) {
-            throw new Error('Failed to create payment');
-         }
-
-         const data = await response.json();
-         console.log('Payment created:', data);
-
+         console.log(res);
          // Reset form
          setFormData({
             category: 'Bills',
-            payment_name: '',
+            name: '',
             date: '',
             payer_id: 1,
             amount: '',
@@ -89,8 +71,8 @@ const CreatePayment = () => {
                      <label>Payment Name</label>
                      <input
                         type="text"
-                        name="payment_name"
-                        value={formData.payment_name}
+                        name="name"
+                        value={formData.name}
                         onChange={handleChange}
                         placeholder="Enter the payment name"
                      />
@@ -104,11 +86,8 @@ const CreatePayment = () => {
                   <div className="payment-form-group">
                      <label>Payer ID</label>
                      <select name="payer_id" value={formData.payer_id} onChange={handleChange}>
-                        <option value="1">Diar</option>
-                        <option value="2">Driton</option>
-                        <option value="3">Hamza</option>
-                        <option value="4">Denis</option>
-                        <option value="5">Adi</option>
+                        <option value="3">Diar</option>
+                        <option value="1">Driton</option>
                      </select>
                   </div>
 
