@@ -56,8 +56,12 @@
 }
 
 .sidebar a.active {
-   color: white;
+   color: var(--white);
 }
+.sidebar-account a.active{
+   color: var(--white);
+}
+
 .sidebar .nav-link.active span svg {
    fill: white;
 }

@@ -1,13 +1,6 @@
 import { useState, type ChangeEvent } from 'react';
 import './payments.css';
-
-type PaymentFormData = {
-  category: 'Bills' | 'Personal' | 'Product';
-  payment_name: string;
-  date: string;
-  payer_id: number;
-  amount: string;
-};
+import type { PaymentFormData } from '../../libs/types';
 
 const CreatePayment = () => {
   const [formData, setFormData] = useState<PaymentFormData>({
