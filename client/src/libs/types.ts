@@ -24,6 +24,7 @@ export type PaymentFormData = {
    date: string;
    payer_id: number;
    amount: string;
+   borrower_id: number;
 };
 export type datePickerStateType = {
    date: Date;
