@@ -8,7 +8,7 @@ import './payments.css';
 
 const Payments = () => {
    const [payments, setPayments] = useState<Payment[]>([]);
-   const [loading, setLoading] = useState(true);
+   const [loading, setLoading] = useState<boolean>(true);
 
    useEffect(() => {
       const fetchData = async () => {
