@@ -40,7 +40,6 @@ export const getAllPaymentsModel = async (): Promise<Payment[]> => {
                      ON p.payer_id = c.id 
 `;
    const rows = await executeQuery<Payment>(query);
-   console.log(rows);
    return rows;
 };
 
@@ -50,7 +49,7 @@ export const createPaymentModel = async (
    date: Date,
    payer_id: number,
    amount: number,
-): Promise<void> => {
+) => {
    const query = `
     INSERT INTO payments ( category, name, transaction_date, payer_id, amount)
     VALUES ( ?, ?, ?, ?, ?)

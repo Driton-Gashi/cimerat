@@ -11,10 +11,8 @@ const DatePickerTable = ({ dateState, setDate }: P) => {
    return (
       <DatePicker
          selected={dateState}
-         onSelect={() => {}} //when day is clicked
          onChange={(selectedDate: Date | null) => {
             if (!selectedDate) return;
-
             setDate((prev) => {
                return {
                   ...prev,
@@ -23,6 +21,14 @@ const DatePickerTable = ({ dateState, setDate }: P) => {
             });
          }} //only when value has changed
          inline
+         onClickOutside={(e) => {
+            setDate((prev) => {
+               return {
+                  ...prev,
+                  isDatePickerOpen: false,
+               };
+            });
+         }}
       />
    );
 };

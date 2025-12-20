@@ -3,6 +3,7 @@ import FilterItem from './FilterItem';
 import { Link } from 'react-router-dom';
 import type { datePickerStateType } from '../../../libs/types';
 import MyIcon from '../../icons/MyIcon';
+import DateFilter from './DateFilter';
 
 const FilterControls = () => {
    const [datePickerState, setDatePickerState] = useState<datePickerStateType>({
@@ -15,22 +16,20 @@ const FilterControls = () => {
          <div className="payments-filter-controls">
             <FilterItem iconNameProp="filter" />
             <FilterItem>Filter By</FilterItem>
-            <FilterItem
-               clickEvent={() => {
-                  setDatePickerState((prev) => {
-                     return {
-                        ...prev,
-                        isDatePickerOpen: !prev.isDatePickerOpen,
-                     };
-                  });
-               }}
-               type="Date"
-               iconNameProp="chevronDown"
-               isDatePickerOpen={datePickerState.isDatePickerOpen}
-               date={datePickerState.date}
-               setDate={setDatePickerState}
-            >
-               Date
+            <FilterItem>
+               <DateFilter
+                  clickEvent={() => {
+                     setDatePickerState((prev) => {
+                        return {
+                           ...prev,
+                           isDatePickerOpen: !prev.isDatePickerOpen,
+                        };
+                     });
+                  }}
+                  isDatePickerOpen={datePickerState.isDatePickerOpen}
+                  date={datePickerState.date}
+                  setDate={setDatePickerState}
+               />
             </FilterItem>
 
             <div className="payments-filter-controls-item">
