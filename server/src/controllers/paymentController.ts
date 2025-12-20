@@ -51,7 +51,16 @@ export const createNewPaymentController = async (req: Request, res: Response) =>
 
    try {
       await createPaymentModel(category, name, new Date(date), payer_id, amount);
-      res.status(200).json({ message: `${name} - ${amount}€ was added successfully` });
+      res.status(200).json({
+         message: `${name} - ${amount}€ was added successfully`,
+         payment: {
+            category,
+            name,
+            date,
+            payer_id,
+            amount,
+         },
+      });
    } catch (error) {
       console.error(error);
       res.status(500).json({ error: error });

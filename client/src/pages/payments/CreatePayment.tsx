@@ -1,6 +1,8 @@
 import { useState, type ChangeEvent } from 'react';
-import './payments.css';
 import type { PaymentFormData } from '../../libs/types';
+import { post } from '../../libs/api';
+
+import './payments.css';
 
 const CreatePayment = () => {
    const [formData, setFormData] = useState<PaymentFormData>({
@@ -39,7 +41,6 @@ const CreatePayment = () => {
                date: formData.date,
                payer_id: formData.payer_id,
                amount: Number(formData.amount),
-               borrower_id: formData.borrower_id,
             }),
          });
 
@@ -57,7 +58,6 @@ const CreatePayment = () => {
             date: '',
             payer_id: 1,
             amount: '',
-            borrower_id: 1,
          });
       } catch (error) {
          console.error('Error creating payment:', error);
@@ -102,7 +102,7 @@ const CreatePayment = () => {
                   </div>
 
                   <div className="payment-form-group">
-                     <label>Payer</label>
+                     <label>Payer ID</label>
                      <select name="payer_id" value={formData.payer_id} onChange={handleChange}>
                         <option value="1">Diar</option>
                         <option value="2">Driton</option>
@@ -122,23 +122,6 @@ const CreatePayment = () => {
                         placeholder="Enter the amount"
                      />
                   </div>
-
-                  {formData.category === 'Personal' && (
-                     <div className="payment-form-group">
-                        <label>Person who owes the amount</label>
-                        <select
-                           name="borrower_id"
-                           value={formData.borrower_id}
-                           onChange={handleChange}
-                        >
-                           <option value="1">Diar</option>
-                           <option value="2">Driton</option>
-                           <option value="3">Hamza</option>
-                           <option value="4">Denis</option>
-                           <option value="5">Adi</option>
-                        </select>
-                     </div>
-                  )}
                </div>
 
                <button className="payment-form-submit-btn" onClick={handleSubmit}>

@@ -4,7 +4,7 @@ import { get } from '../../libs/api';
 import type { Payment } from '../../libs/types';
 
 import './payments.css';
-import FilterControls from '../../components/dashboard/filter/FilterControls';
+import FilterControls from '../../components/payments/filter/FilterControls';
 
 const Payments = () => {
    const [payments, setPayments] = useState<Payment[]>([]);

@@ -72,6 +72,6 @@ const MyIcon = ({ iconName }: IconType): JSX.Element => {
 `,
    };
 
-   return <span className="icon-wrapper" dangerouslySetInnerHTML={{ __html: myIcon[iconName] }} />;
+   return <span id="icon" dangerouslySetInnerHTML={{ __html: myIcon[iconName] }} />;
 };
 export default MyIcon;
