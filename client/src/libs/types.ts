@@ -19,9 +19,13 @@ export type Cimer = {
 };
 
 export type PaymentFormData = {
-  category: 'Bills' | 'Personal' | 'Product';
-  payment_name: string;
-  date: string;
-  payer_id: number;
-  amount: string;
+   category: 'Bills' | 'Personal' | 'Product';
+   payment_name: string;
+   date: string;
+   payer_id: number;
+   amount: string;
+};
+export type datePickerStateType = {
+   date: Date;
+   isDatePickerOpen: boolean;
 };
