@@ -32,7 +32,6 @@ const CreatePayment = () => {
 
          const res = await post('/payments', formData);
 
-         console.log(res);
          // Reset form
          setFormData({
             category: 'Bills',
