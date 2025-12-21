@@ -8,7 +8,6 @@ export const get = async (path: string) => {
 
 export const post = async (path: string, obj: object) => {
    const API_URL = import.meta.env.VITE_API_URL;
-   console.log(obj, API_URL + path);
    const res = await fetch(API_URL + path, {
       method: 'POST',
       headers: {

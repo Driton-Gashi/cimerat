@@ -19,10 +19,25 @@ const executeQuery = async <T = any>(query: string, params: any[] = []): Promise
    }
 };
 
-export const getPaymentByIdModel = async (id: number): Promise<Payment[]> => {
-   const query = 'SELECT * FROM payments WHERE id = ?';
-   const rows = await executeQuery<Payment>(query, [id]);
-   return rows;
+export const getPaymentByIdModel = async (id: number): Promise<Payment> => {
+   const query = `
+      SELECT p.id,
+             p.category,
+             p.name,
+             p.transaction_date,
+             p.amount,
+             p.status,
+             c.id   AS payer_id,
+             c.name AS payer_name
+      FROM payments p
+      JOIN cimerat c
+         ON p.payer_id = c.id
+      WHERE p.id = ?
+   `;
+
+   const rows = await executeQuery(query, [id]);
+
+   return rows[0];
 };
 
 export const getAllPaymentsModel = async (): Promise<Payment[]> => {
@@ -54,5 +69,6 @@ export const createPaymentModel = async (
     INSERT INTO payments ( category, name, transaction_date, payer_id, amount)
     VALUES ( ?, ?, ?, ?, ?)
   `;
-   await executeQuery(query, [category, name, date, payer_id, amount]);
+   const result: any = await executeQuery(query, [category, name, date, payer_id, amount]);
+   return result;
 };

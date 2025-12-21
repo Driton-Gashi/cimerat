@@ -32,8 +32,7 @@ export const getPaymentsByIdController = async (req: Request, res: Response) => 
       }
 
       const payment = await getPaymentByIdModel(id);
-
-      if (!payment.length) {
+      if (!payment) {
          return res.status(404).json({
             message: 'No payment found with this ID.',
          });
@@ -48,18 +47,12 @@ export const getPaymentsByIdController = async (req: Request, res: Response) => 
 
 export const createNewPaymentController = async (req: Request, res: Response) => {
    const { category, name, date, payer_id, amount } = req.body;
-   console.log('driton', req.body);
    try {
-      await createPaymentModel(category, name, new Date(date), payer_id, amount);
+      const result = await createPaymentModel(category, name, new Date(date), payer_id, amount);
+      let createdPayment = await getPaymentByIdModel(Number(result.insertId));
       res.status(200).json({
          message: `${name} - ${amount}€ was added successfully`,
-         payment: {
-            category,
-            name,
-            date,
-            payer_id,
-            amount,
-         },
+         createdPayment,
       });
    } catch (error) {
       console.error(error);
