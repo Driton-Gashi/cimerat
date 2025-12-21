@@ -175,7 +175,7 @@
 }
 .payments .payments-filter-controls-item {
    border-right: 1px solid var(--border-color);
-   padding: 24px;
+   padding: 12px 24px;
    display: flex;
    gap: 24px;
    align-items: center;
@@ -186,6 +186,6 @@
    position: absolute;
    top: 0;
    left: 50%;
-   transform: translate(-50%, 77px);
+   transform: translate(-50%, 57px);
    z-index: 2;
 }
