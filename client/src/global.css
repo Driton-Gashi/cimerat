@@ -36,9 +36,23 @@ td {
    border: 0;
 }
 
+i {
+   display: flex;
+}
+
 .green-text {
    color: var(--green);
 }
 .red-text {
    color: var(--red);
+}
+
+.flex {
+   display: flex;
+}
+.space-between {
+   justify-content: space-between;
+}
+.align-items-center {
+   align-items: center;
 }

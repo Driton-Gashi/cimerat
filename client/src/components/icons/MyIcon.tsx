@@ -14,7 +14,8 @@ export type IconName =
    | 'dashboardArrow'
    | 'filter'
    | 'reset'
-   | 'chevronDown';
+   | 'chevronDown'
+   | 'chevronLeft';
 
 type IconType = {
    iconName: IconName;
@@ -70,8 +71,12 @@ const MyIcon = ({ iconName }: IconType): JSX.Element => {
 <path d="M1.415 0L6 4.585L10.585 0L12 1.415L6 7.415L0 1.415L1.415 0Z" fill="black"/>
 </svg>
 `,
+      chevronLeft: `<svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.40991 10.59L2.82991 6L7.40991 1.41L5.99991 0L-8.7738e-05 6L5.99991 12L7.40991 10.59Z" fill="var(--white)"/>
+</svg>
+`,
    };
 
-   return <span id="icon" dangerouslySetInnerHTML={{ __html: myIcon[iconName] }} />;
+   return <i id="icon" dangerouslySetInnerHTML={{ __html: myIcon[iconName] }} />;
 };
 export default MyIcon;

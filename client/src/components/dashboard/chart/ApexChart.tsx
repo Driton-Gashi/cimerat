@@ -3,21 +3,21 @@ import ReactApexChart from 'react-apexcharts';
 import type { ApexOptions } from 'apexcharts';
 
 const ApexChart = () => {
-   const [state, setState] = useState<{ series: ApexAxisChartSeries; options: ApexOptions }>({
+   const [state, _setState] = useState<{ series: ApexAxisChartSeries; options: ApexOptions }>({
       series: [
          {
-            name: 'Spendings',
-            data: [31, 40, 28, 51, 42, 109, 100],
+            name: 'Driton',
+            data: [10, 11, 12, 13, 14, 20, 100],
          },
          {
-            name: 'Income',
+            name: 'Diar',
             data: [11, 32, 45, 32, 34, 52, 41],
          },
       ],
       options: {
          chart: {
             height: 350,
-            type: 'area',
+            type: 'bar',
          },
          dataLabels: {
             enabled: false,
@@ -28,13 +28,18 @@ const ApexChart = () => {
          xaxis: {
             type: 'datetime',
             categories: [
-               '2018-09-19T00:00:00.000Z',
-               '2018-09-19T01:30:00.000Z',
-               '2018-09-19T02:30:00.000Z',
-               '2018-09-19T03:30:00.000Z',
-               '2018-09-19T04:30:00.000Z',
-               '2018-09-19T05:30:00.000Z',
-               '2018-09-19T06:30:00.000Z',
+               '2025-01-1',
+               '2025-02-1',
+               '2025-03-1',
+               '2025-04-1',
+               '2025-05-1',
+               '2025-06-1',
+               '2025-07-1',
+               '2025-08-1',
+               '2025-09-1',
+               '2025-10-1',
+               '2025-11-1',
+               '2025-12-1',
             ],
          },
          tooltip: {
