@@ -3,6 +3,8 @@ import type { Payment, PaymentFormData } from '../../libs/types';
 import { post } from '../../libs/api';
 
 import './payments.css';
+import { Link } from 'react-router-dom';
+import MyIcon from '../../components/icons/MyIcon';
 
 const CreatePayment = () => {
    const [formData, setFormData] = useState<PaymentFormData>({
@@ -51,7 +53,14 @@ const CreatePayment = () => {
 
    return (
       <div className="create-payment-main">
-         <h1>Create a Payment</h1>
+         <div className="flex space-between align-items-center">
+            <h1>Create a Payment</h1>
+            <Link to="/payments">
+               <button className="create-payment-btn">
+                  <MyIcon iconName="chevronLeft" />
+               </button>
+            </Link>
+         </div>
 
          <div className="create-payment-wrapper">
             <div className="upload-payment-picture">
