@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from 'react';
-import type { PaymentFormData } from '../../libs/types';
+import type { Payment, PaymentFormData } from '../../libs/types';
 import { post } from '../../libs/api';
 
 import './payments.css';
@@ -31,6 +31,7 @@ const CreatePayment = () => {
          }
 
          const res = await post('/payments', formData);
+         console.log(res);
 
          // Reset form
          setFormData({
@@ -40,6 +41,9 @@ const CreatePayment = () => {
             payer_id: 1,
             amount: '',
          });
+         let cachedPayments: Payment[] = JSON.parse(localStorage.getItem('payments') ?? '[]');
+         cachedPayments.push(res.createdPayment);
+         localStorage.setItem('payments', JSON.stringify(cachedPayments));
       } catch (error) {
          console.error('Error creating payment:', error);
       }

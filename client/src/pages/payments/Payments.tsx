@@ -7,14 +7,14 @@ import './payments.css';
 import FilterControls from '../../components/payments/filter/FilterControls';
 import PaymentsDataTable from './PaymentsDataTable';
 
-const cachedPayments: Payment[] = JSON.parse(localStorage.getItem('payments') ?? '[]');
-
 const Payments = () => {
+   const cachedPayments: Payment[] = JSON.parse(localStorage.getItem('payments') ?? '[]');
+
    const [payments, setPayments] = useState(cachedPayments);
    const [loading, setLoading] = useState<boolean>(cachedPayments.length == 0);
 
    useEffect(() => {
-      if (cachedPayments.length != 0) return;
+      if (payments.length != 0) return;
 
       const fetchData = async () => {
          try {
@@ -29,7 +29,7 @@ const Payments = () => {
       };
 
       fetchData();
-   }, []);
+   }, [payments.length]);
 
    if (loading)
       return (
