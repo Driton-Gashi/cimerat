@@ -3,7 +3,8 @@ import Home from './pages/home/Home.tsx';
 import Payments from './pages/payments/Payments.tsx';
 import Header from './components/header/Header.tsx';
 import Sidebar from './components/sidebar/Sidebar.tsx';
-import CreatePayment from './pages/payments/CreatePayment.tsx';
+import CreatePayment from './pages/payments/create/CreatePayment.tsx';
+import PaymentPage from './pages/payments/single/PaymentPage.tsx';
 import './app.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                      <Route path="/" index element={<Home />} />
                      <Route path="/payments" element={<Payments />} />
                      <Route path="/payments/create" element={<CreatePayment />} />
+                     <Route path="/payments/:id" element={<PaymentPage />} />
                   </Routes>
                </section>
             </main>
