@@ -4,11 +4,13 @@ import type { IconName } from '../../icons/MyIcon';
 type P = {
    iconNameProp?: IconName;
    children?: React.ReactNode;
+   id?: string;
+   clickEvent?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const FilterItem = ({ iconNameProp, children }: P) => {
+const FilterItem = ({ clickEvent, iconNameProp, children, id }: P) => {
    return (
-      <div className="payments-filter-controls-item">
+      <div onClick={clickEvent} id={id} className="payments-filter-controls-item">
          {children} {iconNameProp && <MyIcon iconName={iconNameProp} />}
       </div>
    );

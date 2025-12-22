@@ -3,14 +3,13 @@ import DatePickerTable from '../../global/datepicker/DatePickerTable';
 import MyIcon from '../../icons/MyIcon';
 
 type P = {
-   clickEvent: React.MouseEventHandler<HTMLDivElement>;
    isDatePickerOpen: boolean;
    date: Date;
    setDate: React.Dispatch<React.SetStateAction<datePickerStateType>>;
 };
-const DateFilter = ({ clickEvent, isDatePickerOpen, date, setDate }: P) => {
+const DateFilter = ({ isDatePickerOpen, date, setDate }: P) => {
    return (
-      <div onClick={clickEvent} id="date" className="payments-filter-controls-item">
+      <div id="date" className="payments-filter-controls-item">
          Date <MyIcon iconName="chevronDown" />
          {isDatePickerOpen && (
             <div className="payments-filter-controls-item-sub">
