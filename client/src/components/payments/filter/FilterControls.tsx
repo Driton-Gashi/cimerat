@@ -16,16 +16,18 @@ const FilterControls = () => {
          <div className="payments-filter-controls">
             <FilterItem iconNameProp="filter" />
             <FilterItem>Filter By</FilterItem>
-            <FilterItem>
+            <FilterItem
+               clickEvent={() => {
+                  setDatePickerState((prev) => {
+                     return {
+                        ...prev,
+                        isDatePickerOpen: !prev.isDatePickerOpen,
+                     };
+                  });
+               }}
+               id="date"
+            >
                <DateFilter
-                  clickEvent={() => {
-                     setDatePickerState((prev) => {
-                        return {
-                           ...prev,
-                           isDatePickerOpen: !prev.isDatePickerOpen,
-                        };
-                     });
-                  }}
                   isDatePickerOpen={datePickerState.isDatePickerOpen}
                   date={datePickerState.date}
                   setDate={setDatePickerState}

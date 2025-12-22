@@ -19,9 +19,12 @@ const DatePickerTable = ({ dateState, setDate }: P) => {
                   date: selectedDate,
                };
             });
-         }} //only when value has changed
+         }}
          inline
          onClickOutside={(e) => {
+            const target = e.target as HTMLDivElement;
+
+            if (target.id == 'date') return;
             setDate((prev) => {
                return {
                   ...prev,
