@@ -1,10 +1,10 @@
 import { useState, type ChangeEvent } from 'react';
-import type { Payment, PaymentFormData } from '../../libs/types';
-import { post } from '../../libs/api';
+import type { Payment, PaymentFormData } from '../../../libs/types';
+import { post } from '../../../libs/api';
 
-import './payments.css';
+import '../payments.css';
 import { Link } from 'react-router-dom';
-import MyIcon from '../../components/icons/MyIcon';
+import MyIcon from '../../../components/icons/MyIcon';
 
 const CreatePayment = () => {
    const [formData, setFormData] = useState<PaymentFormData>({

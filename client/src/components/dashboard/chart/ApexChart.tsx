@@ -17,7 +17,7 @@ const ApexChart = () => {
       options: {
          chart: {
             height: 350,
-            type: 'bar',
+            type: 'area',
          },
          dataLabels: {
             enabled: false,

@@ -23,6 +23,7 @@
    padding: 11px 24px;
 }
 .payments tr {
+   cursor: pointer;
    background-color: var(--white);
    border-bottom: 1px solid rgba(185, 185, 185, 0.3);
 }

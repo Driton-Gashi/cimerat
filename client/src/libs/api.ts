@@ -1,9 +1,14 @@
 export const get = async (path: string) => {
-   const API_URL = import.meta.env.VITE_API_URL;
-   const res = await fetch(API_URL + path);
-   if (!res.ok) throw new Error('Response is not OK');
-   const data = await res.json();
-   return data;
+   try {
+      const API_URL = import.meta.env.VITE_API_URL;
+      const res = await fetch(API_URL + path);
+
+      const data = await res.json();
+
+      return data;
+   } catch (error) {
+      console.log('driton error: ', error);
+   }
 };
 
 export const post = async (path: string, obj: object) => {
@@ -15,6 +20,7 @@ export const post = async (path: string, obj: object) => {
       },
       body: JSON.stringify(obj),
    });
+
    if (!res.ok) throw new Error('Response is not OK');
 
    const data = await res.json();

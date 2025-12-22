@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import type { Payment } from '../../../libs/types';
 
 type P = {
@@ -5,6 +6,8 @@ type P = {
 };
 
 const PaymentTableDataItem = ({ payment }: P) => {
+   const navigate = useNavigate();
+
    const date = new Date(payment.transaction_date).toLocaleDateString('en-GB', {
       day: '2-digit',
       month: 'short',
@@ -12,7 +15,7 @@ const PaymentTableDataItem = ({ payment }: P) => {
    });
 
    return (
-      <tr key={payment.id}>
+      <tr onClick={() => navigate(`/payments/${payment.id}`)} key={payment.id}>
          <td>{payment.id}</td>
          <td>{payment.category}</td>
          <td>{payment.name}</td>
