@@ -38,3 +38,7 @@ header .headerLeft input {
 header .headerLeft input::placeholder {
    color: #202224;
 }
+
+header .burger-wrapper i {
+   cursor: pointer;
+}

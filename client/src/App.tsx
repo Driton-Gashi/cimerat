@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home.tsx';
 import Payments from './pages/payments/Payments.tsx';
@@ -8,12 +9,13 @@ import PaymentPage from './pages/payments/single/PaymentPage.tsx';
 import './app.css';
 
 function App() {
+   const [isSidebarClosed, setIsSidebarClosed] = useState<boolean>(false);
    return (
       <BrowserRouter>
          <div className="app-layout">
-            <Sidebar />
+            <Sidebar isClosed={isSidebarClosed} />
             <main className="main-content">
-               <Header />
+               <Header setIsSidebarClosed={setIsSidebarClosed} />
                <section className="main-content-inner">
                   <Routes>
                      <Route path="/" index element={<Home />} />

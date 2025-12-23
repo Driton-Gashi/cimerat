@@ -1,4 +1,4 @@
-import type { Payment } from '../../../libs/types';
+import type { Payment } from '../../libs/types';
 import PaymentTableDataItem from './PaymentTableDataItem';
 
 type P = {
