@@ -43,6 +43,7 @@ i {
 .green-text {
    color: var(--green);
 }
+
 .red-text {
    color: var(--red);
 }
@@ -50,9 +51,17 @@ i {
 .flex {
    display: flex;
 }
+
 .space-between {
    justify-content: space-between;
 }
+
 .align-items-center {
    align-items: center;
+}
+.flex-column {
+   flex-direction: column;
+}
+.hidden {
+   display: none;
 }

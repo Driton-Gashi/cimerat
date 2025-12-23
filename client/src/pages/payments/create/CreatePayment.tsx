@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent } from 'react';
 import type { Payment, PaymentFormData } from '../../../libs/types';
 import { post } from '../../../libs/api';
+import UploadImageInput from '../../../components/payments/create/UploadImageInput';
 
 import '../payments.css';
 import { Link } from 'react-router-dom';
@@ -33,7 +34,6 @@ const CreatePayment = () => {
          }
 
          const res = await post('/payments', formData);
-         console.log(res);
 
          // Reset form
          setFormData({
@@ -64,8 +64,7 @@ const CreatePayment = () => {
 
          <div className="create-payment-wrapper">
             <div className="upload-payment-picture">
-               <img src="/paymentPicture.png" alt="" />
-               <a href="#">Upload Photo</a>
+               <UploadImageInput />
             </div>
 
             <div className="payment-form-container">

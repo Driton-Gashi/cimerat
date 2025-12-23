@@ -1,11 +1,15 @@
 import MyIcon from '../icons/MyIcon';
 import './header.css';
 
-const Header = () => {
+type P = {
+   setIsSidebarClosed: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Header = ({ setIsSidebarClosed }: P) => {
    return (
       <header>
-         <div className="headerLeft">
-            <MyIcon iconName="burger" />
+         <div className="headerLeft burger-wrapper">
+            <MyIcon setIsSidebarClosed={setIsSidebarClosed} iconName="burger" />
             <input type="text" placeholder="search" />
          </div>
          <div className="headerRight">
