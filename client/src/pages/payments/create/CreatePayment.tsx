@@ -6,8 +6,18 @@ import UploadImageInput from '../../../components/payments/create/UploadImageInp
 import '../payments.css';
 import { Link } from 'react-router-dom';
 import MyIcon from '../../../components/icons/MyIcon';
+import { PinataSDK } from 'pinata';
+
+const pinata = new PinataSDK({
+   pinataJwt: import.meta.env.VITE_JWT_KEY,
+   pinataGateway: import.meta.env.VITE_GATEWAY_URL,
+});
 
 const CreatePayment = () => {
+   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
+   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
    const [formData, setFormData] = useState<PaymentFormData>({
       category: 'Bills',
       name: '',
@@ -25,6 +35,23 @@ const CreatePayment = () => {
          [name]: name === 'payer_id' ? Number(value) : value,
       }));
    };
+   const handleImageFileSubmit = async () => {
+      if (!selectedImage) return;
+
+      try {
+         const upload = await pinata.upload.public.file(selectedImage);
+         console.log(upload);
+
+         if (upload.cid) {
+            const ipfsLink = await pinata.gateways.public.convert(upload.cid);
+            console.log(ipfsLink);
+         } else {
+            console.error('Upload failed');
+         }
+      } catch (error) {
+         console.error(error instanceof Error ? error.message : String(error));
+      }
+   };
 
    const handleSubmit = async () => {
       try {
@@ -32,6 +59,8 @@ const CreatePayment = () => {
             alert('Please fill all required fields');
             return;
          }
+
+         handleImageFileSubmit();
 
          const res = await post('/payments', formData);
 
@@ -53,7 +82,7 @@ const CreatePayment = () => {
 
    return (
       <div className="create-payment-main">
-         <div className="flex space-between align-items-center">
+         <div className="flex flex-space-between flex-align-center">
             <h1>Create a Payment</h1>
             <Link to="/payments">
                <button className="create-payment-btn">
@@ -64,7 +93,13 @@ const CreatePayment = () => {
 
          <div className="create-payment-wrapper">
             <div className="upload-payment-picture">
-               <UploadImageInput />
+               <UploadImageInput
+                  previewUrl={previewUrl}
+                  selectedImage={selectedImage}
+                  setPreviewUrl={setPreviewUrl}
+                  setSelectedImage={setSelectedImage}
+               />
+               <button onClick={handleImageFileSubmit}>Handle File Submit</button>
             </div>
 
             <div className="payment-form-container">

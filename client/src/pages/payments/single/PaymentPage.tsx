@@ -29,7 +29,7 @@ const PaymentPage = () => {
    if (loading)
       return (
          <div className="singlePayment">
-            <div className="flex space-between align-items-center">
+            <div className="flex flex-space-between  flex-align-center">
                <h1>Loading...</h1>
                <Link to="/payments">
                   <button className="create-payment-btn">
@@ -42,7 +42,7 @@ const PaymentPage = () => {
 
    return (
       <div className="singlePayment">
-         <div className="flex space-between align-items-center">
+         <div className="flex flex-space-between  flex-align-center">
             <h1>{payment?.name}</h1>
             <Link to="/payments">
                <button className="create-payment-btn">
