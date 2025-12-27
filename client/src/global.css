@@ -52,16 +52,28 @@ i {
    display: flex;
 }
 
-.space-between {
+.flex-space-between {
    justify-content: space-between;
 }
 
-.align-items-center {
+.flex-align-center {
    align-items: center;
 }
+
 .flex-column {
    flex-direction: column;
 }
+
 .hidden {
    display: none;
+}
+
+.link-button {
+   padding: 0;
+   border: 0;
+   outline: 0;
+   background: transparent;
+   color: var(--blue);
+   cursor: pointer;
+   margin-top: 0.5rem;
 }

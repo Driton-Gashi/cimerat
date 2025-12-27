@@ -5,7 +5,7 @@ import type { Payment } from '../../libs/types';
 
 import './payments.css';
 import FilterControls from '../../components/payments/filter/FilterControls';
-import PaymentsDataTable from '../../components/payments/PaymentsDataTable';
+import PaymentsDataTable from '../../components/payments/filter/date-filter/PaymentsDataTable';
 
 const Payments = () => {
    const cachedPayments: Payment[] = JSON.parse(localStorage.getItem('payments') ?? '[]');
