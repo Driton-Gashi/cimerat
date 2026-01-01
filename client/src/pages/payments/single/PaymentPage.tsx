@@ -133,7 +133,6 @@ const PaymentPage = () => {
             </div>
 
             <div className="paymentActions">
-               {/* Optional: add edit/delete later */}
                <Link to="/payments">
                   <button className="create-payment-btn" aria-label="Back to payments">
                      <MyIcon iconName="chevronLeft" />
@@ -143,7 +142,6 @@ const PaymentPage = () => {
          </div>
 
          <div className="paymentGrid">
-            {/* Big amount card */}
             <OverviewCard>
                <div className="paymentAmountBlock">
                   <div className="paymentAmountLabel">Amount</div>
@@ -151,7 +149,6 @@ const PaymentPage = () => {
                </div>
             </OverviewCard>
 
-            {/* Details card */}
             <OverviewCard>
                <div className="paymentDetails">
                   <div className="paymentRow">

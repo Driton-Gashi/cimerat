@@ -19,14 +19,18 @@ export type Cimer = {
 };
 
 export type PaymentFormData = {
-   category: 'Bills' | 'Personal' | 'Product';
+   category: 'Bills' | 'Personal' | 'Product' | '';
    name: string;
    date: string;
    payer_id: number;
    amount: string;
    borrower_id?: number;
 };
-export type datePickerStateType = {
+export type paymentFilterType = {
    date: Date;
    isDatePickerOpen: boolean;
+   isPaymentTypeOpen: boolean;
+   isPaymentStatusOpen: boolean;
+   type: '' | 'Bills' | 'Personal' | 'Product';
+   status: '' | 'paid' | 'unpaid';
 };
