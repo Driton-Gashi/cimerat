@@ -8,7 +8,7 @@ import MyIcon from '../../../components/icons/MyIcon';
 
 const CreatePayment = () => {
    const [formData, setFormData] = useState<PaymentFormData>({
-      category: 'Bills',
+      category: '',
       name: '',
       date: '',
       payer_id: 1,
@@ -34,9 +34,8 @@ const CreatePayment = () => {
 
          const res = await post('/payments', formData);
 
-         // Reset form
          setFormData({
-            category: 'Bills',
+            category: '',
             name: '',
             date: '',
             payer_id: 1,
@@ -67,6 +66,7 @@ const CreatePayment = () => {
                   <div className="payment-form-group">
                      <label>Category</label>
                      <select name="category" value={formData.category} onChange={handleChange}>
+                        <option value="">Select Payment Type</option>
                         <option value="Bills">Bills</option>
                         <option value="Personal">Personal</option>
                         <option value="Product">Product</option>

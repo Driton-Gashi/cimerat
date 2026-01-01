@@ -19,6 +19,7 @@
    --red: #ef3826;
    --green: #00b69b;
    --border-color: #d5d5d5;
+   --box-shadow: 6px 6px 54px 0 rgba(0, 0, 0, 0.05);
 }
 
 body {

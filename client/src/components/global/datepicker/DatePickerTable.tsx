@@ -1,10 +1,10 @@
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import type { datePickerStateType } from '../../../libs/types';
+import type { paymentFilterType } from '../../../libs/types';
 
 type P = {
    dateState: Date;
-   setDate: React.Dispatch<React.SetStateAction<datePickerStateType>>;
+   setDate: React.Dispatch<React.SetStateAction<paymentFilterType>>;
 };
 
 const DatePickerTable = ({ dateState, setDate }: P) => {
