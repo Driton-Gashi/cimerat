@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { get } from '../../../libs/api';
 import type { Payment } from '../../../libs/types';
 import { Link, useParams } from 'react-router-dom';
@@ -6,55 +6,183 @@ import MyIcon from '../../../components/icons/MyIcon';
 import './paymentPage.css';
 import OverviewCard from '../../../components/dashboard/overview-card/OverviewCard';
 
+const formatCurrency = (value: number) => {
+   // Adjust currency to what you use (EUR shown here).
+   return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+   }).format(value);
+};
+
+const formatDate = (isoOrDateString: string) => {
+   // If your backend returns ISO (recommended), this will work.
+   const d = new Date(isoOrDateString);
+   if (Number.isNaN(d.getTime())) return isoOrDateString; // fallback
+   return new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+   }).format(d);
+};
+
 const PaymentPage = () => {
    const [payment, setPayment] = useState<Payment | null>(null);
    const [loading, setLoading] = useState<boolean>(true);
+   const [error, setError] = useState<string | null>(null);
 
    const { id } = useParams();
 
    useEffect(() => {
-      try {
-         const fetchData = async () => {
-            const payment = await get(`/payments/${id}`);
-            setPayment(payment);
-         };
-         fetchData();
-      } catch (error) {
-         console.error(error);
-      } finally {
+      let cancelled = false;
+
+      const fetchData = async () => {
+         setLoading(true);
+         setError(null);
+
+         try {
+            const data = await get(`/payments/${id}`);
+
+            // If your API doesn't type itself, you can optionally validate here.
+            if (!cancelled) setPayment(data as Payment);
+         } catch (err) {
+            console.error(err);
+            if (!cancelled) setError('Failed to load payment. Please try again.');
+         } finally {
+            if (!cancelled) setLoading(false);
+         }
+      };
+
+      if (id) fetchData();
+      else {
+         setError('Missing payment id.');
          setLoading(false);
       }
-   }, []);
+
+      return () => {
+         cancelled = true;
+      };
+   }, [id]);
+
+   const paymentStatus = payment?.status === 'paid' ? 'Paid' : 'Unpaid';
+
+   const payerDisplay = useMemo(() => {
+      if (!payment) return '-';
+      if (payment.payer_name) return payment.payer_name;
+      return `Payer #${payment.payer_id}`;
+   }, [payment]);
 
    if (loading)
       return (
          <div className="singlePayment">
-            <div className="flex flex-space-between  flex-align-center">
+            <div className="flex flex-space-between flex-align-center">
                <h1>Loading...</h1>
                <Link to="/payments">
-                  <button className="create-payment-btn">
+                  <button className="create-payment-btn" aria-label="Back to payments">
                      <MyIcon iconName="chevronLeft" />
                   </button>
                </Link>
             </div>
+
+            <OverviewCard>Loading payment details...</OverviewCard>
+         </div>
+      );
+
+   if (error)
+      return (
+         <div className="singlePayment">
+            <div className="flex flex-space-between flex-align-center">
+               <h1>Payment</h1>
+               <Link to="/payments">
+                  <button className="create-payment-btn" aria-label="Back to payments">
+                     <MyIcon iconName="chevronLeft" />
+                  </button>
+               </Link>
+            </div>
+
+            <OverviewCard>
+               <div className="paymentError">
+                  <p>{error}</p>
+               </div>
+            </OverviewCard>
+         </div>
+      );
+
+   if (!payment)
+      return (
+         <div className="singlePayment">
+            <div className="flex flex-space-between flex-align-center">
+               <h1>Payment</h1>
+               <Link to="/payments">
+                  <button className="create-payment-btn" aria-label="Back to payments">
+                     <MyIcon iconName="chevronLeft" />
+                  </button>
+               </Link>
+            </div>
+
+            <OverviewCard>No payment found.</OverviewCard>
          </div>
       );
 
    return (
       <div className="singlePayment">
-         <div className="flex flex-space-between  flex-align-center">
-            <h1>{payment?.name}</h1>
-            <Link to="/payments">
-               <button className="create-payment-btn">
-                  <MyIcon iconName="chevronLeft" />
-               </button>
-            </Link>
+         <div className="flex flex-space-between flex-align-center">
+            <div className="paymentTitleWrap">
+               <h1 className="paymentTitle">{payment.name}</h1>
+               <div className={`paymentStatusBadge status ${paymentStatus}`}>{paymentStatus}</div>
+            </div>
+
+            <div className="paymentActions">
+               {/* Optional: add edit/delete later */}
+               <Link to="/payments">
+                  <button className="create-payment-btn" aria-label="Back to payments">
+                     <MyIcon iconName="chevronLeft" />
+                  </button>
+               </Link>
+            </div>
          </div>
-         <OverviewCard>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde odit, laboriosam quos
-            voluptas itaque placeat distinctio ut tempore! Rem, tenetur vero ab tempore est facilis
-            nulla nobis voluptatem mollitia deleniti!
-         </OverviewCard>
+
+         <div className="paymentGrid">
+            {/* Big amount card */}
+            <OverviewCard>
+               <div className="paymentAmountBlock">
+                  <div className="paymentAmountLabel">Amount</div>
+                  <div className="paymentAmountValue">{formatCurrency(payment.amount)}</div>
+               </div>
+            </OverviewCard>
+
+            {/* Details card */}
+            <OverviewCard>
+               <div className="paymentDetails">
+                  <div className="paymentRow">
+                     <span className="paymentKey">Category</span>
+                     <span className="paymentVal">{payment.category}</span>
+                  </div>
+
+                  <div className="paymentRow">
+                     <span className="paymentKey">Transaction date</span>
+                     <span className="paymentVal">{formatDate(payment.transaction_date)}</span>
+                  </div>
+
+                  <div className="paymentRow">
+                     <span className="paymentKey">Payer</span>
+                     <span className="paymentVal">{payerDisplay}</span>
+                  </div>
+
+                  <div className="paymentRow">
+                     <span className="paymentKey">Status</span>
+                     <span className={`paymentVal paymentStatusText ${payment.status}`}>
+                        {paymentStatus}
+                     </span>
+                  </div>
+
+                  <div className="paymentRow">
+                     <span className="paymentKey">Payment ID</span>
+                     <span className="paymentVal">#{payment.id}</span>
+                  </div>
+               </div>
+            </OverviewCard>
+         </div>
       </div>
    );
 };

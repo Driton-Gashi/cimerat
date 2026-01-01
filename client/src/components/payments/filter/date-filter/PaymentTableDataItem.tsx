@@ -7,6 +7,7 @@ type P = {
 
 const PaymentTableDataItem = ({ payment }: P) => {
    const navigate = useNavigate();
+   const paymentStatus = payment?.status === 'paid' ? 'Paid' : 'Unpaid';
 
    const date = new Date(payment.transaction_date).toLocaleDateString('en-GB', {
       day: '2-digit',
@@ -23,7 +24,7 @@ const PaymentTableDataItem = ({ payment }: P) => {
          <td>{payment.payer_name}</td>
          <td>{payment.amount}</td>
          <td>
-            <div className={`status ${payment.status}`}>{payment.status}</div>
+            <div className={`status ${paymentStatus}`}>{paymentStatus}</div>
          </td>
       </tr>
    );

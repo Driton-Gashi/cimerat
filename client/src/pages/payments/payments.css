@@ -41,16 +41,6 @@
    border-radius: 5px;
    text-align: center;
 }
-.payments .status.unpaid {
-   background-color: rgba(255, 167, 86, 0.2);
-   color: #ffa756;
-   border: 1px solid #ffa756;
-}
-.payments .status.paid {
-   background-color: rgba(0, 182, 155, 0.2);
-   color: var(--green);
-   border: 1px solid var(--green);
-}
 
 .payments .errorMessage {
    padding: 1rem;
