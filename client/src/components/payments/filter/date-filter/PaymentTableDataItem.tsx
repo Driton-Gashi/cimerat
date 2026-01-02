@@ -1,23 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import type { Payment } from '../../../../libs/types';
-import { formatCurrency } from '../../../../libs/utils';
+import { formatCurrency, formatDate } from '../../../../libs/utils';
 
 type P = {
    payment: Payment;
+   id?: string;
 };
 
-const PaymentTableDataItem = ({ payment }: P) => {
+const PaymentTableDataItem = ({ payment, id }: P) => {
    const navigate = useNavigate();
    const paymentStatus = payment?.status === 'paid' ? 'Paid' : 'Unpaid';
 
-   const date = new Date(payment.transaction_date).toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-   });
+   const date = formatDate(payment.transaction_date);
 
    return (
-      <tr onClick={() => navigate(`/payments/${payment.id}`)} key={payment.id}>
+      <tr id={id} onClick={() => navigate(`/payments/${payment.id}`)} key={payment.id}>
          <td>{payment.id}</td>
          <td>{payment.category}</td>
          <td>{payment.name}</td>
