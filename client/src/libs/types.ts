@@ -27,7 +27,9 @@ export type PaymentFormData = {
    borrower_id?: number;
 };
 export type paymentFilterType = {
-   date: Date;
+   isFilterOn: boolean;
+   isMonthFilterOn: boolean;
+   date: Date | null;
    isDatePickerOpen: boolean;
    isPaymentTypeOpen: boolean;
    isPaymentStatusOpen: boolean;

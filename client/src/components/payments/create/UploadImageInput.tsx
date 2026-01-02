@@ -35,7 +35,6 @@ const UploadImageInput = ({ previewUrl, selectedImage, setPreviewUrl, setSelecte
       const url = URL.createObjectURL(selectedImage);
       setPreviewUrl(url);
 
-      // Cleanup: revoke this URL when selectedImage changes or component unmounts.
       return () => {
          URL.revokeObjectURL(url);
       };

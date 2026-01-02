@@ -5,14 +5,17 @@ import FilterItem from '../FilterItem';
 
 type P = {
    isDatePickerOpen: boolean;
-   date: Date;
-   setDate: React.Dispatch<React.SetStateAction<paymentFilterType>>;
+   date: Date | null;
+   setPaymentFilter: React.Dispatch<React.SetStateAction<paymentFilterType>>;
 };
-const DateFilter = ({ isDatePickerOpen, date, setDate }: P) => {
+const DateFilter = ({ isDatePickerOpen, date, setPaymentFilter }: P) => {
    return (
       <FilterItem
-         clickEvent={() => {
-            setDate((prev) => {
+         clickEvent={(e) => {
+            const target = e.target as HTMLDivElement;
+            if (target.closest('.payments-filter-controls-item-sub')) return;
+
+            setPaymentFilter((prev) => {
                return {
                   ...prev,
                   isDatePickerOpen: !prev.isDatePickerOpen,
@@ -23,11 +26,34 @@ const DateFilter = ({ isDatePickerOpen, date, setDate }: P) => {
          }}
          id="date"
       >
-         <div id="date" className="payments-filter-controls-item">
-            Date <MyIcon iconName="chevronDown" />
+         <div className="payments-filter-controls-item">
+            Date {date?.toLocaleString('en-GB', { month: 'short', year: 'numeric' }) ?? 'MMM YYYY'}
+            <MyIcon iconName="chevronDown" />
             {isDatePickerOpen && (
                <div className="payments-filter-controls-item-sub">
-                  <DatePickerTable setDate={setDate} dateState={date} />
+                  <DatePickerTable setPaymentFilter={setPaymentFilter} dateState={date} />
+
+                  <div
+                     onClick={() => {
+                        setPaymentFilter((prev) => {
+                           const next = {
+                              ...prev,
+                              isMonthFilterOn: false,
+                              date: null,
+                           };
+
+                           const isOn =
+                              next.type !== '' ||
+                              next.status === 'paid' ||
+                              next.status === 'unpaid';
+
+                           return { ...next, isFilterOn: isOn, isDatePickerOpen: false };
+                        });
+                     }}
+                     className="link-button"
+                  >
+                     Clear Month
+                  </div>
                </div>
             )}
          </div>

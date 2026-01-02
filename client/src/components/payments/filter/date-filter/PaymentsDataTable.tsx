@@ -1,11 +1,12 @@
-import type { Payment } from '../../../../libs/types';
+import type { Payment, paymentFilterType } from '../../../../libs/types';
 import PaymentTableDataItem from './PaymentTableDataItem';
 
 type P = {
    payments: Payment[];
+   paymentFilter: paymentFilterType;
 };
 
-const PaymentsDataTable = ({ payments }: P) => {
+const PaymentsDataTable = ({ payments, paymentFilter }: P) => {
    return (
       <div className="tableWrapper">
          <table border={0}>
@@ -22,12 +23,16 @@ const PaymentsDataTable = ({ payments }: P) => {
             </thead>
 
             <tbody>
-               {!payments.length ? (
-                  <tr>
-                     <th className="errorMessage" colSpan={10}>
-                        Something went wrong no payments were found!
-                     </th>
-                  </tr>
+               {payments.length === 0 ? (
+                  paymentFilter.isFilterOn ? (
+                     <tr>
+                        <td colSpan={10}>No payments found with these filters</td>
+                     </tr>
+                  ) : (
+                     <tr>
+                        <td colSpan={10}>Something went wrong No payments to show!</td>
+                     </tr>
+                  )
                ) : (
                   payments.map((payment) => (
                      <PaymentTableDataItem key={payment.id} payment={payment} />

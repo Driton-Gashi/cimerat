@@ -1,26 +1,39 @@
 import { useEffect, useState } from 'react';
 import MyIcon from '../../components/icons/MyIcon';
 import { get } from '../../libs/api';
-import type { Payment } from '../../libs/types';
+import type { Payment, paymentFilterType } from '../../libs/types';
 
 import './payments.css';
 import FilterControls from '../../components/payments/filter/FilterControls';
 import PaymentsDataTable from '../../components/payments/filter/date-filter/PaymentsDataTable';
 
 const Payments = () => {
-   const cachedPayments: Payment[] = JSON.parse(localStorage.getItem('payments') ?? '[]');
+   const [paymentFilter, setPaymentFilter] = useState<paymentFilterType>({
+      isFilterOn: false,
+      isMonthFilterOn: false,
+      date: null,
+      isDatePickerOpen: false,
+      isPaymentTypeOpen: false,
+      isPaymentStatusOpen: false,
+      type: '',
+      status: '',
+   });
 
-   const [payments, setPayments] = useState(cachedPayments);
+   const [allPayments, setAllPayments] = useState<Payment[]>(() => {
+      try {
+         return JSON.parse(localStorage.getItem('payments') ?? '[]');
+      } catch {
+         return [];
+      }
+   });
 
-   const [loading, setLoading] = useState(cachedPayments.length == 0);
+   const [loading, setLoading] = useState(allPayments.length === 0);
 
    useEffect(() => {
-      if (payments.length != 0) return;
-
       const fetchData = async () => {
          try {
             const payments: Payment[] = await get('/payments');
-            setPayments(payments);
+            setAllPayments(payments);
             localStorage.setItem('payments', JSON.stringify(payments));
          } catch (error) {
             console.error('Driton we got an error: ', error);
@@ -30,15 +43,40 @@ const Payments = () => {
       };
 
       fetchData();
-   }, [payments.length]);
+   }, []);
+
+   const payments = !paymentFilter.isFilterOn
+      ? allPayments
+      : allPayments.filter((payment) => {
+           if (paymentFilter.status === 'paid' || paymentFilter.status === 'unpaid') {
+              if (payment.status !== paymentFilter.status) return false;
+           }
+
+           if (paymentFilter.type) {
+              if (payment.category !== paymentFilter.type) return false;
+           }
+
+           if (paymentFilter.isMonthFilterOn) {
+              const selectedYear = paymentFilter?.date?.getFullYear();
+              const selectedMonth = paymentFilter?.date?.getMonth();
+
+              const d = new Date(payment.transaction_date);
+              if (Number.isNaN(d.getTime())) return false;
+
+              if (d.getFullYear() !== selectedYear) return false;
+              if (d.getMonth() !== selectedMonth) return false;
+           }
+
+           return true;
+        });
 
    if (loading) return <PaymentLoadingScreen />;
 
    return (
       <div className="payments">
          <h1>Payments</h1>
-         <FilterControls />
-         <PaymentsDataTable payments={payments} />
+         <FilterControls paymentFilter={paymentFilter} setPaymentFilter={setPaymentFilter} />
+         <PaymentsDataTable paymentFilter={paymentFilter} payments={payments} />
       </div>
    );
 };
