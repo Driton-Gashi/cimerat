@@ -1,19 +1,22 @@
 import { useState, type ChangeEvent } from 'react';
 import type { Payment, PaymentFormData } from '../../../libs/types';
 import { post } from '../../../libs/api';
+import { useNavigate } from 'react-router-dom';
 
 import '../payments.css';
 import { Link } from 'react-router-dom';
 import MyIcon from '../../../components/icons/MyIcon';
 
 const CreatePayment = () => {
+   const navigate = useNavigate();
+
    const [formData, setFormData] = useState<PaymentFormData>({
       category: '',
       name: '',
       date: '',
       payer_id: 1,
       amount: '',
-      borrower_id: 1,
+      borrower_id: undefined,
    });
 
    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -44,6 +47,7 @@ const CreatePayment = () => {
          let cachedPayments: Payment[] = JSON.parse(localStorage.getItem('payments') ?? '[]');
          cachedPayments.push(res.createdPayment);
          localStorage.setItem('payments', JSON.stringify(cachedPayments));
+         navigate('/payments#new-payment');
       } catch (error) {
          console.error('Error creating payment:', error);
       }

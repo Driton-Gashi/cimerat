@@ -34,9 +34,17 @@ const PaymentsDataTable = ({ payments, paymentFilter }: P) => {
                      </tr>
                   )
                ) : (
-                  payments.map((payment) => (
-                     <PaymentTableDataItem key={payment.id} payment={payment} />
-                  ))
+                  payments.map((payment, index) => {
+                     if (index == payments.length - 1)
+                        return (
+                           <PaymentTableDataItem
+                              id="new-payment"
+                              key={payment.id}
+                              payment={payment}
+                           />
+                        );
+                     return <PaymentTableDataItem key={payment.id} payment={payment} />;
+                  })
                )}
             </tbody>
          </table>
