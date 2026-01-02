@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import type { Payment } from '../../../../libs/types';
+import { formatCurrency } from '../../../../libs/utils';
 
 type P = {
    payment: Payment;
@@ -22,7 +23,7 @@ const PaymentTableDataItem = ({ payment }: P) => {
          <td>{payment.name}</td>
          <td>{date}</td>
          <td>{payment.payer_name}</td>
-         <td>{payment.amount}</td>
+         <td>{formatCurrency(payment.amount)}</td>
          <td>
             <div className={`status ${paymentStatus}`}>{paymentStatus}</div>
          </td>

@@ -34,6 +34,7 @@
 .payments td {
    padding: 16px 32px;
    color: var(--black);
+   text-align: center;
 }
 .payments .status {
    padding: 6px 16px;
@@ -189,13 +190,13 @@
    background-color: #fff;
    width: 100%;
 }
-#type.payments-filter-controls-item {
+#type.payments-filter-controls-item,
+#date .payments-filter-controls-item {
    position: static;
 }
 #type .payments-type-filter-controls-item-sub {
-   transform: translate(-50%, 71px);
+   transform: translate(-50%, 70px);
    box-shadow: var(--box-shadow);
-   border-radius: 5px;
    display: flex;
    flex-direction: column;
    border: 1px solid var(--border-color);
@@ -207,4 +208,14 @@
 }
 #payment-type {
    padding: 0.5rem 1rem;
+}
+
+#date .payments-filter-controls-item-sub {
+   width: 100%;
+   text-align: center;
+   transform: translate(-50%, 70px);
+   background-color: var(--white);
+   border: 1px solid var(--border-color);
+   box-shadow: var(--box-shadow);
+   padding: 1rem 0;
 }

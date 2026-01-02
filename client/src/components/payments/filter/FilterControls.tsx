@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import FilterItem from './FilterItem';
 import { Link } from 'react-router-dom';
 import type { paymentFilterType } from '../../../libs/types';
@@ -7,16 +6,12 @@ import DateFilter from './date-filter/DateFilter';
 import PaymentType from './payment-type/PaymentType';
 import PaymentStatus from './payment-status/PaymentStatus';
 
-const FilterControls = () => {
-   const [paymentFilter, setPaymentFilter] = useState<paymentFilterType>({
-      date: new Date(),
-      isDatePickerOpen: false,
-      isPaymentTypeOpen: false,
-      isPaymentStatusOpen: false,
-      type: '',
-      status: '',
-   });
+type P = {
+   paymentFilter: paymentFilterType;
+   setPaymentFilter: React.Dispatch<React.SetStateAction<paymentFilterType>>;
+};
 
+const FilterControls = ({ paymentFilter, setPaymentFilter }: P) => {
    return (
       <div className="payments-filter-wrapper">
          <div className="payments-filter-controls">
@@ -26,25 +21,28 @@ const FilterControls = () => {
             <DateFilter
                isDatePickerOpen={paymentFilter.isDatePickerOpen}
                date={paymentFilter.date}
-               setDate={setPaymentFilter}
+               setPaymentFilter={setPaymentFilter}
             />
 
             <PaymentType
                type={paymentFilter.type}
                isPaymentTypeOpen={paymentFilter.isPaymentTypeOpen}
-               setPayment={setPaymentFilter}
+               setPaymentFilter={setPaymentFilter}
             />
+
             <PaymentStatus
                isPaymentStatusOpen={paymentFilter.isPaymentStatusOpen}
                status={paymentFilter.status}
-               setPayment={setPaymentFilter}
+               setPaymentFilter={setPaymentFilter}
             />
 
             <div
                onClick={() => {
                   setPaymentFilter(() => {
                      return {
-                        date: new Date(),
+                        isFilterOn: false,
+                        isMonthFilterOn: false,
+                        date: null,
                         isPaymentTypeOpen: false,
                         isDatePickerOpen: false,
                         isPaymentStatusOpen: false,

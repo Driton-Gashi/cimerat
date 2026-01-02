@@ -1,30 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { get } from '../../../libs/api';
+import { formatCurrency, formatDate } from '../../../libs/utils';
 import type { Payment } from '../../../libs/types';
 import { Link, useParams } from 'react-router-dom';
 import MyIcon from '../../../components/icons/MyIcon';
 import './paymentPage.css';
 import OverviewCard from '../../../components/dashboard/overview-card/OverviewCard';
-
-const formatCurrency = (value: number) => {
-   // Adjust currency to what you use (EUR shown here).
-   return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 2,
-   }).format(value);
-};
-
-const formatDate = (isoOrDateString: string) => {
-   // If your backend returns ISO (recommended), this will work.
-   const d = new Date(isoOrDateString);
-   if (Number.isNaN(d.getTime())) return isoOrDateString; // fallback
-   return new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-   }).format(d);
-};
 
 const PaymentPage = () => {
    const [payment, setPayment] = useState<Payment | null>(null);
@@ -43,7 +24,6 @@ const PaymentPage = () => {
          try {
             const data = await get(`/payments/${id}`);
 
-            // If your API doesn't type itself, you can optionally validate here.
             if (!cancelled) setPayment(data as Payment);
          } catch (err) {
             console.error(err);
