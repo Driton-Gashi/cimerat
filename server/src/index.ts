@@ -32,10 +32,10 @@ app.get('/docs', (req, res) => {
    const baseUrl = `${req.protocol}://${req.get('host')}`;
 
    res.status(200).json({
-      cimers: {
-         getAll: `${baseUrl}/cimers`,
-         getById: `${baseUrl}/cimers/:id`,
-         getByEmail: `${baseUrl}/cimers/by-email?email=dritongashi1995@gmail.com`,
+      cimerat: {
+         getAll: `${baseUrl}/cimerat`,
+         getById: `${baseUrl}/cimerat/:id`,
+         getByEmail: `${baseUrl}/cimerat/by-email?email=dritongashi1995@gmail.com`,
       },
       payments: {
          getAll: `${baseUrl}/payments`,
@@ -45,7 +45,7 @@ app.get('/docs', (req, res) => {
    });
 });
 
-app.use('/cimers', cimerRoute);
+app.use('/cimerat', cimerRoute);
 app.use('/payments', paymentRoute);
 
 const PORT = Number(process.env.PORT) || 4000;
