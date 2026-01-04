@@ -8,7 +8,7 @@ export const getCimerByEmailController = async (req: Request, res: Response) => 
       if (!email) {
          return res.status(400).json({
             message: 'Email query parameter is required.',
-            example: '/cimers/by-email?email=dritongashi1995@gmail.com',
+            example: '/cimerat/by-email?email=dritongashi1995@gmail.com',
          });
       }
 

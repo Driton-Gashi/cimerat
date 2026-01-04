@@ -22,9 +22,9 @@ const PaymentPage = () => {
          setError(null);
 
          try {
-            const data = await get(`/payments/${id}`);
+            const data: Payment = await get(`/payments/${id}`);
 
-            if (!cancelled) setPayment(data as Payment);
+            if (!cancelled) setPayment(data);
          } catch (err) {
             console.error(err);
             if (!cancelled) setError('Failed to load payment. Please try again.');
