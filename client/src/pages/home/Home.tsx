@@ -9,9 +9,9 @@ const Home = () => {
          <h1>Dashboard</h1>
          <div className="dashboard-overview">
             <DashboardOverviewCardCimerat />
-            <DashboardOverviewCardCimerat />
-            <DashboardOverviewCardCimerat />
-            <DashboardOverviewCardCimerat />
+            <OverviewCard>To be added soon...</OverviewCard>
+            <OverviewCard>To be added soon...</OverviewCard>
+            <OverviewCard>To be added soon...</OverviewCard>
          </div>
          <div>
             <OverviewCard>

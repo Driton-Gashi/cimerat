@@ -1,16 +1,16 @@
 import express from 'express';
 import {
    getAllPaymentsController,
-   getPaymentsByIdController,
-   createNewPaymentController
+   getPaymentByIdController,
+   createNewPaymentController,
 } from '../controllers/paymentController';
 
 const router = express.Router();
 
 router.get('/', getAllPaymentsController);
 
-router.get('/:id', getPaymentsByIdController);
+router.get('/:id', getPaymentByIdController);
 
-router.post("/", createNewPaymentController);
+router.post('/', createNewPaymentController);
 
 export default router;

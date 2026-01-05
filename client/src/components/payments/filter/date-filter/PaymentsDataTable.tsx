@@ -12,7 +12,6 @@ const PaymentsDataTable = ({ payments, paymentFilter }: P) => {
          <table border={0}>
             <thead>
                <tr className="firstRow">
-                  <th>ID</th>
                   <th>Category</th>
                   <th>Payment Name</th>
                   <th>Date</th>
@@ -30,7 +29,7 @@ const PaymentsDataTable = ({ payments, paymentFilter }: P) => {
                      </tr>
                   ) : (
                      <tr>
-                        <td colSpan={10}>Something went wrong No payments to show!</td>
+                        <td colSpan={10}>No payments to show!</td>
                      </tr>
                   )
                ) : (

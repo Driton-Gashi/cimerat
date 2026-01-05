@@ -94,7 +94,7 @@ const CreatePayment = () => {
                   </div>
 
                   <div className="payment-form-group">
-                     <label>Payer ID</label>
+                     <label>Payer</label>
                      <select name="payer_id" value={formData.payer_id} onChange={handleChange}>
                         <option value="3">Diar</option>
                         <option value="1">Driton</option>
