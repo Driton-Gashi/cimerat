@@ -15,7 +15,6 @@ const PaymentTableDataItem = ({ payment, id }: P) => {
 
    return (
       <tr id={id} onClick={() => navigate(`/payments/${payment.id}`)} key={payment.id}>
-         <td>{payment.id}</td>
          <td>{payment.category}</td>
          <td>{payment.name}</td>
          <td>{date}</td>

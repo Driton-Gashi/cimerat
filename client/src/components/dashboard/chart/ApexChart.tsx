@@ -1,68 +1,71 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import type { ApexOptions } from 'apexcharts';
+import type { Cimer, Payment } from '../../../libs/types';
+import { get } from '../../../libs/api';
+
+type Series = { name: string; data: number[] };
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const ApexChart = () => {
-   const [state, _setState] = useState<{ series: ApexAxisChartSeries; options: ApexOptions }>({
-      series: [
-         {
-            name: 'Driton',
-            data: [10, 11, 12, 13, 14, 20, 100],
-         },
-         {
-            name: 'Diar',
-            data: [11, 32, 45, 32, 34, 52, 41],
-         },
-      ],
-      options: {
-         chart: {
-            height: 350,
-            type: 'area',
-         },
-         dataLabels: {
-            enabled: true,
-         },
-         stroke: {
-            curve: 'smooth',
-         },
-         xaxis: {
-            type: 'datetime',
-            categories: [
-               '2025-01-1',
-               '2025-02-1',
-               '2025-03-1',
-               '2025-04-1',
-               '2025-05-1',
-               '2025-06-1',
-               '2025-07-1',
-               '2025-08-1',
-               '2025-09-1',
-               '2025-10-1',
-               '2025-11-1',
-               '2025-12-1',
-            ],
-         },
-         tooltip: {
-            x: {
-               format: 'dd/MM/yy HH:mm',
-            },
-         },
-      },
-   });
+   const [cimerat, setCimerat] = useState<Cimer[]>([]);
+   const [payments, setPayments] = useState<Payment[]>([]);
 
-   return (
-      <div>
-         <div id="chart">
-            <ReactApexChart
-               options={state.options}
-               series={state.series}
-               type="area"
-               height={350}
-            />
-         </div>
-         <div id="html-dist"></div>
-      </div>
-   );
+   useEffect(() => {
+      let ignore = false;
+      const load = async () => {
+         try {
+            const [cimeratRaw, paymentsRaw] = await Promise.all([
+               get('/cimerat'),
+               get('/payments'),
+            ]);
+
+            if (ignore) return;
+
+            setCimerat(cimeratRaw);
+            setPayments(paymentsRaw);
+         } catch (error) {
+            console.error(error);
+         }
+      };
+      load();
+      return () => {
+         ignore = true;
+      };
+   }, []);
+
+   const series: Series[] = useMemo(() => {
+      return cimerat.map((c) => {
+         const totals = Array(12).fill(0);
+
+         for (const p of payments) {
+            if (p.payer_id !== c.id) continue;
+
+            const d = new Date(p.transaction_date);
+            if (Number.isNaN(d.getTime())) continue; // invalid date guard
+
+            const month = d.getMonth(); // 0..11
+            const amount = Number(p.amount);
+            totals[month] += Number.isFinite(amount) ? amount : 0;
+         }
+
+         return { name: c.name, data: totals };
+      });
+   }, [cimerat, payments]);
+
+   const options: ApexOptions = {
+      chart: { type: 'area', height: 350 },
+      dataLabels: { enabled: true },
+      stroke: { curve: 'smooth' },
+      xaxis: { categories: MONTHS },
+      tooltip: { x: { formatter: (val) => String(val) } },
+   };
+
+   // Optional: if you want to avoid rendering the chart until you at least have cimerat
+   // if (!cimerat.length) return <div>No data</div>;
+
+   return <ReactApexChart options={options} series={series} type="area" height={350} />;
 };
 
 export default ApexChart;
