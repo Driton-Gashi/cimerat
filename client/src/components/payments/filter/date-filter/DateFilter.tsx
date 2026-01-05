@@ -27,7 +27,7 @@ const DateFilter = ({ isDatePickerOpen, date, setPaymentFilter }: P) => {
          id="date"
       >
          <div className="payments-filter-controls-item">
-            Date {date?.toLocaleString('en-GB', { month: 'short', year: 'numeric' }) ?? 'MMM YYYY'}
+            Date {date?.toLocaleString('en-GB', { month: 'short', year: 'numeric' }) ?? ''}
             <MyIcon iconName="chevronDown" />
             {isDatePickerOpen && (
                <div className="payments-filter-controls-item-sub">
