@@ -1,0 +1,117 @@
+.singlePayment {
+   display: flex;
+   flex-direction: column;
+   gap: 30px;
+}
+
+/* Header layout (title + status + back button) */
+.singlePayment .paymentHeader {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 16px;
+}
+
+.singlePayment .paymentTitleWrap {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   min-width: 0;
+}
+
+.singlePayment .paymentTitle {
+   margin: 0;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+/* Status badge */
+.singlePayment .paymentStatusBadge {
+   font-size: 12px;
+   padding: 6px 10px;
+   border-radius: 999px;
+   border: 1px solid rgba(0, 0, 0, 0.12);
+   line-height: 1;
+   white-space: nowrap;
+}
+
+.singlePayment .paymentStatusBadge.paid {
+   font-weight: 700;
+}
+
+.singlePayment .paymentStatusBadge.unpaid {
+   font-weight: 700;
+   opacity: 0.9;
+}
+
+/* Grid for cards */
+.singlePayment .paymentGrid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 16px;
+}
+
+.singlePayment .paymentAmountBlock {
+   display: flex;
+   flex-direction: column;
+   gap: 6px;
+}
+
+.singlePayment .paymentAmountLabel {
+   opacity: 0.7;
+   font-size: 13px;
+}
+
+.singlePayment .paymentAmountValue {
+   font-size: 28px;
+   font-weight: 700;
+}
+
+/* Details list */
+.singlePayment .paymentDetails {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.singlePayment .paymentRow {
+   display: flex;
+   justify-content: space-between;
+   gap: 16px;
+}
+
+.singlePayment .paymentKey {
+   opacity: 0.7;
+}
+
+.singlePayment .paymentVal {
+   font-weight: 600;
+}
+
+.singlePayment .paymentStatusText.paid {
+   font-weight: 700;
+}
+
+.singlePayment .paymentStatusText.unpaid {
+   font-weight: 700;
+   opacity: 0.9;
+}
+
+/* Error block */
+.singlePayment .paymentError {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+}
+
+.singlePayment .paymentError p {
+   margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+   .singlePayment .paymentGrid {
+      grid-template-columns: 1fr;
+   }
+}
