@@ -9,6 +9,17 @@ export type Payment = {
    payer_name?: string;
 };
 
+export type Complaint = {
+   id: number;
+   name: string;
+   image_url: string;
+   complaints_date: string;
+   complainer_id: number;
+   suspect_id: number;
+   complainer_name?: string;
+   suspect_name?: string;
+};
+
 export type Cimer = {
    id: number;
    name: string;
@@ -25,6 +36,14 @@ export type PaymentFormData = {
    payer_id: number;
    amount: string;
    borrower_id?: number;
+};
+
+export type ComplaintFormData = {
+   name: string;
+   image_url: string;
+   complaints_date: string;
+   complainer_id: number;
+   suspect_id: number;
 };
 export type paymentFilterType = {
    isFilterOn: boolean;

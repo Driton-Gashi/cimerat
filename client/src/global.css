@@ -107,3 +107,9 @@ i {
    animation: pulse-border 1.2s ease-out infinite;
    color: var(--blue);
 }
+
+#new-complaint:target {
+   border-radius: 10px;
+   animation: pulse-border 1.2s ease-out infinite;
+   color: var(--blue);
+}

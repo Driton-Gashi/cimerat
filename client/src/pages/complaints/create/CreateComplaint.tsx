@@ -1,22 +1,21 @@
 import { useState, type ChangeEvent } from 'react';
-import type { Payment, PaymentFormData } from '../../../libs/types';
+import type { Complaint, ComplaintFormData } from '../../../libs/types';
 import { post } from '../../../libs/api';
 import { useNavigate } from 'react-router-dom';
 
-import '../payments.css';
+import '../../payments/payments.css';
 import { Link } from 'react-router-dom';
 import MyIcon from '../../../components/icons/MyIcon';
 
 const CreateComplaint = () => {
    const navigate = useNavigate();
 
-   const [formData, setFormData] = useState<PaymentFormData>({
-      category: '',
+   const [formData, setFormData] = useState<ComplaintFormData>({
       name: '',
-      date: '',
-      payer_id: 1,
-      amount: '',
-      borrower_id: undefined,
+      image_url: '',
+      complaints_date: '',
+      complainer_id: 1,
+      suspect_id: 2,
    });
 
    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -24,40 +23,49 @@ const CreateComplaint = () => {
 
       setFormData((prev) => ({
          ...prev,
-         [name]: name === 'payer_id' ? Number(value) : value,
+         [name]:
+            name === 'complainer_id' || name === 'suspect_id' ? Number(value) : value,
       }));
    };
 
    const handleSubmit = async () => {
       try {
-         if (!formData.name || !formData.date || !formData.amount) {
+         if (
+            !formData.name ||
+            !formData.complaints_date ||
+            !formData.image_url ||
+            !formData.complainer_id ||
+            !formData.suspect_id
+         ) {
             alert('Please fill all required fields');
             return;
          }
 
-         const res = await post('/payments', formData);
+         const res = await post('/complaints', formData);
 
          setFormData({
-            category: '',
             name: '',
-            date: '',
-            payer_id: 1,
-            amount: '',
+            image_url: '',
+            complaints_date: '',
+            complainer_id: 1,
+            suspect_id: 2,
          });
-         let cachedPayments: Payment[] = JSON.parse(localStorage.getItem('payments') ?? '[]');
-         cachedPayments.push(res.createdPayment);
-         localStorage.setItem('payments', JSON.stringify(cachedPayments));
-         navigate('/payments#new-payment');
+         let cachedComplaints: Complaint[] = JSON.parse(
+            localStorage.getItem('complaints') ?? '[]',
+         );
+         cachedComplaints.push(res.createdComplaint);
+         localStorage.setItem('complaints', JSON.stringify(cachedComplaints));
+         navigate('/complaints#new-complaint');
       } catch (error) {
-         console.error('Error creating payment:', error);
+         console.error('Error creating complaint:', error);
       }
    };
 
    return (
       <div className="create-payment-main">
          <div className="flex flex-space-between flex-align-center">
-            <h1>Create a Payment</h1>
-            <Link to="/payments">
+            <h1>Create a Complaint</h1>
+            <Link to="/complaints">
                <button className="create-payment-btn">
                   <MyIcon iconName="chevronLeft" />
                </button>
@@ -68,53 +76,64 @@ const CreateComplaint = () => {
             <div className="payment-form-container">
                <div className="payment-form-grid">
                   <div className="payment-form-group">
-                     <label>Category</label>
-                     <select name="category" value={formData.category} onChange={handleChange}>
-                        <option value="">Select Payment Type</option>
-                        <option value="Bills">Bills</option>
-                        <option value="Personal">Personal</option>
-                        <option value="Product">Product</option>
-                     </select>
-                  </div>
-
-                  <div className="payment-form-group">
-                     <label>Payment Name</label>
+                     <label>Complaint Title</label>
                      <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Enter the payment name"
+                        placeholder="Enter the complaint title"
                      />
                   </div>
 
                   <div className="payment-form-group">
-                     <label>Date</label>
-                     <input type="date" name="date" value={formData.date} onChange={handleChange} />
+                     <label>Image URL</label>
+                     <input
+                        type="text"
+                        name="image_url"
+                        value={formData.image_url}
+                        onChange={handleChange}
+                        placeholder="Paste an image URL"
+                     />
                   </div>
 
                   <div className="payment-form-group">
-                     <label>Payer</label>
-                     <select name="payer_id" value={formData.payer_id} onChange={handleChange}>
-                        <option value="3">Diar</option>
-                        <option value="1">Driton</option>
-                     </select>
+                     <label>Date Filed</label>
+                     <input
+                        type="date"
+                        name="complaints_date"
+                        value={formData.complaints_date}
+                        onChange={handleChange}
+                     />
                   </div>
 
                   <div className="payment-form-group">
-                     <label>Amount</label>
+                     <label>Complainer ID</label>
                      <input
                         type="number"
-                        name="amount"
-                        value={formData.amount}
+                        name="complainer_id"
+                        value={formData.complainer_id}
                         onChange={handleChange}
-                        placeholder="Enter the amount"
+                        placeholder="Enter complainer ID"
+                        min={1}
+                     />
+                  </div>
+
+                  <div className="payment-form-group">
+                     <label>Suspect ID</label>
+                     <input
+                        type="number"
+                        name="suspect_id"
+                        value={formData.suspect_id}
+                        onChange={handleChange}
+                        placeholder="Enter suspect ID"
+                        min={1}
                      />
                   </div>
                </div>
 
                <button className="payment-form-submit-btn" onClick={handleSubmit}>
-                  Add Now
+                  Create Complaint
                </button>
             </div>
          </div>

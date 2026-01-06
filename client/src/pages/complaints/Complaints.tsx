@@ -1,38 +1,29 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import MyIcon from '../../components/icons/MyIcon';
-import { get } from '../../libs/api';
-import type { Payment, paymentFilterType } from '../../libs/types';
+import { del, get } from '../../libs/api';
+import { formatDate } from '../../libs/utils';
+import type { Complaint } from '../../libs/types';
 
 import './complaints.css';
 
 const Complaints = () => {
-   const [paymentFilter, setPaymentFilter] = useState<paymentFilterType>({
-      isFilterOn: false,
-      isMonthFilterOn: false,
-      date: null,
-      isDatePickerOpen: false,
-      isPaymentTypeOpen: false,
-      isPaymentStatusOpen: false,
-      type: '',
-      status: '',
-   });
-
-   const [allPayments, setAllPayments] = useState<Payment[]>(() => {
+   const [complaints, setComplaints] = useState<Complaint[]>(() => {
       try {
-         return JSON.parse(localStorage.getItem('payments') ?? '[]');
+         return JSON.parse(localStorage.getItem('complaints') ?? '[]');
       } catch {
          return [];
       }
    });
 
-   const [loading, setLoading] = useState(allPayments.length === 0);
+   const [loading, setLoading] = useState(complaints.length === 0);
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const payments: Payment[] = await get('/payments');
-            setAllPayments(payments);
-            localStorage.setItem('payments', JSON.stringify(payments));
+            const complaintsData: Complaint[] = (await get('/complaints')) ?? [];
+            setComplaints(complaintsData);
+            localStorage.setItem('complaints', JSON.stringify(complaintsData));
          } catch (error) {
             console.error('Driton we got an error: ', error);
          } finally {
@@ -43,36 +34,79 @@ const Complaints = () => {
       fetchData();
    }, []);
 
-   const payments = !paymentFilter.isFilterOn
-      ? allPayments
-      : allPayments.filter((payment) => {
-           if (paymentFilter.status === 'paid' || paymentFilter.status === 'unpaid') {
-              if (payment.status !== paymentFilter.status) return false;
-           }
-
-           if (paymentFilter.type) {
-              if (payment.category !== paymentFilter.type) return false;
-           }
-
-           if (paymentFilter.isMonthFilterOn) {
-              const selectedYear = paymentFilter?.date?.getFullYear();
-              const selectedMonth = paymentFilter?.date?.getMonth();
-
-              const d = new Date(payment.transaction_date);
-              if (Number.isNaN(d.getTime())) return false;
-
-              if (d.getFullYear() !== selectedYear) return false;
-              if (d.getMonth() !== selectedMonth) return false;
-           }
-
-           return true;
-        });
-
    if (loading) return <PaymentLoadingScreen />;
 
+   const handleDelete = async (id: number) => {
+      try {
+         await del(`/complaints/${id}`);
+         const updatedComplaints = complaints.filter((complaint) => complaint.id !== id);
+         setComplaints(updatedComplaints);
+         localStorage.setItem('complaints', JSON.stringify(updatedComplaints));
+      } catch (error) {
+         console.error('Error deleting complaint:', error);
+      }
+   };
+
    return (
-      <div className="payments">
-         <h1>Complaints</h1>
+      <div className="complaints">
+         <div className="complaints-header flex flex-space-between flex-align-center">
+            <h1>Complaints</h1>
+            <Link to="/complaints/create">
+               <button className="create-payment-btn" aria-label="Create complaint">
+                  +
+               </button>
+            </Link>
+         </div>
+
+         {complaints.length === 0 ? (
+            <div className="complaints-empty">No complaints yet.</div>
+         ) : (
+            <div className="complaints-grid" id="new-complaint">
+               {complaints.map((complaint) => {
+                  const complainerName =
+                     complaint.complainer_name ?? `Complainer #${complaint.complainer_id}`;
+                  const suspectName =
+                     complaint.suspect_name ?? `Suspect #${complaint.suspect_id}`;
+
+                  return (
+                     <div className="complaints-card" key={complaint.id}>
+                        <div className="complaints-card-image-wrap">
+                           <img
+                              src={complaint.image_url}
+                              alt={complaint.name}
+                              className="complaints-card-image"
+                              loading="lazy"
+                           />
+                        </div>
+                        <div className="complaints-card-body">
+                           <div className="complaints-card-title-row">
+                              <h3 className="complaints-card-title">{complaint.name}</h3>
+                              <button
+                                 className="complaints-card-delete"
+                                 onClick={() => handleDelete(complaint.id)}
+                              >
+                                 Delete
+                              </button>
+                           </div>
+                           <div className="complaints-card-date">
+                              Filed on {formatDate(complaint.complaints_date)}
+                           </div>
+                           <div className="complaints-card-people">
+                              <div>
+                                 <span className="complaints-card-label">Complainer</span>
+                                 <span className="complaints-card-value">{complainerName}</span>
+                              </div>
+                              <div>
+                                 <span className="complaints-card-label">Suspect</span>
+                                 <span className="complaints-card-value">{suspectName}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  );
+               })}
+            </div>
+         )}
       </div>
    );
 };
@@ -81,31 +115,10 @@ export default Complaints;
 
 const PaymentLoadingScreen = () => {
    return (
-      <div className="payments">
-         <h1>Payments</h1>
-         <div className="tableWrapper">
-            <table border={0}>
-               <thead>
-                  <tr className="firstRow">
-                     <th>ID</th>
-                     <th>Category</th>
-                     <th>Payment Name</th>
-                     <th>Date</th>
-                     <th>Payer</th>
-                     <th>Amount</th>
-                     <th>Status</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <th colSpan={10}>
-                        <div className="loadingPaymentsMessage">
-                           Payments are loading <MyIcon iconName="loadingSvg" />
-                        </div>
-                     </th>
-                  </tr>
-               </tbody>
-            </table>
+      <div className="complaints">
+         <h1>Complaints</h1>
+         <div className="complaints-loading">
+            Complaints are loading <MyIcon iconName="loadingSvg" />
          </div>
       </div>
    );
