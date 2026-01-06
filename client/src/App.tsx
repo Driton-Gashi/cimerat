@@ -8,6 +8,7 @@ import CreatePayment from './pages/payments/create/CreatePayment.tsx';
 import PaymentPage from './pages/payments/single/PaymentPage.tsx';
 import ComplaintsPage from './pages/complaints/single/ComplaintsPage.tsx';
 import Complaints from './pages/complaints/Complaints.tsx';
+import CreateComplaint from './pages/complaints/create/CreateComplaint.tsx';
 import './app.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                      <Route path="/payments/create" element={<CreatePayment />} />
                      <Route path="/payments/:id" element={<PaymentPage />} />
                      <Route path="/complaints" element={<Complaints />} />
+                     <Route path="/complaints/create" element={<CreateComplaint />} />
                      <Route path="/complaints/:id" element={<ComplaintsPage />} />
                   </Routes>
                </section>

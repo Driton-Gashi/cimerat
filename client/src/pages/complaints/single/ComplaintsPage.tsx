@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { get } from '../../../libs/api';
-import { formatCurrency, formatDate } from '../../../libs/utils';
-import type { Payment } from '../../../libs/types';
+import { formatDate } from '../../../libs/utils';
+import type { Complaint } from '../../../libs/types';
 import { Link, useParams } from 'react-router-dom';
 import MyIcon from '../../../components/icons/MyIcon';
 import './complaintsPage.css';
 import OverviewCard from '../../../components/dashboard/overview-card/OverviewCard';
 
 const ComplaintsPage = () => {
-   const [payment, setPayment] = useState<Payment | null>(null);
+   const [complaint, setComplaint] = useState<Complaint | null>(null);
    const [loading, setLoading] = useState<boolean>(true);
    const [error, setError] = useState<string | null>(null);
 
@@ -22,12 +22,12 @@ const ComplaintsPage = () => {
          setError(null);
 
          try {
-            const data: Payment = await get(`/payments/${id}`);
+            const data: Complaint = await get(`/complaints/${id}`);
 
-            if (!cancelled) setPayment(data);
+            if (!cancelled) setComplaint(data);
          } catch (err) {
             console.error(err);
-            if (!cancelled) setError('Failed to load payment. Please try again.');
+            if (!cancelled) setError('Failed to load complaint. Please try again.');
          } finally {
             if (!cancelled) setLoading(false);
          }
@@ -35,7 +35,7 @@ const ComplaintsPage = () => {
 
       if (id) fetchData();
       else {
-         setError('Missing payment id.');
+         setError('Missing complaint id.');
          setLoading(false);
       }
 
@@ -44,118 +44,119 @@ const ComplaintsPage = () => {
       };
    }, [id]);
 
-   const paymentStatus = payment?.status === 'paid' ? 'Paid' : 'Unpaid';
+   const complainerDisplay = useMemo(() => {
+      if (!complaint) return '-';
+      if (complaint.complainer_name) return complaint.complainer_name;
+      return `Complainer #${complaint.complainer_id}`;
+   }, [complaint]);
 
-   const payerDisplay = useMemo(() => {
-      if (!payment) return '-';
-      if (payment.payer_name) return payment.payer_name;
-      return `Payer #${payment.payer_id}`;
-   }, [payment]);
+   const suspectDisplay = useMemo(() => {
+      if (!complaint) return '-';
+      if (complaint.suspect_name) return complaint.suspect_name;
+      return `Suspect #${complaint.suspect_id}`;
+   }, [complaint]);
 
    if (loading)
       return (
-         <div className="singlePayment">
+         <div className="singleComplaint">
             <div className="flex flex-space-between flex-align-center">
                <h1>Loading...</h1>
-               <Link to="/payments">
-                  <button className="create-payment-btn" aria-label="Back to payments">
+               <Link to="/complaints">
+                  <button className="create-payment-btn" aria-label="Back to complaints">
                      <MyIcon iconName="chevronLeft" />
                   </button>
                </Link>
             </div>
 
-            <OverviewCard>Loading payment details...</OverviewCard>
+            <OverviewCard>Loading complaint details...</OverviewCard>
          </div>
       );
 
    if (error)
       return (
-         <div className="singlePayment">
+         <div className="singleComplaint">
             <div className="flex flex-space-between flex-align-center">
-               <h1>Payment</h1>
-               <Link to="/payments">
-                  <button className="create-payment-btn" aria-label="Back to payments">
+               <h1>Complaint</h1>
+               <Link to="/complaints">
+                  <button className="create-payment-btn" aria-label="Back to complaints">
                      <MyIcon iconName="chevronLeft" />
                   </button>
                </Link>
             </div>
 
             <OverviewCard>
-               <div className="paymentError">
+               <div className="complaintError">
                   <p>{error}</p>
                </div>
             </OverviewCard>
          </div>
       );
 
-   if (!payment)
+   if (!complaint)
       return (
-         <div className="singlePayment">
+         <div className="singleComplaint">
             <div className="flex flex-space-between flex-align-center">
-               <h1>Payment</h1>
-               <Link to="/payments">
-                  <button className="create-payment-btn" aria-label="Back to payments">
+               <h1>Complaint</h1>
+               <Link to="/complaints">
+                  <button className="create-payment-btn" aria-label="Back to complaints">
                      <MyIcon iconName="chevronLeft" />
                   </button>
                </Link>
             </div>
 
-            <OverviewCard>No payment found.</OverviewCard>
+            <OverviewCard>No complaint found.</OverviewCard>
          </div>
       );
 
    return (
-      <div className="singlePayment">
+      <div className="singleComplaint">
          <div className="flex flex-space-between flex-align-center">
-            <div className="paymentTitleWrap">
-               <h1 className="paymentTitle">{payment.name}</h1>
-               <div className={`paymentStatusBadge status ${paymentStatus}`}>{paymentStatus}</div>
+            <div className="complaintTitleWrap">
+               <h1 className="complaintTitle">{complaint.name}</h1>
             </div>
 
-            <div className="paymentActions">
-               <Link to="/payments">
-                  <button className="create-payment-btn" aria-label="Back to payments">
+            <div className="complaintActions">
+               <Link to="/complaints">
+                  <button className="create-payment-btn" aria-label="Back to complaints">
                      <MyIcon iconName="chevronLeft" />
                   </button>
                </Link>
             </div>
          </div>
 
-         <div className="paymentGrid">
+         <div className="complaintGrid">
             <OverviewCard>
-               <div className="paymentAmountBlock">
-                  <div className="paymentAmountLabel">Amount</div>
-                  <div className="paymentAmountValue">{formatCurrency(payment.amount)}</div>
+               <div className="complaintImageWrap">
+                  <img
+                     src={complaint.image_url}
+                     alt={complaint.name}
+                     className="complaintImage"
+                  />
                </div>
             </OverviewCard>
 
             <OverviewCard>
-               <div className="paymentDetails">
-                  <div className="paymentRow">
-                     <span className="paymentKey">Category</span>
-                     <span className="paymentVal">{payment.category}</span>
-                  </div>
-
-                  <div className="paymentRow">
-                     <span className="paymentKey">Transaction date</span>
-                     <span className="paymentVal">{formatDate(payment.transaction_date)}</span>
-                  </div>
-
-                  <div className="paymentRow">
-                     <span className="paymentKey">Payer</span>
-                     <span className="paymentVal">{payerDisplay}</span>
-                  </div>
-
-                  <div className="paymentRow">
-                     <span className="paymentKey">Status</span>
-                     <span className={`paymentVal paymentStatusText ${payment.status}`}>
-                        {paymentStatus}
+               <div className="complaintDetails">
+                  <div className="complaintRow">
+                     <span className="complaintKey">Date filed</span>
+                     <span className="complaintVal">
+                        {formatDate(complaint.complaints_date)}
                      </span>
                   </div>
 
-                  <div className="paymentRow">
-                     <span className="paymentKey">Payment ID</span>
-                     <span className="paymentVal">#{payment.id}</span>
+                  <div className="complaintRow">
+                     <span className="complaintKey">Complainer</span>
+                     <span className="complaintVal">{complainerDisplay}</span>
+                  </div>
+
+                  <div className="complaintRow">
+                     <span className="complaintKey">Suspect</span>
+                     <span className="complaintVal">{suspectDisplay}</span>
+                  </div>
+
+                  <div className="complaintRow">
+                     <span className="complaintKey">Complaint ID</span>
+                     <span className="complaintVal">#{complaint.id}</span>
                   </div>
                </div>
             </OverviewCard>

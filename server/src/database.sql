@@ -23,3 +23,21 @@ CREATE TABLE payments (
       ON DELETE CASCADE
 );
 
+CREATE TABLE complaints (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   name VARCHAR(100) NOT NULL,
+   image_url VARCHAR(255) NOT NULL,
+   complaints_date DATE NOT NULL,
+   complainer_id INT NOT NULL,
+   suspect_id INT NOT NULL,
+
+   CONSTRAINT fk_complaints_complainer
+      FOREIGN KEY (complainer_id)
+      REFERENCES cimerat(id)
+      ON DELETE CASCADE,
+
+   CONSTRAINT fk_complaints_suspect
+      FOREIGN KEY (suspect_id)
+      REFERENCES cimerat(id)
+      ON DELETE CASCADE
+);
