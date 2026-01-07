@@ -9,6 +9,8 @@ import PaymentPage from './pages/payments/single/PaymentPage.tsx';
 import ComplaintsPage from './pages/complaints/single/ComplaintsPage.tsx';
 import Complaints from './pages/complaints/Complaints.tsx';
 import CreateComplaint from './pages/complaints/create/CreateComplaint.tsx';
+import Loans from './pages/loans/Loans.tsx';
+import CreateLoan from './pages/loans/create/CreateLoan.tsx';
 import './app.css';
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
                      <Route path="/complaints" element={<Complaints />} />
                      <Route path="/complaints/create" element={<CreateComplaint />} />
                      <Route path="/complaints/:id" element={<ComplaintsPage />} />
+                     <Route path="/loans" element={<Loans />} />
+                     <Route path="/loans/create" element={<CreateLoan />} />
                   </Routes>
                </section>
             </main>

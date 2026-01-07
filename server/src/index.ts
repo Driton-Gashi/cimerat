@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cimerRoute from './routes/cimerRoutes';
 import paymentRoute from './routes/paymentRoutes';
 import complaintRoute from './routes/complaintRoutes';
+import loanRoute from './routes/loanRoutes';
 
 dotenv.config();
 
@@ -49,12 +50,18 @@ app.get('/docs', (req, res) => {
          create: `${baseUrl}/complaints`,
          delete: `${baseUrl}/complaints/:id`,
       },
+      loans: {
+         getAll: `${baseUrl}/loans`,
+         getById: `${baseUrl}/loans/:id`,
+         create: `${baseUrl}/loans`,
+      },
    });
 });
 
 app.use('/cimerat', cimerRoute);
 app.use('/payments', paymentRoute);
 app.use('/complaints', complaintRoute);
+app.use('/loans', loanRoute);
 
 const PORT = Number(process.env.PORT) || 4000;
 
