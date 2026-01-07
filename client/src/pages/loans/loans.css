@@ -1,0 +1,221 @@
+.payments h1 {
+   font-size: 2rem;
+   font-weight: bold;
+   margin-bottom: 23px;
+}
+.payments .tableWrapper {
+   margin-top: 24px;
+   border: 1px solid rgba(185, 185, 185, 0.3);
+   border-radius: 14px;
+   overflow: hidden;
+   box-shadow: var(--box-shadow);
+}
+.payments table {
+   border-spacing: 0;
+   width: 100%;
+   overflow: hidden;
+   border-collapse: collapse;
+}
+.payments .firstRow {
+   background-color: var(--light-gray);
+}
+.payments .firstRow th {
+   padding: 11px 24px;
+}
+.payments tr {
+   cursor: pointer;
+   background-color: var(--white);
+   border-bottom: 1px solid rgba(185, 185, 185, 0.3);
+}
+.payments th {
+   color: var(--black);
+   font-weight: bold;
+}
+.payments td {
+   padding: 16px 32px;
+   color: var(--black);
+   text-align: center;
+}
+.payments .status {
+   padding: 6px 16px;
+   width: 100%;
+   border-radius: 5px;
+   text-align: center;
+}
+
+.payments .errorMessage {
+   padding: 1rem;
+   color: var(--red);
+   background-color: rgba(239, 56, 38, 0.2);
+}
+.payments .loadingPaymentsMessage {
+   display: flex;
+   align-items: center;
+   width: 100%;
+   padding: 1rem;
+   gap: 1rem;
+}
+
+.payments-filter-wrapper {
+   display: flex;
+   gap: 24px;
+}
+
+.create-payment-btn {
+   background-color: #4379ee;
+   padding: 18px 24px;
+   border: none;
+   border-radius: 8px;
+   color: white;
+   font-size: 1.8rem;
+   cursor: pointer;
+}
+
+.create-payment-wrapper {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   background-color: white;
+   margin-block: 37px;
+   padding: 60px 180px;
+   border-radius: 14px;
+   gap: 40px;
+}
+
+.upload-payment-picture {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+.upload-payment-picture a {
+   text-decoration: none;
+   color: #4379ee;
+}
+
+.payment-form-container {
+   width: 100%;
+   margin: 0 auto;
+}
+
+.payment-form-grid {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 60px;
+}
+
+.payment-form-group {
+   display: flex;
+   flex-direction: column;
+}
+
+.payment-form-group label {
+   font-size: 14px;
+   font-weight: 500;
+   color: #333;
+   margin-bottom: 8px;
+}
+
+.payment-form-group input,
+.payment-form-group select {
+   height: 46px;
+   padding: 0 14px;
+   border-radius: 6px;
+   border: 1px solid #e0e0e0;
+   background-color: #f7f8fa;
+   font-size: 14px;
+   color: #333;
+   outline: none;
+}
+
+.payment-form-group input::placeholder {
+   color: #b0b0b0;
+}
+
+.payment-form-group select {
+   cursor: pointer;
+}
+
+.payment-form-submit-btn {
+   margin: 48px auto 0;
+   display: block;
+   width: 240px;
+   height: 54px;
+   border-radius: 12px;
+   border: none;
+   background-color: #5b8cff;
+   color: #ffffff;
+   font-size: 16px;
+   font-weight: 500;
+   cursor: pointer;
+}
+
+.payment-form-submit-btn:hover {
+   background-color: #4a7cf0;
+}
+
+.payments .payments-filter-controls {
+   border: 1px solid var(--border-color);
+   border-radius: 14px;
+   display: flex;
+}
+.payments .payments-filter-controls-item:last-child {
+   border-right: 0;
+}
+.payments-filter-controls-item {
+   border-right: 1px solid var(--border-color);
+   padding: 12px 24px;
+   display: flex;
+   gap: 24px;
+   align-items: center;
+   position: relative;
+   cursor: pointer;
+}
+.payments-filter-controls-item-sub {
+   position: absolute;
+   top: 0;
+   left: 50%;
+   transform: translate(-50%, 57px);
+   z-index: 2;
+}
+
+.payments-type-filter-controls-item-sub {
+   position: absolute;
+   top: 0;
+   left: 50%;
+   transform: translate(-50%, 57px);
+   z-index: 2;
+   background-color: #fff;
+   width: 100%;
+}
+#type.payments-filter-controls-item,
+#date .payments-filter-controls-item {
+   position: static;
+}
+#type .payments-type-filter-controls-item-sub {
+   transform: translate(-50%, 70px);
+   box-shadow: var(--box-shadow);
+   display: flex;
+   flex-direction: column;
+   border: 1px solid var(--border-color);
+}
+#payment-type:hover,
+#payment-type.active {
+   background-color: var(--blue);
+   color: var(--white);
+}
+#payment-type {
+   padding: 0.5rem 1rem;
+}
+
+#date .payments-filter-controls-item-sub {
+   width: 100%;
+   text-align: center;
+   transform: translate(-50%, 70px);
+   background-color: var(--white);
+   border: 1px solid var(--border-color);
+   box-shadow: var(--box-shadow);
+   padding: 1rem 0;
+}

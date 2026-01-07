@@ -45,6 +45,27 @@ export type ComplaintFormData = {
    complainer_id: number;
    suspect_id: number;
 };
+
+export type Loan = {
+   id: number;
+   name: string;
+   loan_date: string;
+   loaner_id: number;
+   loanee_id: number;
+   amount: number;
+   status: 'paid' | 'unpaid';
+   loaner_name?: string;
+   loanee_name?: string;
+};
+
+export type LoanFormData = {
+   name: string;
+   loan_date: string;
+   loaner_id: number;
+   loanee_id: number;
+   amount: string;
+};
+
 export type paymentFilterType = {
    isFilterOn: boolean;
    isMonthFilterOn: boolean;
@@ -53,5 +74,14 @@ export type paymentFilterType = {
    isPaymentTypeOpen: boolean;
    isPaymentStatusOpen: boolean;
    type: '' | 'Bills' | 'Personal' | 'Product';
+   status: '' | 'paid' | 'unpaid';
+};
+
+export type loanFilterType = {
+   isFilterOn: boolean;
+   isMonthFilterOn: boolean;
+   date: Date | null;
+   isDatePickerOpen: boolean;
+   isLoanStatusOpen: boolean;
    status: '' | 'paid' | 'unpaid';
 };
