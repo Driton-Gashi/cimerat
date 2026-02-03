@@ -1,7 +1,11 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './auth.css';
+
+function isSafeRedirect(path: string): boolean {
+   return path.startsWith('/') && !path.includes('//');
+}
 
 export default function Signup() {
    const [email, setEmail] = useState('');
@@ -13,15 +17,27 @@ export default function Signup() {
    const [submitting, setSubmitting] = useState(false);
    const { signup } = useAuth();
    const navigate = useNavigate();
+   const [searchParams] = useSearchParams();
+   const redirect = searchParams.get('redirect');
 
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       setError('');
       setSubmitting(true);
       try {
-         const data = await signup(email.trim(), password, name.trim(), lastname.trim(), phone.trim());
-         const hasApartments = Array.isArray(data?.apartments) && data.apartments.length > 0;
-         navigate(hasApartments ? '/' : '/onboarding', { replace: true });
+         const data = await signup(
+            email.trim(),
+            password,
+            name.trim(),
+            lastname.trim(),
+            phone.trim(),
+         );
+         if (redirect && isSafeRedirect(redirect)) {
+            navigate(redirect, { replace: true });
+         } else {
+            const hasApartments = Array.isArray(data?.apartments) && data.apartments.length > 0;
+            navigate(hasApartments ? '/' : '/onboarding', { replace: true });
+         }
       } catch (err) {
          setError(err instanceof Error ? err.message : 'Sign up failed.');
       } finally {

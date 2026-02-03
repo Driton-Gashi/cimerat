@@ -1,7 +1,11 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './auth.css';
+
+function isSafeRedirect(path: string): boolean {
+   return path.startsWith('/') && !path.includes('//');
+}
 
 export default function Login() {
    const [email, setEmail] = useState('');
@@ -10,6 +14,8 @@ export default function Login() {
    const [submitting, setSubmitting] = useState(false);
    const { login } = useAuth();
    const navigate = useNavigate();
+   const [searchParams] = useSearchParams();
+   const redirect = searchParams.get('redirect');
 
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -17,8 +23,12 @@ export default function Login() {
       setSubmitting(true);
       try {
          const data = await login(email.trim(), password);
-         const hasApartments = Array.isArray(data?.apartments) && data.apartments.length > 0;
-         navigate(hasApartments ? '/' : '/onboarding', { replace: true });
+         if (redirect && isSafeRedirect(redirect)) {
+            navigate(redirect, { replace: true });
+         } else {
+            const hasApartments = Array.isArray(data?.apartments) && data.apartments.length > 0;
+            navigate(hasApartments ? '/' : '/onboarding', { replace: true });
+         }
       } catch (err) {
          setError(err instanceof Error ? err.message : 'Login failed.');
       } finally {

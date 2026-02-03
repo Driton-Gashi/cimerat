@@ -19,6 +19,11 @@ export default function Settings() {
    const [inviteEmail, setInviteEmail] = useState('');
    const [inviteLink, setInviteLink] = useState('');
    const [inviteError, setInviteError] = useState('');
+   const [sendEmail, setSendEmail] = useState(false);
+   const [emailSent, setEmailSent] = useState<boolean | null>(null);
+   const [emailError, setEmailError] = useState('');
+   const [linkCopied, setLinkCopied] = useState(false);
+   const [lastInvitedEmail, setLastInvitedEmail] = useState('');
    const [submitting, setSubmitting] = useState(false);
 
    const currentApartment = apartments?.find((a) => a.id === currentApartmentId);
@@ -35,16 +40,33 @@ export default function Settings() {
    const handleInvite = async (e: React.FormEvent) => {
       e.preventDefault();
       setInviteError('');
+      setEmailSent(null);
+      setEmailError('');
       setSubmitting(true);
       try {
-         const data = await post('/invitations', { apartment_id: currentApartmentId, email: inviteEmail.trim() });
+         const data = await post('/invitations', {
+            apartment_id: currentApartmentId,
+            email: inviteEmail.trim(),
+            send_email: sendEmail,
+         });
          setInviteLink(data.inviteLink || `${window.location.origin}/join?token=${data.token}`);
+         setLastInvitedEmail(inviteEmail.trim());
          setInviteEmail('');
+         setEmailSent(data.emailSent === true);
+         if (data.emailError) setEmailError(data.emailError);
       } catch (err) {
          setInviteError(err instanceof Error ? err.message : 'Failed to create invite.');
       } finally {
          setSubmitting(false);
       }
+   };
+
+   const handleCopyLink = () => {
+      if (!inviteLink) return;
+      navigator.clipboard.writeText(inviteLink).then(() => {
+         setLinkCopied(true);
+         setTimeout(() => setLinkCopied(false), 2000);
+      });
    };
 
    const handleRemove = async (userId: number) => {
@@ -115,6 +137,14 @@ export default function Settings() {
                      onChange={(e) => setInviteEmail(e.target.value)}
                      required
                   />
+                  <label className="settings-send-email-label">
+                     <input
+                        type="checkbox"
+                        checked={sendEmail}
+                        onChange={(e) => setSendEmail(e.target.checked)}
+                     />
+                     Send invite by email
+                  </label>
                   <button type="submit" disabled={submitting}>
                      Create invite link
                   </button>
@@ -130,6 +160,20 @@ export default function Settings() {
                         onFocus={(e) => e.target.select()}
                         className="invite-link-input"
                      />
+                     <button type="button" className="settings-copy-btn" onClick={handleCopyLink}>
+                        {linkCopied ? 'Copied!' : 'Copy link'}
+                     </button>
+                     {emailSent === true && (
+                        <p className="invite-email-note invite-email-sent">
+                           An email was sent to {lastInvitedEmail || 'the recipient'}.
+                        </p>
+                     )}
+                     {emailSent === false && emailError && (
+                        <p className="invite-email-note invite-email-error">
+                           Email could not be sent. Please copy and send the link yourself.{' '}
+                           {emailError}
+                        </p>
+                     )}
                   </div>
                )}
             </div>

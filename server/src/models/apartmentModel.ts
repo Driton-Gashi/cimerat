@@ -11,10 +11,10 @@ const executeQuery = async (query: string, params: any[] = []): Promise<any> => 
 };
 
 export const createApartmentModel = async (name: string, createdByUserId: number) => {
-   const [result]: any = await db.execute('INSERT INTO apartments (name, created_by) VALUES (?, ?)', [
-      name,
-      createdByUserId,
-   ]);
+   const [result]: any = await db.execute(
+      'INSERT INTO apartments (name, created_by) VALUES (?, ?)',
+      [name, createdByUserId],
+   );
    const apartmentId = result.insertId;
    await db.execute(
       'INSERT INTO apartment_members (user_id, apartment_id, role) VALUES (?, ?, ?)',
@@ -47,7 +47,11 @@ export const getApartmentMembersModel = async (apartmentId: number) => {
    return executeQuery(query, [apartmentId]);
 };
 
-export const addApartmentMemberModel = async (apartmentId: number, userId: number, role: 'admin' | 'member' = 'member') => {
+export const addApartmentMemberModel = async (
+   apartmentId: number,
+   userId: number,
+   role: 'admin' | 'member' = 'member',
+) => {
    await db.execute(
       'INSERT INTO apartment_members (user_id, apartment_id, role) VALUES (?, ?, ?)',
       [userId, apartmentId, role],
@@ -70,12 +74,26 @@ export const countAdminMembersModel = async (apartmentId: number): Promise<numbe
    return rows[0]?.n ?? 0;
 };
 
-export const getMemberRoleModel = async (userId: number, apartmentId: number): Promise<string | null> => {
+export const getMemberRoleModel = async (
+   userId: number,
+   apartmentId: number,
+): Promise<string | null> => {
    const [rows]: any = await db.execute(
       'SELECT role FROM apartment_members WHERE user_id = ? AND apartment_id = ?',
       [userId, apartmentId],
    );
    return rows[0]?.role ?? null;
+};
+
+export const isUserMemberOfApartment = async (
+   userId: number,
+   apartmentId: number,
+): Promise<boolean> => {
+   const [rows]: any = await db.execute(
+      'SELECT 1 FROM apartment_members WHERE user_id = ? AND apartment_id = ?',
+      [userId, apartmentId],
+   );
+   return rows?.length > 0;
 };
 
 export const getAllApartmentsForAdminModel = async () => {

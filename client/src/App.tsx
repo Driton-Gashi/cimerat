@@ -21,7 +21,13 @@ import AdminRoute from './components/auth/AdminRoute.tsx';
 import Settings from './pages/settings/Settings.tsx';
 import './app.css';
 
-function AppLayout({ isSidebarClosed, setIsSidebarClosed }: { isSidebarClosed: boolean; setIsSidebarClosed: (v: boolean) => void }) {
+function AppLayout({
+   isSidebarClosed,
+   setIsSidebarClosed,
+}: {
+   isSidebarClosed: boolean;
+   setIsSidebarClosed: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
    return (
       <div className="app-layout">
          <Sidebar isClosed={isSidebarClosed} />
@@ -69,7 +75,10 @@ function App() {
                   path="/*"
                   element={
                      <ProtectedRoute>
-                        <AppLayout isSidebarClosed={isSidebarClosed} setIsSidebarClosed={setIsSidebarClosed} />
+                        <AppLayout
+                           isSidebarClosed={isSidebarClosed}
+                           setIsSidebarClosed={setIsSidebarClosed}
+                        />
                      </ProtectedRoute>
                   }
                />

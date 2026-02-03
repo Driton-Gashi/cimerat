@@ -52,8 +52,19 @@
 
 .settings-invite-form {
    display: flex;
+   flex-wrap: wrap;
+   align-items: center;
    gap: 12px;
    margin-bottom: 12px;
+}
+
+.settings-send-email-label {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   font-size: 0.9rem;
+   color: var(--gray-text);
+   cursor: pointer;
 }
 
 .settings-invite-form input {
@@ -96,4 +107,33 @@
    border-radius: 6px;
    font-size: 0.9rem;
    font-family: inherit;
+}
+
+.settings-copy-btn {
+   margin-top: 8px;
+   padding: 8px 16px;
+   background: var(--blue);
+   color: var(--white);
+   border: none;
+   border-radius: 8px;
+   font-family: inherit;
+   font-size: 0.9rem;
+   cursor: pointer;
+}
+
+.settings-copy-btn:hover {
+   opacity: 0.9;
+}
+
+.invite-email-note {
+   font-size: 0.9rem;
+   margin-top: 8px;
+}
+
+.invite-email-sent {
+   color: var(--green, #0a0);
+}
+
+.invite-email-error {
+   color: var(--red);
 }
