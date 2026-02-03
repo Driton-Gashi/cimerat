@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { getCimerByIdModel } from '../models/cimerModel';
 import { getApartmentsForUserModel } from '../models/authModel';
 import { getUserPreferencesModel } from '../models/authModel';
+import { getAllApartmentsForDashboardModel } from '../models/apartmentModel';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production';
 
@@ -48,15 +49,21 @@ export const requireApartment = async (req: Request, res: Response, next: NextFu
    try {
       const user = (req as any).user as AuthUser;
       if (!user) return res.status(401).json({ message: 'Authentication required.' });
-      const apartments = await getApartmentsForUserModel(user.id);
+
+      const isPlatformAdmin = user.global_role === 'platform_admin';
+      const apartments = isPlatformAdmin
+         ? await getAllApartmentsForDashboardModel()
+         : await getApartmentsForUserModel(user.id);
+
       if (!apartments || apartments.length === 0) {
          return res.status(403).json({ message: 'You must join or create an apartment first.' });
       }
+
       const headerId = req.headers['x-apartment-id'];
       let currentApartmentId: number | null = null;
       if (headerId) {
          const id = Number(headerId);
-         if (Number.isInteger(id) && apartments.some((a: any) => a.id === id)) {
+         if (Number.isInteger(id) && id > 0 && apartments.some((a: any) => a.id === id)) {
             currentApartmentId = id;
          }
       }

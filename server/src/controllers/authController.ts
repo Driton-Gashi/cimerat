@@ -8,7 +8,7 @@ import {
    getUserPreferencesModel,
    setCurrentApartmentModel,
 } from '../models/authModel';
-import { getMemberRoleModel } from '../models/apartmentModel';
+import { getMemberRoleModel, getAllApartmentsForDashboardModel, getApartmentByIdModel } from '../models/apartmentModel';
 import type { AuthUser } from '../middleware/auth';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production';
@@ -83,7 +83,10 @@ export const loginController = async (req: Request, res: Response) => {
          return res.status(401).json({ message: 'Invalid email or password.' });
       }
       const token = signToken(user.id, user.email);
-      const apartments = await getApartmentsForUserModel(user.id);
+      const isPlatformAdmin = user.global_role === 'platform_admin';
+      const apartments = isPlatformAdmin
+         ? await getAllApartmentsForDashboardModel()
+         : await getApartmentsForUserModel(user.id);
       const prefs = await getUserPreferencesModel(user.id);
       let currentApartmentId = prefs?.current_apartment_id ?? null;
       const apartmentList = apartments || [];
@@ -105,12 +108,19 @@ export const loginController = async (req: Request, res: Response) => {
 export const getMeController = async (req: Request, res: Response) => {
    try {
       const user = (req as any).user as AuthUser;
-      const apartments = await getApartmentsForUserModel(user.id);
+      const isPlatformAdmin = user.global_role === 'platform_admin';
+      const apartments = isPlatformAdmin
+         ? await getAllApartmentsForDashboardModel()
+         : await getApartmentsForUserModel(user.id);
       const prefs = await getUserPreferencesModel(user.id);
       let currentApartmentId = prefs?.current_apartment_id ?? null;
       const apartmentList = apartments || [];
       if (currentApartmentId == null && apartmentList.length > 0) {
          currentApartmentId = apartmentList[0].id;
+      }
+      if (currentApartmentId != null && isPlatformAdmin) {
+         const exists = await getApartmentByIdModel(currentApartmentId);
+         if (!exists) currentApartmentId = apartmentList[0]?.id ?? null;
       }
       return res.status(200).json({
          user,
@@ -130,14 +140,23 @@ export const patchCurrentApartmentController = async (req: Request, res: Respons
       if (apartmentId !== null && (!Number.isInteger(apartmentId) || apartmentId <= 0)) {
          return res.status(400).json({ message: 'Invalid apartment_id.' });
       }
-      if (apartmentId !== null) {
+      const isPlatformAdmin = user.global_role === 'platform_admin';
+      if (apartmentId !== null && !isPlatformAdmin) {
          const role = await getMemberRoleModel(user.id, apartmentId);
          if (role == null) {
             return res.status(403).json({ message: 'You are not a member of this apartment.' });
          }
       }
+      if (apartmentId !== null && isPlatformAdmin) {
+         const exists = await getApartmentByIdModel(apartmentId);
+         if (!exists) {
+            return res.status(404).json({ message: 'Apartment not found.' });
+         }
+      }
       await setCurrentApartmentModel(user.id, apartmentId);
-      const apartments = await getApartmentsForUserModel(user.id);
+      const apartments = isPlatformAdmin
+         ? await getAllApartmentsForDashboardModel()
+         : await getApartmentsForUserModel(user.id);
       const prefs = await getUserPreferencesModel(user.id);
       return res.status(200).json({
          currentApartmentId: prefs?.current_apartment_id ?? apartmentId,

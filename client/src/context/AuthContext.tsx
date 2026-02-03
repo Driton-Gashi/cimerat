@@ -17,8 +17,10 @@ type AuthState = {
    loading: boolean;
 };
 
+export type LoginResponse = { user: AuthUser; token: string; apartments?: Apartment[]; currentApartmentId?: number | null };
+
 type AuthContextValue = AuthState & {
-   login: (email: string, password: string) => Promise<void>;
+   login: (email: string, password: string) => Promise<LoginResponse>;
    signup: (email: string, password: string, name: string, lastname: string, phone: string) => Promise<void>;
    logout: () => void;
    setCurrentApartment: (apartmentId: number) => Promise<void>;

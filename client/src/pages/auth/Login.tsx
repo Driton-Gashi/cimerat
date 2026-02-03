@@ -22,7 +22,7 @@ export default function Login() {
       setError('');
       setSubmitting(true);
       try {
-         const data = await login(email.trim(), password);
+         const data: Awaited<ReturnType<typeof login>> = await login(email.trim(), password);
          if (redirect && isSafeRedirect(redirect)) {
             navigate(redirect, { replace: true });
          } else {

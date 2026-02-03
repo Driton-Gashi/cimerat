@@ -96,6 +96,17 @@ export const isUserMemberOfApartment = async (
    return rows?.length > 0;
 };
 
+/** All apartments with a shape compatible with auth/me (id, name, created_at, role). Used for platform_admin dashboard. */
+export const getAllApartmentsForDashboardModel = async () => {
+   const query = `
+      SELECT a.id, a.name, a.created_at, 'member' AS role
+      FROM apartments a
+      ORDER BY a.name ASC
+   `;
+   const rows = await executeQuery(query, []);
+   return (rows || []).map((r: any) => ({ ...r, joined_at: null }));
+};
+
 export const getAllApartmentsForAdminModel = async () => {
    const query = `
       SELECT a.id, a.name, a.created_at, a.created_by,

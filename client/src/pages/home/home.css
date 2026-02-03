@@ -7,6 +7,11 @@
    font-size: 2rem;
    font-weight: bold;
 }
+.home__apartment-label {
+   margin: -0.5rem 0 0;
+   font-size: 0.9rem;
+   color: var(--text-muted, #666);
+}
 .home .dashboard-overview {
    display: flex;
    gap: 30px;
