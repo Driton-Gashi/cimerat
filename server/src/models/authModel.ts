@@ -57,3 +57,11 @@ export const setCurrentApartmentModel = async (userId: number, apartmentId: numb
       ]);
    }
 };
+
+/** Clear user's current apartment when they are removed from that apartment. */
+export const clearCurrentApartmentIfModel = async (userId: number, apartmentId: number) => {
+   await db.execute(
+      'UPDATE user_preferences SET current_apartment_id = NULL WHERE user_id = ? AND current_apartment_id = ?',
+      [userId, apartmentId],
+   );
+};

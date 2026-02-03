@@ -35,3 +35,45 @@ export const getAllCimersModel = async () => {
    const rows = await executeQuery(query, []);
    return rows || null;
 };
+
+/** For admin: list id, name, lastname, email, and their apartment id if any (one apartment per user). */
+export const getAllCimersWithApartmentModel = async () => {
+   const query = `
+      SELECT c.id, c.name, c.lastname, c.email, c.global_role,
+             (SELECT am.apartment_id FROM apartment_members am WHERE am.user_id = c.id LIMIT 1) AS apartment_id
+      FROM cimerat c
+      ORDER BY c.name, c.lastname
+   `;
+   const rows = await executeQuery(query, []);
+   return rows || [];
+};
+
+/** Count how many payments, loans, complaints reference this user (block delete if any > 0). */
+export const countUserReferencesModel = async (
+   userId: number,
+): Promise<{ payments: number; loans: number; complaints: number }> => {
+   const [p]: any = await db.execute(
+      'SELECT COUNT(*) AS n FROM payments WHERE payer_id = ? OR created_by = ?',
+      [userId, userId],
+   );
+   const [l]: any = await db.execute(
+      'SELECT COUNT(*) AS n FROM loans WHERE loaner_id = ? OR loanee_id = ? OR created_by = ?',
+      [userId, userId, userId],
+   );
+   const [c]: any = await db.execute(
+      'SELECT COUNT(*) AS n FROM complaints WHERE complainer_id = ? OR suspect_id = ? OR created_by = ?',
+      [userId, userId, userId],
+   );
+   return {
+      payments: p?.[0]?.n ?? 0,
+      loans: l?.[0]?.n ?? 0,
+      complaints: c?.[0]?.n ?? 0,
+   };
+};
+
+export const deleteCimerByIdModel = async (id: number) => {
+   await db.execute('DELETE FROM apartment_members WHERE user_id = ?', [id]);
+   await db.execute('DELETE FROM user_preferences WHERE user_id = ?', [id]);
+   await db.execute('DELETE FROM invitations WHERE invited_by = ?', [id]);
+   await db.execute('DELETE FROM cimerat WHERE id = ?', [id]);
+};

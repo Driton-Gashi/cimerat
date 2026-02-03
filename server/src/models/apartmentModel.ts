@@ -107,3 +107,61 @@ export const getAllApartmentsForAdminModel = async () => {
    `;
    return executeQuery(query, []);
 };
+
+export const deleteApartmentModel = async (id: number) => {
+   await db.execute('DELETE FROM apartments WHERE id = ?', [id]);
+};
+
+/** Apartment IDs where this user is the creator (created_by). */
+export const getApartmentIdsCreatedByModel = async (userId: number): Promise<number[]> => {
+   const [rows]: any = await db.execute('SELECT id FROM apartments WHERE created_by = ?', [userId]);
+   return (rows || []).map((r: { id: number }) => r.id);
+};
+
+/**
+ * Reassign or delete apartments created by this user so they can be deleted.
+ * For each such apartment: if another member exists, set created_by to that member (prefer admin); else delete the apartment.
+ */
+export const reassignOrDeleteApartmentsCreatedByModel = async (userId: number): Promise<void> => {
+   const apartmentIds = await getApartmentIdsCreatedByModel(userId);
+   for (const apartmentId of apartmentIds) {
+      const members = await getApartmentMembersModel(apartmentId);
+      const other = members.filter((m: any) => m.user_id !== userId);
+      if (other.length > 0) {
+         const newCreator = other.find((m: any) => m.role === 'admin') || other[0];
+         await db.execute('UPDATE apartments SET created_by = ? WHERE id = ?', [
+            newCreator.user_id,
+            apartmentId,
+         ]);
+      } else {
+         await deleteApartmentModel(apartmentId);
+      }
+   }
+};
+
+/** Returns apartment IDs the user is a member of (for enforcing one apartment per user). */
+export const getUserApartmentIdsModel = async (userId: number): Promise<number[]> => {
+   const [rows]: any = await db.execute(
+      'SELECT apartment_id FROM apartment_members WHERE user_id = ?',
+      [userId],
+   );
+   return (rows || []).map((r: { apartment_id: number }) => r.apartment_id);
+};
+
+/**
+ * Add user to this apartment. Enforces one apartment per user: removes from any other apartment first.
+ */
+export const addMemberEnforcingSingleApartmentModel = async (
+   apartmentId: number,
+   userId: number,
+   role: 'admin' | 'member' = 'member',
+) => {
+   const otherApartmentIds = (await getUserApartmentIdsModel(userId)).filter((aid) => aid !== apartmentId);
+   for (const aid of otherApartmentIds) {
+      await removeApartmentMemberModel(aid, userId);
+   }
+   const alreadyInThis = (await getUserApartmentIdsModel(userId)).includes(apartmentId);
+   if (!alreadyInThis) {
+      await addApartmentMemberModel(apartmentId, userId, role);
+   }
+};

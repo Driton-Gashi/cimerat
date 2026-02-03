@@ -27,6 +27,13 @@
    margin-bottom: 16px;
 }
 
+.admin-detail-empty {
+   color: var(--gray-text);
+   font-size: 0.9375rem;
+   line-height: 1.5;
+   margin: 0;
+}
+
 .admin-table {
    width: 100%;
    border-collapse: collapse;
@@ -54,4 +61,123 @@
 
 .admin-table tbody tr.selected {
    background: var(--light-gray);
+}
+
+.admin-tabs {
+   display: flex;
+   gap: 8px;
+   margin-bottom: 16px;
+}
+
+.admin-tabs button {
+   padding: 8px 16px;
+   border: 1px solid var(--border-color);
+   background: var(--white);
+   border-radius: 8px;
+   cursor: pointer;
+   font-weight: 600;
+}
+
+.admin-tabs button.active {
+   background: var(--blue);
+   color: var(--white);
+   border-color: var(--blue);
+}
+
+.admin-message {
+   padding: 10px 14px;
+   border-radius: 8px;
+   margin-bottom: 16px;
+}
+
+.admin-error {
+   background: rgba(239, 56, 38, 0.1);
+   color: var(--red);
+}
+
+.admin-success {
+   background: rgba(0, 182, 155, 0.1);
+   color: var(--green);
+}
+
+.admin-detail-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-wrap: wrap;
+   gap: 12px;
+   margin-bottom: 16px;
+}
+
+.admin-detail-header h2 {
+   margin-bottom: 0;
+}
+
+.admin-btn {
+   padding: 8px 14px;
+   border-radius: 8px;
+   border: 1px solid var(--border-color);
+   background: var(--white);
+   cursor: pointer;
+   font-weight: 600;
+}
+
+.admin-btn:disabled {
+   opacity: 0.6;
+   cursor: not-allowed;
+}
+
+.admin-btn-danger {
+   border-color: var(--red);
+   color: var(--red);
+}
+
+.admin-btn-danger:hover:not(:disabled) {
+   background: rgba(239, 56, 38, 0.08);
+}
+
+.admin-btn-small {
+   padding: 6px 10px;
+   font-size: 0.875rem;
+}
+
+.admin-hint {
+   color: var(--gray-text);
+   font-size: 0.875rem;
+   margin-bottom: 12px;
+}
+
+.admin-add-member-form {
+   display: flex;
+   gap: 10px;
+   align-items: center;
+   margin-bottom: 20px;
+}
+
+.admin-add-member-form input {
+   flex: 1;
+   max-width: 280px;
+   padding: 8px 12px;
+   border: 1px solid var(--border-color);
+   border-radius: 8px;
+   font-size: 1rem;
+}
+
+.admin-add-member-form button {
+   padding: 8px 16px;
+   background: var(--blue);
+   color: var(--white);
+   border: none;
+   border-radius: 8px;
+   font-weight: 600;
+   cursor: pointer;
+}
+
+.admin-add-member-form button:disabled {
+   opacity: 0.7;
+   cursor: not-allowed;
+}
+
+.admin-users-list {
+   max-width: 900px;
 }
