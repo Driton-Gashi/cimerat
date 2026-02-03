@@ -1,12 +1,3 @@
--- Clean schema: run in order. Drop tables first (reverse dependency order).
-DROP TABLE IF EXISTS `payments`;
-DROP TABLE IF EXISTS `loans`;
-DROP TABLE IF EXISTS `complaints`;
-DROP TABLE IF EXISTS `invitations`;
-DROP TABLE IF EXISTS `apartment_members`;
-DROP TABLE IF EXISTS `user_preferences`;
-DROP TABLE IF EXISTS `apartments`;
-DROP TABLE IF EXISTS `cimerat`;
 
 -- 1. Users (cimerat)
 CREATE TABLE `cimerat` (
