@@ -21,7 +21,7 @@ const executeQuery = async <T = any>(query: string, params: any[] = []): Promise
    }
 };
 
-export const getComplaintByIdModel = async (id: number): Promise<Complaint | []> => {
+export const getComplaintByIdModel = async (id: number): Promise<(Complaint & { apartment_id?: number }) | []> => {
    const query = `
       SELECT c.id,
              c.name,
@@ -30,20 +30,18 @@ export const getComplaintByIdModel = async (id: number): Promise<Complaint | []>
              c.complainer_id,
              complainer.name AS complainer_name,
              c.suspect_id,
-             suspect.name   AS suspect_name
+             suspect.name   AS suspect_name,
+             c.apartment_id
       FROM complaints c
-      JOIN cimerat complainer
-         ON c.complainer_id = complainer.id
-      JOIN cimerat suspect
-         ON c.suspect_id = suspect.id
+      JOIN cimerat complainer ON c.complainer_id = complainer.id
+      JOIN cimerat suspect ON c.suspect_id = suspect.id
       WHERE c.id = ?
    `;
-
    const rows = await executeQuery<Complaint>(query, [id]);
    return rows[0] ? rows[0] : [];
 };
 
-export const getAllComplaintsModel = async (): Promise<Complaint[]> => {
+export const getAllComplaintsModel = async (apartmentId: number): Promise<Complaint[]> => {
    const query = `
       SELECT c.id,
              c.name,
@@ -54,13 +52,11 @@ export const getAllComplaintsModel = async (): Promise<Complaint[]> => {
              c.suspect_id,
              suspect.name   AS suspect_name
       FROM complaints c
-      JOIN cimerat complainer
-         ON c.complainer_id = complainer.id
-      JOIN cimerat suspect
-         ON c.suspect_id = suspect.id
+      JOIN cimerat complainer ON c.complainer_id = complainer.id
+      JOIN cimerat suspect ON c.suspect_id = suspect.id
+      WHERE c.apartment_id = ?
    `;
-
-   const rows = await executeQuery<Complaint>(query);
+   const rows = await executeQuery<Complaint>(query, [apartmentId]);
    return rows;
 };
 
@@ -70,18 +66,21 @@ export const createComplaintModel = async (
    complaints_date: Date,
    complainer_id: number,
    suspect_id: number,
+   apartment_id: number,
+   created_by: number,
 ) => {
    const query = `
-      INSERT INTO complaints (name, image_url, complaints_date, complainer_id, suspect_id)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO complaints (name, image_url, complaints_date, complainer_id, suspect_id, apartment_id, created_by)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
    `;
-
-   const result: any = await executeQuery(query, [
+   const [result]: any = await db.execute(query, [
       name,
       image_url,
       complaints_date,
       complainer_id,
       suspect_id,
+      apartment_id,
+      created_by,
    ]);
    return result;
 };

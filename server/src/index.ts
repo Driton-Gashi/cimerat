@@ -1,6 +1,10 @@
 import cors from 'cors';
 import express from 'express';
 import dotenv from 'dotenv';
+import authRoute from './routes/authRoutes';
+import apartmentRoute from './routes/apartmentRoutes';
+import invitationRoute from './routes/invitationRoutes';
+import adminRoute from './routes/adminRoutes';
 import cimerRoute from './routes/cimerRoutes';
 import paymentRoute from './routes/paymentRoutes';
 import complaintRoute from './routes/complaintRoutes';
@@ -58,6 +62,10 @@ app.get('/docs', (req, res) => {
    });
 });
 
+app.use('/auth', authRoute);
+app.use('/apartments', apartmentRoute);
+app.use('/invitations', invitationRoute);
+app.use('/admin', adminRoute);
 app.use('/cimerat', cimerRoute);
 app.use('/payments', paymentRoute);
 app.use('/complaints', complaintRoute);

@@ -19,7 +19,26 @@ const executeQuery = async <T = any>(query: string, params: any[] = []): Promise
    }
 };
 
-export const getPaymentByIdModel = async (id: number): Promise<Payment> => {
+export const getPaymentByIdModel = async (id: number): Promise<Payment & { apartment_id?: number }> => {
+   const query = `
+      SELECT p.id,
+             p.category,
+             p.name,
+             p.transaction_date,
+             p.amount,
+             p.status,
+             p.apartment_id,
+             c.id   AS payer_id,
+             c.name AS payer_name
+      FROM payments p
+      JOIN cimerat c ON p.payer_id = c.id
+      WHERE p.id = ?
+   `;
+   const rows = await executeQuery(query, [id]);
+   return rows[0];
+};
+
+export const getAllPaymentsModel = async (apartmentId: number): Promise<Payment[]> => {
    const query = `
       SELECT p.id,
              p.category,
@@ -30,31 +49,10 @@ export const getPaymentByIdModel = async (id: number): Promise<Payment> => {
              c.id   AS payer_id,
              c.name AS payer_name
       FROM payments p
-      JOIN cimerat c
-         ON p.payer_id = c.id
-      WHERE p.id = ?
+      JOIN cimerat c ON p.payer_id = c.id
+      WHERE p.apartment_id = ?
    `;
-
-   const rows = await executeQuery(query, [id]);
-
-   return rows[0];
-};
-
-export const getAllPaymentsModel = async (): Promise<Payment[]> => {
-   const query = `
-            SELECT p.id,
-                  p.category,
-                  p.name,
-                  p.transaction_date,
-                  p.amount,
-                  p.status,
-                  c.id                            AS payer_id,
-                  c.name                          AS payer_name
-            FROM   payments p
-                  JOIN cimerat c
-                     ON p.payer_id = c.id 
-`;
-   const rows = await executeQuery<Payment>(query);
+   const rows = await executeQuery<Payment>(query, [apartmentId]);
    return rows;
 };
 
@@ -64,11 +62,21 @@ export const createPaymentModel = async (
    date: Date,
    payer_id: number,
    amount: number,
+   apartment_id: number,
+   created_by: number,
 ) => {
    const query = `
-    INSERT INTO payments ( category, name, transaction_date, payer_id, amount)
-    VALUES ( ?, ?, ?, ?, ?)
-  `;
-   const result: any = await executeQuery(query, [category, name, date, payer_id, amount]);
+      INSERT INTO payments (category, name, transaction_date, payer_id, amount, apartment_id, created_by)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+   `;
+   const [result]: any = await db.execute(query, [
+      category,
+      name,
+      date,
+      payer_id,
+      amount,
+      apartment_id,
+      created_by,
+   ]);
    return result;
 };

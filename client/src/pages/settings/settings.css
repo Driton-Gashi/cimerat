@@ -1,0 +1,99 @@
+.settings-page {
+   max-width: 800px;
+}
+
+.settings-page h1 {
+   margin-bottom: 24px;
+}
+
+.settings-section {
+   background: var(--white);
+   border-radius: 12px;
+   box-shadow: var(--box-shadow);
+   padding: 24px;
+   margin-bottom: 24px;
+}
+
+.settings-section h2 {
+   font-size: 1.1rem;
+   margin-bottom: 16px;
+   color: var(--black);
+}
+
+.settings-table {
+   width: 100%;
+   border-collapse: collapse;
+}
+
+.settings-table th,
+.settings-table td {
+   padding: 10px 12px;
+   text-align: left;
+   border-bottom: 1px solid var(--border-color);
+}
+
+.settings-table th {
+   color: var(--gray-text);
+   font-weight: 600;
+}
+
+.settings-remove-btn {
+   background: none;
+   border: none;
+   color: var(--red);
+   cursor: pointer;
+   font-family: inherit;
+   font-size: 0.9rem;
+}
+
+.settings-remove-btn:hover {
+   text-decoration: underline;
+}
+
+.settings-invite-form {
+   display: flex;
+   gap: 12px;
+   margin-bottom: 12px;
+}
+
+.settings-invite-form input {
+   flex: 1;
+   padding: 10px 12px;
+   border: 1px solid var(--border-color);
+   border-radius: 8px;
+   font-family: inherit;
+}
+
+.settings-invite-form button {
+   padding: 10px 20px;
+   background: var(--blue);
+   color: var(--white);
+   border: none;
+   border-radius: 8px;
+   font-family: inherit;
+   cursor: pointer;
+}
+
+.settings-invite-form button:disabled {
+   opacity: 0.6;
+   cursor: not-allowed;
+}
+
+.invite-link-box {
+   margin-top: 12px;
+}
+
+.invite-link-box p {
+   font-size: 0.9rem;
+   color: var(--gray-text);
+   margin-bottom: 6px;
+}
+
+.invite-link-input {
+   width: 100%;
+   padding: 8px 12px;
+   border: 1px solid var(--border-color);
+   border-radius: 6px;
+   font-size: 0.9rem;
+   font-family: inherit;
+}

@@ -1,22 +1,42 @@
-import { useState, type ChangeEvent } from 'react';
+import { useState, useEffect, type ChangeEvent } from 'react';
 import type { Complaint, ComplaintFormData } from '../../../libs/types';
-import { post } from '../../../libs/api';
+import { post, get } from '../../../libs/api';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 
 import '../../payments/payments.css';
 import { Link } from 'react-router-dom';
 import MyIcon from '../../../components/icons/MyIcon';
 
+type Member = { user_id: number; name: string; lastname: string; email: string };
+
 const CreateComplaint = () => {
    const navigate = useNavigate();
+   const { currentApartmentId } = useAuth();
+   const [members, setMembers] = useState<Member[]>([]);
 
    const [formData, setFormData] = useState<ComplaintFormData>({
       name: '',
       image_url: '',
       complaints_date: '',
-      complainer_id: 1,
-      suspect_id: 2,
+      complainer_id: 0,
+      suspect_id: 0,
    });
+
+   useEffect(() => {
+      if (!currentApartmentId) return;
+      get(`/apartments/${currentApartmentId}/members`)
+         .then((data: Member[]) => {
+            const list = Array.isArray(data) ? data : [];
+            setMembers(list);
+            if (list.length >= 2) {
+               setFormData((prev) => ({ ...prev, complainer_id: list[0].user_id, suspect_id: list[1].user_id }));
+            } else if (list.length === 1) {
+               setFormData((prev) => ({ ...prev, complainer_id: list[0].user_id, suspect_id: list[0].user_id }));
+            }
+         })
+         .catch(() => setMembers([]));
+   }, [currentApartmentId]);
 
    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
@@ -47,8 +67,8 @@ const CreateComplaint = () => {
             name: '',
             image_url: '',
             complaints_date: '',
-            complainer_id: 1,
-            suspect_id: 2,
+            complainer_id: members[0]?.user_id ?? 0,
+            suspect_id: members.length > 1 ? members[1].user_id : members[0]?.user_id ?? 0,
          });
          let cachedComplaints: Complaint[] = JSON.parse(
             localStorage.getItem('complaints') ?? '[]',
@@ -108,27 +128,25 @@ const CreateComplaint = () => {
                   </div>
 
                   <div className="payment-form-group">
-                     <label>Complainer ID</label>
-                     <input
-                        type="number"
-                        name="complainer_id"
-                        value={formData.complainer_id}
-                        onChange={handleChange}
-                        placeholder="Enter complainer ID"
-                        min={1}
-                     />
+                     <label>Complainer</label>
+                     <select name="complainer_id" value={formData.complainer_id} onChange={handleChange}>
+                        {members.map((m) => (
+                           <option key={m.user_id} value={m.user_id}>
+                              {m.name} {m.lastname}
+                           </option>
+                        ))}
+                     </select>
                   </div>
 
                   <div className="payment-form-group">
-                     <label>Suspect ID</label>
-                     <input
-                        type="number"
-                        name="suspect_id"
-                        value={formData.suspect_id}
-                        onChange={handleChange}
-                        placeholder="Enter suspect ID"
-                        min={1}
-                     />
+                     <label>Suspect</label>
+                     <select name="suspect_id" value={formData.suspect_id} onChange={handleChange}>
+                        {members.map((m) => (
+                           <option key={m.user_id} value={m.user_id}>
+                              {m.name} {m.lastname}
+                           </option>
+                        ))}
+                     </select>
                   </div>
                </div>
 

@@ -1,44 +1,44 @@
 import { useState, useEffect, type ChangeEvent } from 'react';
-import type { Loan, LoanFormData, Cimer } from '../../../libs/types';
+import type { Loan, LoanFormData } from '../../../libs/types';
 import { post, get } from '../../../libs/api';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 
 import '../loans.css';
 import { Link } from 'react-router-dom';
 import MyIcon from '../../../components/icons/MyIcon';
 
+type Member = { user_id: number; name: string; lastname: string; email: string };
+
 const CreateLoan = () => {
    const navigate = useNavigate();
+   const { currentApartmentId } = useAuth();
+   const [members, setMembers] = useState<Member[]>([]);
 
    const [formData, setFormData] = useState<LoanFormData>({
       name: '',
       loan_date: '',
-      loaner_id: 1,
-      loanee_id: 1,
+      loaner_id: 0,
+      loanee_id: 0,
       amount: '',
    });
 
-   const [cimerat, setCimerat] = useState<Cimer[]>([]);
-
    useEffect(() => {
-      const fetchCimerat = async () => {
-         try {
-            const users: Cimer[] = await get('/cimerat');
-            setCimerat(users);
-            if (users.length > 0) {
+      if (!currentApartmentId) return;
+      get(`/apartments/${currentApartmentId}/members`)
+         .then((data: Member[]) => {
+            const list = Array.isArray(data) ? data : [];
+            setMembers(list);
+            if (list.length > 0) {
                setFormData((prev) => ({
                   ...prev,
-                  loaner_id: users[0].id,
-                  loanee_id: users.length > 1 ? users[1].id : users[0].id,
+                  loaner_id: list[0].user_id,
+                  loanee_id: list.length > 1 ? list[1].user_id : list[0].user_id,
                }));
             }
-         } catch (error) {
-            console.error('Error fetching cimerat:', error);
-         }
-      };
-
-      fetchCimerat();
-   }, []);
+         })
+         .catch(() => setMembers([]));
+   }, [currentApartmentId]);
 
    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
@@ -66,8 +66,8 @@ const CreateLoan = () => {
          setFormData({
             name: '',
             loan_date: '',
-            loaner_id: cimerat.length > 0 ? cimerat[0].id : 1,
-            loanee_id: cimerat.length > 1 ? cimerat[1].id : cimerat[0]?.id || 1,
+            loaner_id: members[0]?.user_id ?? 0,
+            loanee_id: members.length > 1 ? members[1].user_id : members[0]?.user_id ?? 0,
             amount: '',
          });
          let cachedLoans: Loan[] = JSON.parse(localStorage.getItem('loans') ?? '[]');
@@ -121,9 +121,9 @@ const CreateLoan = () => {
                         value={formData.loaner_id}
                         onChange={handleChange}
                      >
-                        {cimerat.map((user) => (
-                           <option key={user.id} value={user.id}>
-                              {user.name} {user.lastname}
+                        {members.map((m) => (
+                           <option key={m.user_id} value={m.user_id}>
+                              {m.name} {m.lastname}
                            </option>
                         ))}
                      </select>
@@ -136,9 +136,9 @@ const CreateLoan = () => {
                         value={formData.loanee_id}
                         onChange={handleChange}
                      >
-                        {cimerat.map((user) => (
-                           <option key={user.id} value={user.id}>
-                              {user.name} {user.lastname}
+                        {members.map((m) => (
+                           <option key={m.user_id} value={m.user_id}>
+                              {m.name} {m.lastname}
                            </option>
                         ))}
                      </select>

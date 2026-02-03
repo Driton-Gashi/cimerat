@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
 import MyIcon from '../../../icons/MyIcon';
 import OverviewCard from '../OverviewCard';
-import type { Cimer, Payment } from '../../../../libs/types';
+import type { Payment } from '../../../../libs/types';
 import { get } from '../../../../libs/api';
+import { useAuth } from '../../../../context/AuthContext';
 import { isInThisWeekMondayStart } from '../../../../libs/utils';
 
 const DashboardOverviewCardCimerat = () => {
-   const [cimerat, setCimerat] = useState<Cimer[]>([]);
+   const { currentApartmentId } = useAuth();
+   const [memberCount, setMemberCount] = useState(0);
    const [payments, setPayments] = useState<Payment[]>([]);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState<string | null>(null);
 
    useEffect(() => {
+      if (!currentApartmentId) return;
       let ignore = false;
 
       const fetchData = async () => {
@@ -19,17 +22,17 @@ const DashboardOverviewCardCimerat = () => {
          setError(null);
 
          try {
-            const [cimeratRes, paymentsRes]: [Cimer[], Payment[]] = await Promise.all([
-               get('/cimerat'),
+            const [membersRes, paymentsRes] = await Promise.all([
+               get(`/apartments/${currentApartmentId}/members`),
                get('/payments'),
             ]);
 
             if (ignore) return;
-            const paymentsThisWeek = paymentsRes.filter((payment) => {
-               return isInThisWeekMondayStart(payment.transaction_date);
-            });
+            const paymentsThisWeek = (Array.isArray(paymentsRes) ? paymentsRes : []).filter((payment: Payment) =>
+               isInThisWeekMondayStart(payment.transaction_date),
+            );
 
-            setCimerat(cimeratRes);
+            setMemberCount(Array.isArray(membersRes) ? membersRes.length : 0);
             setPayments(paymentsThisWeek);
          } catch (err) {
             if (ignore) return;
@@ -45,7 +48,7 @@ const DashboardOverviewCardCimerat = () => {
       return () => {
          ignore = true;
       };
-   }, []);
+   }, [currentApartmentId]);
 
    if (loading) {
       return (
@@ -92,7 +95,7 @@ const DashboardOverviewCardCimerat = () => {
          <div className="dashboard-overview-card-top">
             <div className="dashboard-overview-card-top-left">
                <h4>Total Cimerat</h4>
-               <h2>{cimerat.length}</h2>
+               <h2>{memberCount}</h2>
             </div>
             <div className="dashboard-overview-card-top-right">
                <img src="/users.png" alt="Users" />

@@ -84,3 +84,14 @@
 .sidebar .nav-link.active span svg {
    fill: white;
 }
+
+.sidebar-logout-btn {
+   background: none;
+   border: none;
+   cursor: pointer;
+   font: inherit;
+   color: inherit;
+   font-weight: 600;
+   font-size: 0.8rem;
+   text-align: left;
+}

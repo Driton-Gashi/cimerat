@@ -1,23 +1,41 @@
-import { useState, type ChangeEvent } from 'react';
+import { useState, useEffect, type ChangeEvent } from 'react';
 import type { Payment, PaymentFormData } from '../../../libs/types';
-import { post } from '../../../libs/api';
+import { post, get } from '../../../libs/api';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 
 import '../payments.css';
 import { Link } from 'react-router-dom';
 import MyIcon from '../../../components/icons/MyIcon';
 
+type Member = { user_id: number; name: string; lastname: string; email: string };
+
 const CreatePayment = () => {
    const navigate = useNavigate();
+   const { currentApartmentId } = useAuth();
+   const [members, setMembers] = useState<Member[]>([]);
 
    const [formData, setFormData] = useState<PaymentFormData>({
       category: '',
       name: '',
       date: '',
-      payer_id: 1,
+      payer_id: 0,
       amount: '',
       borrower_id: undefined,
    });
+
+   useEffect(() => {
+      if (!currentApartmentId) return;
+      get(`/apartments/${currentApartmentId}/members`)
+         .then((data: Member[]) => setMembers(Array.isArray(data) ? data : []))
+         .catch(() => setMembers([]));
+   }, [currentApartmentId]);
+
+   useEffect(() => {
+      if (members.length > 0 && formData.payer_id === 0) {
+         setFormData((prev) => ({ ...prev, payer_id: members[0].user_id }));
+      }
+   }, [members]);
 
    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
@@ -41,7 +59,7 @@ const CreatePayment = () => {
             category: '',
             name: '',
             date: '',
-            payer_id: 1,
+            payer_id: members[0]?.user_id ?? 0,
             amount: '',
          });
          let cachedPayments: Payment[] = JSON.parse(localStorage.getItem('payments') ?? '[]');
@@ -96,8 +114,11 @@ const CreatePayment = () => {
                   <div className="payment-form-group">
                      <label>Payer</label>
                      <select name="payer_id" value={formData.payer_id} onChange={handleChange}>
-                        <option value="3">Diar</option>
-                        <option value="1">Driton</option>
+                        {members.map((m) => (
+                           <option key={m.user_id} value={m.user_id}>
+                              {m.name} {m.lastname}
+                           </option>
+                        ))}
                      </select>
                   </div>
 

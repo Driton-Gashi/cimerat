@@ -29,6 +29,22 @@ export type Cimer = {
    phone: string;
 };
 
+export type AuthUser = {
+   id: number;
+   email: string;
+   name: string;
+   lastname: string;
+   global_role: string | null;
+};
+
+export type Apartment = {
+   id: number;
+   name: string;
+   created_at?: string;
+   role: 'admin' | 'member';
+   joined_at?: string;
+};
+
 export type PaymentFormData = {
    category: 'Bills' | 'Personal' | 'Product' | '';
    name: string;
