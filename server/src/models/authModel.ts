@@ -51,10 +51,10 @@ export const setCurrentApartmentModel = async (userId: number, apartmentId: numb
          userId,
       ]);
    } else {
-      await db.execute('INSERT INTO user_preferences (user_id, current_apartment_id) VALUES (?, ?)', [
-         userId,
-         apartmentId,
-      ]);
+      await db.execute(
+         'INSERT INTO user_preferences (user_id, current_apartment_id) VALUES (?, ?)',
+         [userId, apartmentId],
+      );
    }
 };
 

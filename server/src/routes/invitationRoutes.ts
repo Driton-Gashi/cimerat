@@ -9,7 +9,12 @@ import { requireApartmentAdmin } from '../middleware/auth';
 
 const router = express.Router();
 
-router.post('/', requireAuth, requireApartmentAdmin('body', 'apartment_id'), createInvitationController);
+router.post(
+   '/',
+   requireAuth,
+   requireApartmentAdmin('body', 'apartment_id'),
+   createInvitationController,
+);
 router.get('/accept/:token', getInvitationByTokenController);
 router.post('/accept', requireAuth, acceptInvitationController);
 

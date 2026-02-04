@@ -37,7 +37,8 @@ export default function Onboarding() {
          <div className="auth-card">
             <h1>Join or create an apartment</h1>
             <p style={{ marginBottom: 20, color: 'var(--gray-text)', fontSize: '0.95rem' }}>
-               You need to be part of an apartment to use the app. Create a new one or join with an invite link.
+               You need to be part of an apartment to use the app. Create a new one or join with an
+               invite link.
             </p>
             {error && <div className="auth-error">{error}</div>}
             <form onSubmit={handleCreateApartment}>

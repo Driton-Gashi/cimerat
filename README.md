@@ -28,27 +28,27 @@ Cimerat is a **shared-home assistant** for everyone living under one roof. Inste
 
 ## Features
 
-| Area | Description |
-|------|-------------|
-| **Dashboard** | Overview cards (members, payments, loans, complaints) and a spending chart by member for the current year. |
-| **Payments** | Create and filter payments (Bills, Personal, Product), track paid/unpaid, view by date and type. |
-| **Loans** | Track loans between roommates, filter by status and date. |
-| **Complaints** | Log and view complaints with optional image, complainer and suspect. |
-| **Apartment & members** | One apartment per user; invite by link or email; switch apartment (admin sees all). |
-| **Auth** | Sign up, login, onboarding (create or join apartment), JWT-based sessions. |
-| **Settings** | Manage apartment members, invite link, send invite by email (optional SMTP). |
-| **Admin** | Platform admin dashboard: list apartments, members, delete apartments (for `platform_admin` only). |
+| Area                    | Description                                                                                                |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Dashboard**           | Overview cards (members, payments, loans, complaints) and a spending chart by member for the current year. |
+| **Payments**            | Create and filter payments (Bills, Personal, Product), track paid/unpaid, view by date and type.           |
+| **Loans**               | Track loans between roommates, filter by status and date.                                                  |
+| **Complaints**          | Log and view complaints with optional image, complainer and suspect.                                       |
+| **Apartment & members** | One apartment per user; invite by link or email; switch apartment (admin sees all).                        |
+| **Auth**                | Sign up, login, onboarding (create or join apartment), JWT-based sessions.                                 |
+| **Settings**            | Manage apartment members, invite link, send invite by email (optional SMTP).                               |
+| **Admin**               | Platform admin dashboard: list apartments, members, delete apartments (for `platform_admin` only).         |
 
 ---
 
 ## Tech stack
 
-| Layer | Technologies |
-|-------|----------------|
+| Layer        | Technologies                                                           |
+| ------------ | ---------------------------------------------------------------------- |
 | **Frontend** | React 19, TypeScript, Vite, React Router, ApexCharts, React DatePicker |
-| **Backend** | Node.js, Express 5, TypeScript, JWT, bcrypt |
-| **Data** | MySQL (e.g. MySQL 8), `mysql2` driver |
-| **Tooling** | ESLint, Prettier, Nodemon (dev) |
+| **Backend**  | Node.js, Express 5, TypeScript, JWT, bcrypt                            |
+| **Data**     | MySQL (e.g. MySQL 8), `mysql2` driver                                  |
+| **Tooling**  | ESLint, Prettier, Nodemon (dev)                                        |
 
 ---
 
@@ -132,37 +132,37 @@ Use the schema in `server/src/database.sql` to create tables (apartments, cimera
 
 ### Server (`server/.env`)
 
-| Variable | Description |
-|---------|-------------|
-| `DATABASE_HOST` | MySQL host |
-| `DATABASE_USER` | MySQL user |
-| `DATABASE_PASSWORD` | MySQL password |
-| `DATABASE_NAME` | MySQL database name |
-| `JWT_SECRET` | Secret for JWT signing (use a long random string in production) |
-| `JWT_EXPIRES_IN` | e.g. `7d` |
-| `FRONTEND_ORIGIN` | Frontend URL (e.g. `http://localhost:5173`) for CORS and invite links |
-| `PORT` | API port (default `4000`) |
-| `SMTP_*` / `MAIL_FROM` | Optional; for “Send invite by email” in Settings |
+| Variable               | Description                                                           |
+| ---------------------- | --------------------------------------------------------------------- |
+| `DATABASE_HOST`        | MySQL host                                                            |
+| `DATABASE_USER`        | MySQL user                                                            |
+| `DATABASE_PASSWORD`    | MySQL password                                                        |
+| `DATABASE_NAME`        | MySQL database name                                                   |
+| `JWT_SECRET`           | Secret for JWT signing (use a long random string in production)       |
+| `JWT_EXPIRES_IN`       | e.g. `7d`                                                             |
+| `FRONTEND_ORIGIN`      | Frontend URL (e.g. `http://localhost:5173`) for CORS and invite links |
+| `PORT`                 | API port (default `4000`)                                             |
+| `SMTP_*` / `MAIL_FROM` | Optional; for “Send invite by email” in Settings                      |
 
 ### Client (`client/.env`)
 
-| Variable | Description |
-|---------|-------------|
+| Variable       | Description                                         |
+| -------------- | --------------------------------------------------- |
 | `VITE_API_URL` | Backend API base URL (e.g. `http://localhost:4000`) |
 
 ---
 
 ## Scripts
 
-| Command | Where | Description |
-|---------|--------|-------------|
-| `npm run dev` | `client/` | Start Vite dev server |
-| `npm run dev` | `server/` | Start Express with Nodemon |
-| `npm run build` | `client/` | Production build |
+| Command                       | Where     | Description                     |
+| ----------------------------- | --------- | ------------------------------- |
+| `npm run dev`                 | `client/` | Start Vite dev server           |
+| `npm run dev`                 | `server/` | Start Express with Nodemon      |
+| `npm run build`               | `client/` | Production build                |
 | `npm run build` / `npm start` | `server/` | Build and run production server |
-| `npm run lint` | root | Lint client + server |
-| `npm run lint:fix` | root | Lint with auto-fix |
-| `npm run format` | root | Prettier format |
+| `npm run lint`                | root      | Lint client + server            |
+| `npm run lint:fix`            | root      | Lint with auto-fix              |
+| `npm run format`              | root      | Prettier format                 |
 
 ---
 

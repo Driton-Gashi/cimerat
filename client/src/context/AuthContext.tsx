@@ -1,11 +1,4 @@
-import {
-   createContext,
-   useContext,
-   useState,
-   useEffect,
-   useCallback,
-   type ReactNode,
-} from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { get, post, patch, setCurrentApartmentId, getCurrentApartmentId } from '../libs/api';
 import type { AuthUser, Apartment } from '../libs/types';
 
@@ -17,11 +10,22 @@ type AuthState = {
    loading: boolean;
 };
 
-export type LoginResponse = { user: AuthUser; token: string; apartments?: Apartment[]; currentApartmentId?: number | null };
+export type LoginResponse = {
+   user: AuthUser;
+   token: string;
+   apartments?: Apartment[];
+   currentApartmentId?: number | null;
+};
 
 type AuthContextValue = AuthState & {
    login: (email: string, password: string) => Promise<LoginResponse>;
-   signup: (email: string, password: string, name: string, lastname: string, phone: string) => Promise<void>;
+   signup: (
+      email: string,
+      password: string,
+      name: string,
+      lastname: string,
+      phone: string,
+   ) => Promise<void>;
    logout: () => void;
    setCurrentApartment: (apartmentId: number) => Promise<void>;
    refreshAuth: () => Promise<void>;
@@ -41,12 +45,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    const refreshAuth = useCallback(async () => {
       const token = localStorage.getItem('token');
       if (!token) {
-         setState((s) => ({ ...s, user: null, token: null, apartments: [], currentApartmentId: null, loading: false }));
+         setState((s) => ({
+            ...s,
+            user: null,
+            token: null,
+            apartments: [],
+            currentApartmentId: null,
+            loading: false,
+         }));
          return;
       }
       try {
          const data = await get('/auth/me');
-         const aptId = data.currentApartmentId ?? getCurrentApartmentId() ?? (data.apartments?.[0]?.id ?? null);
+         const aptId =
+            data.currentApartmentId ?? getCurrentApartmentId() ?? data.apartments?.[0]?.id ?? null;
          if (aptId != null) setCurrentApartmentId(aptId);
          setState({
             user: data.user,
@@ -59,7 +71,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
          localStorage.removeItem('token');
          localStorage.removeItem('user');
          setCurrentApartmentId(null);
-         setState((s) => ({ ...s, user: null, token: null, apartments: [], currentApartmentId: null, loading: false }));
+         setState((s) => ({
+            ...s,
+            user: null,
+            token: null,
+            apartments: [],
+            currentApartmentId: null,
+            loading: false,
+         }));
       }
    }, []);
 
@@ -73,23 +92,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return () => window.removeEventListener('auth:logout', onLogout);
    }, [refreshAuth]);
 
-   const login = useCallback(
-      async (email: string, password: string) => {
-         const data = await post('/auth/login', { email, password });
-         localStorage.setItem('token', data.token);
-         const aptId = data.currentApartmentId ?? data.apartments?.[0]?.id ?? null;
-         if (aptId != null) setCurrentApartmentId(aptId);
-         setState({
-            user: data.user,
-            token: data.token,
-            apartments: data.apartments ?? [],
-            currentApartmentId: aptId,
-            loading: false,
-         });
-         return data;
-      },
-      [],
-   );
+   const login = useCallback(async (email: string, password: string) => {
+      const data = await post('/auth/login', { email, password });
+      localStorage.setItem('token', data.token);
+      const aptId = data.currentApartmentId ?? data.apartments?.[0]?.id ?? null;
+      if (aptId != null) setCurrentApartmentId(aptId);
+      setState({
+         user: data.user,
+         token: data.token,
+         apartments: data.apartments ?? [],
+         currentApartmentId: aptId,
+         loading: false,
+      });
+      return data;
+   }, []);
 
    const signup = useCallback(
       async (email: string, password: string, name: string, lastname: string, phone: string) => {
@@ -113,7 +129,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       setCurrentApartmentId(null);
-      setState((s) => ({ ...s, user: null, token: null, apartments: [], currentApartmentId: null }));
+      setState((s) => ({
+         ...s,
+         user: null,
+         token: null,
+         apartments: [],
+         currentApartmentId: null,
+      }));
    }, []);
 
    const setCurrentApartment = useCallback(async (apartmentId: number) => {

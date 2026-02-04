@@ -46,7 +46,8 @@ export const createInvitationController = async (req: Request, res: Response) =>
       let emailError: string | undefined;
       if (send_email === true) {
          const apartment = await getApartmentByIdModel(apartmentId);
-         const inviterName = [user.name, user.lastname].filter(Boolean).join(' ').trim() || undefined;
+         const inviterName =
+            [user.name, user.lastname].filter(Boolean).join(' ').trim() || undefined;
          const result = await sendInviteEmail(
             normalizedEmail,
             inviteLink,
@@ -90,12 +91,10 @@ export const getInvitationByTokenController = async (req: Request, res: Response
       const expiresAt = new Date(invitation.expires_at);
       if (expiresAt < now) {
          await setInvitationStatusModel(invitation.id, 'expired');
-         return res
-            .status(400)
-            .json({
-               message: 'This invitation has expired.',
-               invitation: { ...invitation, status: 'expired' },
-            });
+         return res.status(400).json({
+            message: 'This invitation has expired.',
+            invitation: { ...invitation, status: 'expired' },
+         });
       }
       return res.status(200).json({
          apartmentName: invitation.apartment_name,

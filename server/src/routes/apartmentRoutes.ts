@@ -15,6 +15,11 @@ router.post('/', requireAuth, createApartmentController);
 router.get('/mine', requireAuth, getMyApartmentsController);
 router.get('/:id', requireAuth, getApartmentByIdController);
 router.get('/:id/members', requireAuth, getApartmentMembersController);
-router.delete('/:id/members/:userId', requireAuth, requireApartmentAdmin('params', 'id'), removeMemberController);
+router.delete(
+   '/:id/members/:userId',
+   requireAuth,
+   requireApartmentAdmin('params', 'id'),
+   removeMemberController,
+);
 
 export default router;

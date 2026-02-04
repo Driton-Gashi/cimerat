@@ -30,9 +30,17 @@ const CreateComplaint = () => {
             const list = Array.isArray(data) ? data : [];
             setMembers(list);
             if (list.length >= 2) {
-               setFormData((prev) => ({ ...prev, complainer_id: list[0].user_id, suspect_id: list[1].user_id }));
+               setFormData((prev) => ({
+                  ...prev,
+                  complainer_id: list[0].user_id,
+                  suspect_id: list[1].user_id,
+               }));
             } else if (list.length === 1) {
-               setFormData((prev) => ({ ...prev, complainer_id: list[0].user_id, suspect_id: list[0].user_id }));
+               setFormData((prev) => ({
+                  ...prev,
+                  complainer_id: list[0].user_id,
+                  suspect_id: list[0].user_id,
+               }));
             }
          })
          .catch(() => setMembers([]));
@@ -43,8 +51,7 @@ const CreateComplaint = () => {
 
       setFormData((prev) => ({
          ...prev,
-         [name]:
-            name === 'complainer_id' || name === 'suspect_id' ? Number(value) : value,
+         [name]: name === 'complainer_id' || name === 'suspect_id' ? Number(value) : value,
       }));
    };
 
@@ -68,11 +75,9 @@ const CreateComplaint = () => {
             image_url: '',
             complaints_date: '',
             complainer_id: members[0]?.user_id ?? 0,
-            suspect_id: members.length > 1 ? members[1].user_id : members[0]?.user_id ?? 0,
+            suspect_id: members.length > 1 ? members[1].user_id : (members[0]?.user_id ?? 0),
          });
-         let cachedComplaints: Complaint[] = JSON.parse(
-            localStorage.getItem('complaints') ?? '[]',
-         );
+         let cachedComplaints: Complaint[] = JSON.parse(localStorage.getItem('complaints') ?? '[]');
          cachedComplaints.push(res.createdComplaint);
          localStorage.setItem('complaints', JSON.stringify(cachedComplaints));
          navigate('/complaints#new-complaint');
@@ -129,7 +134,11 @@ const CreateComplaint = () => {
 
                   <div className="payment-form-group">
                      <label>Complainer</label>
-                     <select name="complainer_id" value={formData.complainer_id} onChange={handleChange}>
+                     <select
+                        name="complainer_id"
+                        value={formData.complainer_id}
+                        onChange={handleChange}
+                     >
                         {members.map((m) => (
                            <option key={m.user_id} value={m.user_id}>
                               {m.name} {m.lastname}

@@ -92,17 +92,26 @@ export const removeMemberController = async (req: Request, res: Response) => {
       const user = (req as any).user as AuthUser;
       const apartmentId = Number(req.params.id);
       const targetUserId = Number(req.params.userId);
-      if (!Number.isInteger(apartmentId) || apartmentId <= 0 || !Number.isInteger(targetUserId) || targetUserId <= 0) {
+      if (
+         !Number.isInteger(apartmentId) ||
+         apartmentId <= 0 ||
+         !Number.isInteger(targetUserId) ||
+         targetUserId <= 0
+      ) {
          return res.status(400).json({ message: 'Invalid apartment or user ID.' });
       }
       const adminCount = await countAdminMembersModel(apartmentId);
       if (adminCount <= 1 && targetUserId !== user.id) {
-         const [rows]: any = await (await import('../db')).default.execute(
+         const [rows]: any = await (
+            await import('../db')
+         ).default.execute(
             'SELECT role FROM apartment_members WHERE user_id = ? AND apartment_id = ?',
             [targetUserId, apartmentId],
          );
          if (rows?.[0]?.role === 'admin') {
-            return res.status(400).json({ message: 'Cannot remove the last admin. Promote another admin first.' });
+            return res
+               .status(400)
+               .json({ message: 'Cannot remove the last admin. Promote another admin first.' });
          }
       }
       const result = await removeApartmentMemberModel(apartmentId, targetUserId);

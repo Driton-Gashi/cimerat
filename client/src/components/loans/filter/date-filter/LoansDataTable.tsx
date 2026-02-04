@@ -35,13 +35,7 @@ const LoansDataTable = ({ loans, loanFilter }: P) => {
                ) : (
                   loans.map((loan, index) => {
                      if (index == loans.length - 1)
-                        return (
-                           <LoanTableDataItem
-                              id="new-loan"
-                              key={loan.id}
-                              loan={loan}
-                           />
-                        );
+                        return <LoanTableDataItem id="new-loan" key={loan.id} loan={loan} />;
                      return <LoanTableDataItem key={loan.id} loan={loan} />;
                   })
                )}

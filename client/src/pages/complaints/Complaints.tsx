@@ -65,8 +65,7 @@ const Complaints = () => {
                {complaints.map((complaint) => {
                   const complainerName =
                      complaint.complainer_name ?? `Complainer #${complaint.complainer_id}`;
-                  const suspectName =
-                     complaint.suspect_name ?? `Suspect #${complaint.suspect_id}`;
+                  const suspectName = complaint.suspect_name ?? `Suspect #${complaint.suspect_id}`;
 
                   return (
                      <div className="complaints-card" key={complaint.id}>

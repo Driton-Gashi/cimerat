@@ -45,7 +45,10 @@ export const getInvitationByTokenModel = async (token: string) => {
    return rows[0] || null;
 };
 
-export const setInvitationStatusModel = async (id: number, status: 'pending' | 'accepted' | 'expired') => {
+export const setInvitationStatusModel = async (
+   id: number,
+   status: 'pending' | 'accepted' | 'expired',
+) => {
    await db.execute('UPDATE invitations SET status = ? WHERE id = ?', [status, id]);
 };
 

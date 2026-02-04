@@ -127,11 +127,7 @@ const ComplaintsPage = () => {
          <div className="complaintGrid">
             <OverviewCard>
                <div className="complaintImageWrap">
-                  <img
-                     src={complaint.image_url}
-                     alt={complaint.name}
-                     className="complaintImage"
-                  />
+                  <img src={complaint.image_url} alt={complaint.name} className="complaintImage" />
                </div>
             </OverviewCard>
 
@@ -139,9 +135,7 @@ const ComplaintsPage = () => {
                <div className="complaintDetails">
                   <div className="complaintRow">
                      <span className="complaintKey">Date filed</span>
-                     <span className="complaintVal">
-                        {formatDate(complaint.complaints_date)}
-                     </span>
+                     <span className="complaintVal">{formatDate(complaint.complaints_date)}</span>
                   </div>
 
                   <div className="complaintRow">

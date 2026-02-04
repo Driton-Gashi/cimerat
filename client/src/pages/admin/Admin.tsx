@@ -68,7 +68,9 @@ export default function Admin() {
          })
          .catch((err) => {
             setLoadError(
-               err instanceof Error ? err.message : "Couldn't load admin data. You need platform admin access.",
+               err instanceof Error
+                  ? err.message
+                  : "Couldn't load admin data. You need platform admin access.",
             );
             setApartments([]);
             setCimerat([]);
@@ -92,7 +94,8 @@ export default function Admin() {
    };
 
    const handleDeleteApartment = async () => {
-      if (!selected || !confirm(`Delete apartment "${selected.name}"? This cannot be undone.`)) return;
+      if (!selected || !confirm(`Delete apartment "${selected.name}"? This cannot be undone.`))
+         return;
       setBusy(true);
       clearFeedback();
       try {
@@ -135,7 +138,9 @@ export default function Admin() {
       clearFeedback();
       try {
          await post(`/admin/apartments/${selected.id}/members`, { email });
-         setActionSuccess('Member added. They were removed from any other apartment (one apartment per account).');
+         setActionSuccess(
+            'Member added. They were removed from any other apartment (one apartment per account).',
+         );
          setAddEmail('');
          const next = await get(`/admin/apartments/${selected.id}`);
          setDetail(next);
@@ -219,21 +224,23 @@ export default function Admin() {
                               <td colSpan={3}>No apartments.</td>
                            </tr>
                         ) : (
-                        apartments.map((a) => (
-                           <tr
-                              key={a.id}
-                              className={selected?.id === a.id ? 'selected' : ''}
-                              onClick={() => setSelected(a)}
-                           >
-                              <td>{a.name}</td>
-                              <td>
-                                 {[a.creator_name, a.creator_lastname].filter(Boolean).join(' ') ||
-                                    a.creator_email ||
-                                    '–'}
-                              </td>
-                              <td>{a.member_count}</td>
-                           </tr>
-                        ))
+                           apartments.map((a) => (
+                              <tr
+                                 key={a.id}
+                                 className={selected?.id === a.id ? 'selected' : ''}
+                                 onClick={() => setSelected(a)}
+                              >
+                                 <td>{a.name}</td>
+                                 <td>
+                                    {[a.creator_name, a.creator_lastname]
+                                       .filter(Boolean)
+                                       .join(' ') ||
+                                       a.creator_email ||
+                                       '–'}
+                                 </td>
+                                 <td>{a.member_count}</td>
+                              </tr>
+                           ))
                         )}
                      </tbody>
                   </table>
@@ -252,7 +259,10 @@ export default function Admin() {
                               Delete apartment
                            </button>
                         </div>
-                        <p className="admin-hint">An account can only be in one apartment. Adding someone here removes them from any other.</p>
+                        <p className="admin-hint">
+                           An account can only be in one apartment. Adding someone here removes them
+                           from any other.
+                        </p>
                         <form onSubmit={handleAddMember} className="admin-add-member-form">
                            <input
                               type="email"
@@ -289,7 +299,8 @@ export default function Admin() {
                                              onClick={() =>
                                                 handleRemoveMember(
                                                    m.user_id,
-                                                   [m.name, m.lastname].filter(Boolean).join(' ') || m.email,
+                                                   [m.name, m.lastname].filter(Boolean).join(' ') ||
+                                                      m.email,
                                                 )
                                              }
                                           >
@@ -306,8 +317,8 @@ export default function Admin() {
                      </>
                   ) : (
                      <p className="admin-detail-empty">
-                        Select an apartment from the list to manage it: delete the apartment, add members by
-                        email, or remove members.
+                        Select an apartment from the list to manage it: delete the apartment, add
+                        members by email, or remove members.
                      </p>
                   )}
                </div>
@@ -331,27 +342,28 @@ export default function Admin() {
                            <td colSpan={4}>No users (cimerat).</td>
                         </tr>
                      ) : (
-                     cimerat.map((u) => (
-                        <tr key={u.id}>
-                           <td>{[u.name, u.lastname].filter(Boolean).join(' ') || '–'}</td>
-                           <td>{u.email}</td>
-                           <td>
-                              {u.apartment_id
-                                 ? apartments.find((a) => a.id === u.apartment_id)?.name ?? `#${u.apartment_id}`
-                                 : '–'}
-                           </td>
-                           <td>
-                              <button
-                                 type="button"
-                                 className="admin-btn admin-btn-danger admin-btn-small"
-                                 disabled={busy}
-                                 onClick={() => handleDeleteUser(u)}
-                              >
-                                 Delete user
-                              </button>
-                           </td>
-                        </tr>
-                     ))
+                        cimerat.map((u) => (
+                           <tr key={u.id}>
+                              <td>{[u.name, u.lastname].filter(Boolean).join(' ') || '–'}</td>
+                              <td>{u.email}</td>
+                              <td>
+                                 {u.apartment_id
+                                    ? (apartments.find((a) => a.id === u.apartment_id)?.name ??
+                                      `#${u.apartment_id}`)
+                                    : '–'}
+                              </td>
+                              <td>
+                                 <button
+                                    type="button"
+                                    className="admin-btn admin-btn-danger admin-btn-small"
+                                    disabled={busy}
+                                    onClick={() => handleDeleteUser(u)}
+                                 >
+                                    Delete user
+                                 </button>
+                              </td>
+                           </tr>
+                        ))
                      )}
                   </tbody>
                </table>

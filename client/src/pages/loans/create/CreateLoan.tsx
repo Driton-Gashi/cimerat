@@ -67,7 +67,7 @@ const CreateLoan = () => {
             name: '',
             loan_date: '',
             loaner_id: members[0]?.user_id ?? 0,
-            loanee_id: members.length > 1 ? members[1].user_id : members[0]?.user_id ?? 0,
+            loanee_id: members.length > 1 ? members[1].user_id : (members[0]?.user_id ?? 0),
             amount: '',
          });
          let cachedLoans: Loan[] = JSON.parse(localStorage.getItem('loans') ?? '[]');
@@ -116,11 +116,7 @@ const CreateLoan = () => {
 
                   <div className="payment-form-group">
                      <label>Loaner</label>
-                     <select
-                        name="loaner_id"
-                        value={formData.loaner_id}
-                        onChange={handleChange}
-                     >
+                     <select name="loaner_id" value={formData.loaner_id} onChange={handleChange}>
                         {members.map((m) => (
                            <option key={m.user_id} value={m.user_id}>
                               {m.name} {m.lastname}
@@ -131,11 +127,7 @@ const CreateLoan = () => {
 
                   <div className="payment-form-group">
                      <label>Loanee</label>
-                     <select
-                        name="loanee_id"
-                        value={formData.loanee_id}
-                        onChange={handleChange}
-                     >
+                     <select name="loanee_id" value={formData.loanee_id} onChange={handleChange}>
                         {members.map((m) => (
                            <option key={m.user_id} value={m.user_id}>
                               {m.name} {m.lastname}

@@ -28,8 +28,8 @@ const DashboardOverviewCardCimerat = () => {
             ]);
 
             if (ignore) return;
-            const paymentsThisWeek = (Array.isArray(paymentsRes) ? paymentsRes : []).filter((payment: Payment) =>
-               isInThisWeekMondayStart(payment.transaction_date),
+            const paymentsThisWeek = (Array.isArray(paymentsRes) ? paymentsRes : []).filter(
+               (payment: Payment) => isInThisWeekMondayStart(payment.transaction_date),
             );
 
             setMemberCount(Array.isArray(membersRes) ? membersRes.length : 0);

@@ -49,7 +49,7 @@ function buildInviteEmailContent(
     <div style="background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
       <h1 style="margin: 0 0 8px; font-size: 1.25rem; color: #202224;">You're invited</h1>
       <p style="margin: 0 0 24px; color: #606060; font-size: 1rem; line-height: 1.5;">
-        ${inviterName ? `<strong>${escapeHtml(inviterName)}</strong> invited you to join` : 'You\'re invited to join'}
+        ${inviterName ? `<strong>${escapeHtml(inviterName)}</strong> invited you to join` : "You're invited to join"}
         ${apartmentName ? ` the apartment <strong>${escapeHtml(apartmentName)}</strong>` : ' an apartment'} on Cimerat.
       </p>
       <p style="margin: 0 0 24px; color: #606060; font-size: 0.9375rem;">
@@ -87,7 +87,10 @@ export async function sendInviteEmail(
    inviterName?: string,
 ): Promise<{ success: boolean; error?: string }> {
    if (!isEmailConfigured()) {
-      return { success: false, error: 'Email is not configured. Set SMTP_HOST, SMTP_USER, and SMTP_PASS in .env.' };
+      return {
+         success: false,
+         error: 'Email is not configured. Set SMTP_HOST, SMTP_USER, and SMTP_PASS in .env.',
+      };
    }
    try {
       const transporter = nodemailer.createTransport({
@@ -99,7 +102,11 @@ export async function sendInviteEmail(
             pass: SMTP_PASS,
          },
       });
-      const { subject, text, html } = buildInviteEmailContent(inviteLink, apartmentName, inviterName);
+      const { subject, text, html } = buildInviteEmailContent(
+         inviteLink,
+         apartmentName,
+         inviterName,
+      );
       await transporter.sendMail({
          from: getFromAddress(),
          to,

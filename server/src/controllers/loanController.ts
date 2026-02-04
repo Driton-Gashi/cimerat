@@ -1,9 +1,5 @@
 import type { Request, Response } from 'express';
-import {
-   getAllLoansModel,
-   getLoanByIdModel,
-   createLoanModel,
-} from '../models/loanModel';
+import { getAllLoansModel, getLoanByIdModel, createLoanModel } from '../models/loanModel';
 import type { AuthUser } from '../middleware/auth';
 
 const serverError = (res: Response) => res.status(500).json({ message: 'Server error.' });

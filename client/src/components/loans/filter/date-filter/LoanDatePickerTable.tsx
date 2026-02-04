@@ -21,7 +21,8 @@ const LoanDatePickerTable = ({ dateState, setLoanFilter }: P) => {
                   isMonthFilterOn: true,
                };
 
-               const isOn = next.isMonthFilterOn || next.status === 'paid' || next.status === 'unpaid';
+               const isOn =
+                  next.isMonthFilterOn || next.status === 'paid' || next.status === 'unpaid';
 
                return {
                   ...next,

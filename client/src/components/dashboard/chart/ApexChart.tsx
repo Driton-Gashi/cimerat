@@ -131,7 +131,10 @@ const ApexChart = () => {
 
    if (loading) {
       return (
-         <div className="apex-chart-placeholder" style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+         <div
+            className="apex-chart-placeholder"
+            style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+         >
             Loading chart...
          </div>
       );
@@ -139,7 +142,16 @@ const ApexChart = () => {
 
    if (error) {
       return (
-         <div className="apex-chart-placeholder" style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--error, #c00)' }}>
+         <div
+            className="apex-chart-placeholder"
+            style={{
+               height: 350,
+               display: 'flex',
+               alignItems: 'center',
+               justifyContent: 'center',
+               color: 'var(--error, #c00)',
+            }}
+         >
             {error}
          </div>
       );
@@ -147,7 +159,16 @@ const ApexChart = () => {
 
    if (!currentApartmentId || members.length === 0) {
       return (
-         <div className="apex-chart-placeholder" style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted, #666)' }}>
+         <div
+            className="apex-chart-placeholder"
+            style={{
+               height: 350,
+               display: 'flex',
+               alignItems: 'center',
+               justifyContent: 'center',
+               color: 'var(--text-muted, #666)',
+            }}
+         >
             No apartment or members to show.
          </div>
       );
@@ -156,7 +177,16 @@ const ApexChart = () => {
    const hasAnyData = series.some((s) => s.data.some((v) => v > 0));
    if (!hasAnyData) {
       return (
-         <div className="apex-chart-placeholder" style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted, #666)' }}>
+         <div
+            className="apex-chart-placeholder"
+            style={{
+               height: 350,
+               display: 'flex',
+               alignItems: 'center',
+               justifyContent: 'center',
+               color: 'var(--text-muted, #666)',
+            }}
+         >
             No payments this year yet.
          </div>
       );

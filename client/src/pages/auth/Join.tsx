@@ -32,7 +32,9 @@ export default function Join() {
    const handleAccept = async (e: React.FormEvent) => {
       e.preventDefault();
       if (!user) {
-         navigate(`/login?redirect=${encodeURIComponent('/join?token=' + token)}`, { replace: true });
+         navigate(`/login?redirect=${encodeURIComponent('/join?token=' + token)}`, {
+            replace: true,
+         });
          return;
       }
       setError('');
@@ -53,7 +55,9 @@ export default function Join() {
          <div className="auth-page">
             <div className="auth-card">
                <h1>Join an apartment</h1>
-               <p style={{ color: 'var(--gray-text)' }}>Use the invite link you received to join an apartment.</p>
+               <p style={{ color: 'var(--gray-text)' }}>
+                  Use the invite link you received to join an apartment.
+               </p>
                <p className="auth-footer" style={{ marginTop: 20 }}>
                   <Link to="/login">Log in</Link> · <Link to="/signup">Sign up</Link>
                </p>
@@ -99,9 +103,14 @@ export default function Join() {
             {error && <div className="auth-error">{error}</div>}
             {!user ? (
                <p>
-                  <Link to={`/login?redirect=${encodeURIComponent('/join?token=' + token)}`}>Log in</Link> or{' '}
-                  <Link to={`/signup?redirect=${encodeURIComponent('/join?token=' + token)}`}>sign up</Link> to accept
-                  this invite.
+                  <Link to={`/login?redirect=${encodeURIComponent('/join?token=' + token)}`}>
+                     Log in
+                  </Link>{' '}
+                  or{' '}
+                  <Link to={`/signup?redirect=${encodeURIComponent('/join?token=' + token)}`}>
+                     sign up
+                  </Link>{' '}
+                  to accept this invite.
                </p>
             ) : (
                <form onSubmit={handleAccept}>

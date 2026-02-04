@@ -41,7 +41,11 @@ export const get = async (path: string, options?: { apartmentId?: number | null 
    return data;
 };
 
-export const post = async (path: string, obj: object, options?: { apartmentId?: number | null }) => {
+export const post = async (
+   path: string,
+   obj: object,
+   options?: { apartmentId?: number | null },
+) => {
    const res = await fetch(API_URL + path, {
       method: 'POST',
       headers: getAuthHeaders(options?.apartmentId ?? getCurrentApartmentId()),

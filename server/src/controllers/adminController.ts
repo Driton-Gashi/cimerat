@@ -161,13 +161,11 @@ export const addMemberAdminController = async (req: Request, res: Response) => {
       }
       await addMemberEnforcingSingleApartmentModel(apartmentId, userId, 'member');
       const members = await getApartmentMembersModel(apartmentId);
-      return res
-         .status(201)
-         .json({
-            message:
-               'Member added. An account can only be in one apartment; they were removed from any other.',
-            members,
-         });
+      return res.status(201).json({
+         message:
+            'Member added. An account can only be in one apartment; they were removed from any other.',
+         members,
+      });
    } catch (error) {
       console.error(error);
       return serverError(res);
