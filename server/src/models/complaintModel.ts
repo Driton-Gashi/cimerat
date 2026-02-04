@@ -21,7 +21,9 @@ const executeQuery = async <T = any>(query: string, params: any[] = []): Promise
    }
 };
 
-export const getComplaintByIdModel = async (id: number): Promise<(Complaint & { apartment_id?: number }) | []> => {
+export const getComplaintByIdModel = async (
+   id: number,
+): Promise<(Complaint & { apartment_id?: number }) | []> => {
    const query = `
       SELECT c.id,
              c.name,
@@ -89,4 +91,9 @@ export const deleteComplaintByIdModel = async (id: number) => {
    const query = 'DELETE FROM complaints WHERE id = ?';
    const result: any = await executeQuery(query, [id]);
    return result;
+};
+
+export const countAllComplaintsModel = async (): Promise<number> => {
+   const [rows]: any = await db.execute('SELECT COUNT(*) AS n FROM complaints');
+   return rows?.[0]?.n ?? 0;
 };

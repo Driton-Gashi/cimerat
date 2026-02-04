@@ -87,3 +87,8 @@
 .auth-footer a:hover {
    text-decoration: underline;
 }
+
+.auth-card .logo-img {
+   width: 100%;
+   margin-bottom: 1rem;
+}

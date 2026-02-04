@@ -9,12 +9,12 @@
    background-color: white;
 }
 
-.logo {
-   font-size: 1.25rem;
-   font-weight: 800;
-   color: #4880ff;
-   align-self: center;
-   padding-block: 24px;
+.logo-img {
+   width: 100%;
+   padding: 1rem;
+}
+.closed-sidebar .logo-img {
+   max-width: 70px;
 }
 .closed-sidebar .sidebar {
    padding: 6px 12px;

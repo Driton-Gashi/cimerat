@@ -39,6 +39,7 @@ export default function Login() {
    return (
       <div className="auth-page">
          <div className="auth-card">
+            <img className="logo-img" src="/logo.jpeg" alt="" />
             <h1>Log in to Cimerat</h1>
             {error && <div className="auth-error">{error}</div>}
             <form onSubmit={handleSubmit}>

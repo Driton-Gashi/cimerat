@@ -18,8 +18,15 @@ export default function ProtectedRoute({
 
    if (loading) {
       return (
-         <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            Loading...
+         <div
+            style={{
+               minHeight: '100vh',
+               display: 'flex',
+               alignItems: 'center',
+               justifyContent: 'center',
+            }}
+         >
+            <img src="./logo.jpeg" alt="" />
          </div>
       );
    }
@@ -33,7 +40,9 @@ export default function ProtectedRoute({
    }
 
    if (requireApartment && (!apartments || apartments.length === 0)) {
-      return <Navigate to="/onboarding" replace />;
+      if (user.global_role !== 'platform_admin') {
+         return <Navigate to="/onboarding" replace />;
+      }
    }
 
    if (requireApartment && currentApartmentId == null && apartments?.length) {

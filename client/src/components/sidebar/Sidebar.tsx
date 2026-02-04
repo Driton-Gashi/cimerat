@@ -31,7 +31,9 @@ const Sidebar = ({ isClosed }: { isClosed?: boolean }) => {
    if (isClosed) {
       return (
          <div className="sidebar-wrapper closed-sidebar">
-            <h1 className="logo">C</h1>
+            <h1 className="logo">
+               <img className="logo-img" src="./icon.jpeg" alt="" />
+            </h1>
             <nav className="sidebar">
                {navLink('/', 'dashboard', 'Dashboard')}
                {navLink('/payments', 'payments', 'Payments')}
@@ -52,7 +54,7 @@ const Sidebar = ({ isClosed }: { isClosed?: boolean }) => {
 
    return (
       <div className="sidebar-wrapper">
-         <h1 className="logo">Cimerat</h1>
+         <img className="logo-img" src="./logo.jpeg" alt="" />
          <nav className="sidebar">
             {navLink('/', 'dashboard', 'Dashboard')}
             {navLink('/payments', 'payments', 'Payments')}

@@ -6,29 +6,34 @@ import DashboardOverviewCardCimerat from '../../components/dashboard/overview-ca
 import DashboardOverviewCardPayments from '../../components/dashboard/overview-card/payments/DashboardOverviewCardPayments';
 import DashboardOverviewCardLoans from '../../components/dashboard/overview-card/loans/DashboardOverviewCardLoans';
 import DashboardOverviewCardComplaints from '../../components/dashboard/overview-card/complaints/DashboardOverviewCardComplaints';
+import DashboardOverviewPlatform from '../../components/dashboard/overview-card/platform/DashboardOverviewPlatform';
 
 const Home = () => {
-   const { apartments, currentApartmentId } = useAuth();
-   const currentApartment = apartments?.find((a) => a.id === currentApartmentId);
+   const { user } = useAuth();
+   const isPlatformAdmin = user?.global_role === 'platform_admin';
 
    return (
       <div className="home">
          <h1>Dashboard</h1>
-         {currentApartment && (
-            <p className="home__apartment-label">Data for: {currentApartment.name}</p>
+
+         {isPlatformAdmin ? (
+            <DashboardOverviewPlatform />
+         ) : (
+            <>
+               <div className="dashboard-overview">
+                  <DashboardOverviewCardCimerat />
+                  <DashboardOverviewCardPayments />
+                  <DashboardOverviewCardLoans />
+                  <DashboardOverviewCardComplaints />
+               </div>
+               <div>
+                  <OverviewCard>
+                     <h2>Spending details</h2>
+                     <ApexChart />
+                  </OverviewCard>
+               </div>
+            </>
          )}
-         <div className="dashboard-overview">
-            <DashboardOverviewCardCimerat />
-            <DashboardOverviewCardPayments />
-            <DashboardOverviewCardLoans />
-            <DashboardOverviewCardComplaints />
-         </div>
-         <div>
-            <OverviewCard>
-               <h2>Spending details</h2>
-               <ApexChart />
-            </OverviewCard>
-         </div>
       </div>
    );
 };

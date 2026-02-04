@@ -96,15 +96,9 @@ export const isUserMemberOfApartment = async (
    return rows?.length > 0;
 };
 
-/** All apartments with a shape compatible with auth/me (id, name, created_at, role). Used for platform_admin dashboard. */
-export const getAllApartmentsForDashboardModel = async () => {
-   const query = `
-      SELECT a.id, a.name, a.created_at, 'member' AS role
-      FROM apartments a
-      ORDER BY a.name ASC
-   `;
-   const rows = await executeQuery(query, []);
-   return (rows || []).map((r: any) => ({ ...r, joined_at: null }));
+export const countAllApartmentMembersModel = async (): Promise<number> => {
+   const [rows]: any = await db.execute('SELECT COUNT(*) AS n FROM apartment_members');
+   return rows?.[0]?.n ?? 0;
 };
 
 export const getAllApartmentsForAdminModel = async () => {
@@ -167,7 +161,9 @@ export const addMemberEnforcingSingleApartmentModel = async (
    userId: number,
    role: 'admin' | 'member' = 'member',
 ) => {
-   const otherApartmentIds = (await getUserApartmentIdsModel(userId)).filter((aid) => aid !== apartmentId);
+   const otherApartmentIds = (await getUserApartmentIdsModel(userId)).filter(
+      (aid) => aid !== apartmentId,
+   );
    for (const aid of otherApartmentIds) {
       await removeApartmentMemberModel(aid, userId);
    }

@@ -87,3 +87,13 @@ export const createLoanModel = async (
    ]);
    return result;
 };
+
+export const countAllLoansModel = async (): Promise<number> => {
+   const [rows]: any = await db.execute('SELECT COUNT(*) AS n FROM loans');
+   return rows?.[0]?.n ?? 0;
+};
+
+export const countAllLoansUnpaidModel = async (): Promise<number> => {
+   const [rows]: any = await db.execute("SELECT COUNT(*) AS n FROM loans WHERE status = 'unpaid'");
+   return rows?.[0]?.n ?? 0;
+};

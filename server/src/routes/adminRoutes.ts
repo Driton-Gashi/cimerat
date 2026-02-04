@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+   getDashboardStatsAdminController,
    getAllApartmentsAdminController,
    getApartmentByIdAdminController,
    deleteApartmentAdminController,
@@ -15,6 +16,7 @@ const router = express.Router();
 
 router.use(requireAuth, requirePlatformAdmin);
 
+router.get('/dashboard-stats', getDashboardStatsAdminController);
 router.get('/apartments', getAllApartmentsAdminController);
 router.get('/apartments/:id', getApartmentByIdAdminController);
 router.delete('/apartments/:id', deleteApartmentAdminController);

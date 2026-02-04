@@ -19,7 +19,9 @@ const executeQuery = async <T = any>(query: string, params: any[] = []): Promise
    }
 };
 
-export const getPaymentByIdModel = async (id: number): Promise<Payment & { apartment_id?: number }> => {
+export const getPaymentByIdModel = async (
+   id: number,
+): Promise<Payment & { apartment_id?: number }> => {
    const query = `
       SELECT p.id,
              p.category,
@@ -79,4 +81,25 @@ export const createPaymentModel = async (
       created_by,
    ]);
    return result;
+};
+
+export const countAllPaymentsModel = async (): Promise<number> => {
+   const [rows]: any = await db.execute('SELECT COUNT(*) AS n FROM payments');
+   return rows?.[0]?.n ?? 0;
+};
+
+export const countAllPaymentsUnpaidModel = async (): Promise<number> => {
+   const [rows]: any = await db.execute(
+      "SELECT COUNT(*) AS n FROM payments WHERE status = 'unpaid'",
+   );
+   return rows?.[0]?.n ?? 0;
+};
+
+/** Count payments in current week (Monday start, ISO week). */
+export const countPaymentsThisWeekModel = async (): Promise<number> => {
+   const [rows]: any = await db.execute(
+      `SELECT COUNT(*) AS n FROM payments 
+       WHERE YEARWEEK(transaction_date, 3) = YEARWEEK(CURDATE(), 3)`,
+   );
+   return rows?.[0]?.n ?? 0;
 };

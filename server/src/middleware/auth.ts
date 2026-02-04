@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import { getCimerByIdModel } from '../models/cimerModel';
 import { getApartmentsForUserModel } from '../models/authModel';
 import { getUserPreferencesModel } from '../models/authModel';
-import { getAllApartmentsForDashboardModel } from '../models/apartmentModel';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production';
 
@@ -51,11 +50,14 @@ export const requireApartment = async (req: Request, res: Response, next: NextFu
       if (!user) return res.status(401).json({ message: 'Authentication required.' });
 
       const isPlatformAdmin = user.global_role === 'platform_admin';
-      const apartments = isPlatformAdmin
-         ? await getAllApartmentsForDashboardModel()
-         : await getApartmentsForUserModel(user.id);
+      const apartments = await getApartmentsForUserModel(user.id);
 
       if (!apartments || apartments.length === 0) {
+         if (isPlatformAdmin) {
+            (req as any).apartments = [];
+            (req as any).currentApartmentId = null;
+            return next();
+         }
          return res.status(403).json({ message: 'You must join or create an apartment first.' });
       }
 
@@ -69,7 +71,10 @@ export const requireApartment = async (req: Request, res: Response, next: NextFu
       }
       if (currentApartmentId == null) {
          const prefs = await getUserPreferencesModel(user.id);
-         if (prefs?.current_apartment_id != null && apartments.some((a: any) => a.id === prefs.current_apartment_id)) {
+         if (
+            prefs?.current_apartment_id != null &&
+            apartments.some((a: any) => a.id === prefs.current_apartment_id)
+         ) {
             currentApartmentId = prefs.current_apartment_id;
          } else {
             currentApartmentId = apartments[0].id;
@@ -83,14 +88,18 @@ export const requireApartment = async (req: Request, res: Response, next: NextFu
    }
 };
 
-export const requireApartmentAdmin = (paramApartmentId: 'params' | 'body', paramKey: string = 'apartment_id') => {
+export const requireApartmentAdmin = (
+   paramApartmentId: 'params' | 'body',
+   paramKey: string = 'apartment_id',
+) => {
    return async (req: Request, res: Response, next: NextFunction) => {
       try {
          const user = (req as any).user as AuthUser;
          if (!user) return res.status(401).json({ message: 'Authentication required.' });
-         const apartmentId = paramApartmentId === 'params'
-            ? Number((req.params as any)[paramKey])
-            : Number((req.body as any)[paramKey]);
+         const apartmentId =
+            paramApartmentId === 'params'
+               ? Number((req.params as any)[paramKey])
+               : Number((req.body as any)[paramKey]);
          if (!Number.isInteger(apartmentId) || apartmentId <= 0) {
             return res.status(400).json({ message: 'Invalid apartment.' });
          }
