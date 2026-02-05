@@ -44,10 +44,7 @@ const DashboardOverviewPlatform = () => {
 
    if (loading) {
       return (
-         <div
-            className="dashboard-overview"
-            style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}
-         >
+         <div className="dashboard-overview" style={{ display: 'flex', gap: '2rem' }}>
             {[1, 2, 3, 4].map((i) => (
                <OverviewCard key={i}>
                   <div className="dashboard-overview-card-top">

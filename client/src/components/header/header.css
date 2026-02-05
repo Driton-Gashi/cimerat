@@ -356,6 +356,12 @@
    }
 }
 
+@media (max-width: 768px) {
+   .header__language,
+   .header__user-info {
+      display: none;
+   }
+}
 @media (max-width: 600px) {
    .header__search {
       display: none;

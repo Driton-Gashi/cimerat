@@ -35,3 +35,21 @@
 .home .dashboard-overview-card h2 {
    font-size: 28px;
 }
+
+@media (max-width: 1024px) {
+   .home .dashboard-overview {
+      flex-wrap: wrap;
+   }
+   .home .dashboard-overview-card {
+      width: calc(50% - 15px);
+   }
+}
+@media (max-width: 768px) {
+   .home .dashboard-overview {
+      gap: 15px;
+   }
+
+   .home .dashboard-overview-card {
+      width: calc(100%);
+   }
+}
