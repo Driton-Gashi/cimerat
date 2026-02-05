@@ -1,12 +1,17 @@
-.closed-sidebar.sidebar-wrapper {
-   width: max-content;
-}
 .sidebar-wrapper {
+   --sidebar-width: 240px;
+   --sidebar-collapsed-width: 72px;
    display: flex;
    flex-direction: column;
-   width: 240px;
+   width: var(--sidebar-width);
    height: 100vh;
    background-color: white;
+   position: sticky;
+   top: 0;
+   align-self: flex-start;
+   flex-shrink: 0;
+   overflow-x: hidden;
+   transition: width 0.2s ease, transform 0.2s ease;
 }
 
 .logo-img {
@@ -94,4 +99,17 @@
    font-weight: 600;
    font-size: 0.8rem;
    text-align: left;
+}
+
+@media (max-width: 600px) {
+   .sidebar-wrapper {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 20;
+   }
+}
+.closed-sidebar.sidebar-wrapper {
+   width: var(--sidebar-collapsed-width);
 }

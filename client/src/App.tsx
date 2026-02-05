@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -29,10 +29,11 @@ function AppLayout({
    setIsSidebarClosed: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
    return (
-      <div className="app-layout">
+      <div className={`app-layout ${isSidebarClosed ? 'sidebar-closed' : 'sidebar-open'}`}>
          <Sidebar isClosed={isSidebarClosed} />
          <main className="main-content">
             <Header setIsSidebarClosed={setIsSidebarClosed} />
+            <div className="content-overlay" aria-hidden />
             <section className="main-content-inner">
                <Routes>
                   <Route path="/" index element={<Home />} />
@@ -55,6 +56,27 @@ function AppLayout({
 
 function App() {
    const [isSidebarClosed, setIsSidebarClosed] = useState<boolean>(false);
+
+   useEffect(() => {
+      const media = window.matchMedia('(max-width: 600px)');
+      const applyState = () => setIsSidebarClosed(media.matches);
+      const handleChange = (event: MediaQueryListEvent) => setIsSidebarClosed(event.matches);
+
+      applyState();
+      if (media.addEventListener) {
+         media.addEventListener('change', handleChange);
+      } else {
+         media.addListener(handleChange);
+      }
+
+      return () => {
+         if (media.removeEventListener) {
+            media.removeEventListener('change', handleChange);
+         } else {
+            media.removeListener(handleChange);
+         }
+      };
+   }, []);
 
    return (
       <BrowserRouter>

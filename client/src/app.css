@@ -11,4 +11,35 @@
 .main-content {
    width: 100%;
    min-height: 100vh;
+   transition: margin-left 0.2s ease;
+}
+
+.content-overlay {
+   position: fixed;
+   inset: 0;
+   background: rgba(32, 34, 36, 0.35);
+   opacity: 0;
+   pointer-events: none;
+   transition: opacity 0.2s ease;
+   z-index: 15;
+}
+
+@media (max-width: 600px) {
+   .sidebar-wrapper + .main-content {
+      margin-left: 0;
+   }
+
+   .sidebar-wrapper.closed-sidebar + .main-content {
+      margin-left: 72px;
+   }
+
+   .app-layout.sidebar-open .content-overlay {
+      opacity: 1;
+      pointer-events: auto;
+   }
+
+   .app-layout.sidebar-open .header {
+      margin-left: 240px;
+      width: calc(100% - 240px);
+   }
 }
