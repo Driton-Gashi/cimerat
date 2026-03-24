@@ -10,6 +10,7 @@ type P = {
 
 const Header = ({ setIsSidebarClosed }: P) => {
    const [userMenuOpen, setUserMenuOpen] = useState(false);
+   const [language, setLanguage] = useState<'en' | 'sq'>('en');
    const userMenuRef = useRef<HTMLDivElement>(null);
    const navigate = useNavigate();
    const { user, apartments, currentApartmentId, setCurrentApartment, logout } = useAuth();
@@ -93,8 +94,13 @@ const Header = ({ setIsSidebarClosed }: P) => {
             </button>
 
             <div className="header__language">
-               <img src="/flags/en.png" alt="" className="header__language-flag" />
-               <select className="header__language-select" aria-label="Language">
+               <img src={`/flags/${language}.png`} alt="" className="header__language-flag" />
+               <select
+                  className="header__language-select"
+                  aria-label="Language"
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value as 'en' | 'sq')}
+               >
                   <option value="en">EN</option>
                   <option value="sq">SQ</option>
                </select>
